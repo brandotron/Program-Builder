@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/vue.js"></script>
+    <title>Program Builder</title>
+</head>
+
+<body>
+    <div id="program-builder" class="program-builder">
+        <program-day-table
+            v-for="item in program"
+            v-bind:day="item"
+        ></program-day-table>
+    </div>
+
+    <script>
+        Vue.component('program-exercise-row', {
+            props: ['exercise'],
+            template: '<tr>' + 
+                        '<td>{{ exercise.name }}</td>' + 
+                        '<td>{{ exercise.sets }}</td>' + 
+                        '<td>{{ exercise.reps }}</td>' + 
+                        '<td>{{ exercise.weight }}</td>' + 
+                        '<td>{{ exercise.note }}</td>' +
+                      '</tr>' 
+        });
+        Vue.component('program-day-table', {
+            props: ['day'],
+            template: '<table>' +
+                        '<thead>' + 
+                            '<th>Exercise</th>' +
+                            '<th>Sets</th>' +
+                            '<th>Reps</th>' +
+                            '<th>Weight</th>' +
+                            '<th>Note</th>' + 
+                        '</thead>' + 
+                        '<tbody>' + 
+                            '<program-exercise-row v-for="item in day" v-bind:exercise="item"></program-exercise-row>' +
+                        '</tbody>' +
+                        '</table>'
+        });
+        var programBuilder = new Vue({
+            el: '#program-builder',
+            data: {
+                program: [
+                    [
+                        {
+                            name: 'snatch',
+                            sets: 3,
+                            reps: 3,
+                            weight: '75%',
+                            note: ''
+                        },
+                        {
+                            name: 'clean + jerk',
+                            sets: 2,
+                            reps: '1 + 2',
+                            weight: '75%',
+                            note: ''
+                        }
+                    ]
+                ]
+            }
+        });
+    </script>
+</body>
+
+</html>
