@@ -25,11 +25,10 @@
     </div>
 
     <div id="program-display" class="program-display">
-        <program-day-table
+        <program-day
             v-for="item in week"
             v-bind:day="item"
-        ></program-day-table>
-        <button v-on:click="openAddExercisePanel">Add Exercise</button>
+        ></program-day>
     </div>
 
     <script src="js/program-builder.js"></script>

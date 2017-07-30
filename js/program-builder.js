@@ -1,3 +1,28 @@
+Vue.component('program-day', {
+  props: ['day'],
+  template: '<div class="program-day">' + 
+              '<table class="day-table">' +
+                '<thead class="day-head">' +
+                  '<tr class="day-column-head-row">' +
+                    '<th class="day-column-head">Exercise</th>' +
+                    '<th class="day-column-head">Sets</th>' +
+                    '<th class="day-column-head">Reps</th>' +
+                    '<th class="day-column-head">Weight</th>' +
+                    '<th class="day-column-head">Note</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody class="day-body">' +
+                  '<program-exercise-row v-for="item in day" v-bind:exercise="item"></program-exercise-row>' +
+                '</tbody>' +
+              '</table>' + 
+              '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
+            '</div>',
+  methods: {
+    openAddExercisePanel: function () {
+      addExercisePanel.active = true;
+    }
+  }
+});
 Vue.component('program-exercise-row', {
   props: ['exercise'],
   template: '<tr class="day-exercise-row">' +
@@ -7,24 +32,7 @@ Vue.component('program-exercise-row', {
               '<td class="day-exercise-cell">{{ exercise.weight }}</td>' +
               '<td class="day-exercise-cell">{{ exercise.note }}</td>' +
             '</tr>'
-});
-Vue.component('program-day-table', {
-  props: ['day'],
-  template: '<table class="day-table">' +
-              '<thead class="day-head">' +
-                '<tr class="day-column-head-row">' +
-                  '<th class="day-column-head">Exercise</th>' +
-                  '<th class="day-column-head">Sets</th>' +
-                  '<th class="day-column-head">Reps</th>' +
-                  '<th class="day-column-head">Weight</th>' +
-                  '<th class="day-column-head">Note</th>' +
-                '</tr>' +
-              '</thead>' +
-              '<tbody class="day-body">' +
-                '<program-exercise-row v-for="item in day" v-bind:exercise="item"></program-exercise-row>' +
-              '</tbody>' +
-            '</table>'
-});
+});          
 // Vue.component('', {
 //   props: ['exercise'],
 //   template: '<div class="add-exercise-input-panel" v-if="active == true">' +
@@ -58,11 +66,6 @@ var programDisplay = new Vue({
         }
       ]
     ]
-  },
-  methods: {
-    openAddExercisePanel: function () {
-      addExercisePanel.active = true;
-    }
   }
 });
 var addExercisePanel = new Vue({
