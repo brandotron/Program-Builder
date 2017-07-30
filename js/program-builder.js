@@ -1,112 +1,143 @@
+Vue.component('loaded-program', {
+  props: ['program'],
+  template: 
+    '<div class="loaded-program">' +
+      '<program-block ' +
+        'v-for="item in program.blocks"' + 
+        'v-bind:block="item"' +
+      '></program-block>' +
+    '</div>'
+});
+Vue.component('program-block', {
+  props: ['block'],
+  template: 
+    '<div class="program-block">' +
+      '<program-week ' +
+        'v-for="item in block.weeks"' + 
+        'v-bind:week="item"' +
+      '></program-week>' +
+    '</div>'
+});
+Vue.component('program-week', {
+  props: ['week'],
+  template: 
+    '<div class="program-week">' +
+      '<program-day ' +
+        'v-for="item in week.days"' +
+        'v-bind:day="item"' +
+      '></program-day>' +
+    '</div>'
+});
 Vue.component('program-day', {
   props: ['day'],
-  template: '<div class="program-day">' + 
-              '<table class="day-table">' +
-                '<thead class="day-head">' +
-                  '<tr class="day-column-head-row">' +
-                    '<th class="day-column-head">Exercise</th>' +
-                    '<th class="day-column-head">Sets</th>' +
-                    '<th class="day-column-head">Reps</th>' +
-                    '<th class="day-column-head">Weight</th>' +
-                    '<th class="day-column-head">Note</th>' +
-                  '</tr>' +
-                '</thead>' +
-                '<tbody class="day-body">' +
-                  '<program-exercise-row v-for="item in day" v-bind:exercise="item"></program-exercise-row>' +
-                '</tbody>' +
-              '</table>' + 
-              '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
-            '</div>',
+  template: 
+    '<div class="program-day">' + 
+      '<table class="day-table">' +
+        '<thead class="day-head">' +
+          '<tr class="day-column-head-row">' +
+            '<th class="day-column-head">Exercise</th>' +
+            '<th class="day-column-head">Sets</th>' +
+            '<th class="day-column-head">Reps</th>' +
+            '<th class="day-column-head">Weight</th>' +
+            '<th class="day-column-head">Note</th>' +
+          '</tr>' +
+        '</thead>' +
+        '<tbody class="day-body">' +
+          '<program-exercise-row ' +
+            'v-for="item in day.exercises"' +
+            'v-bind:exercise="item"' +
+          '></program-exercise-row>' +
+        '</tbody>' +
+      '</table>' + 
+      '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
+    '</div>',
   methods: {
     openAddExercisePanel: function () {
-      addExercisePanel.active = true;
+      programBuilder.addExercise.active = true;
+      //set block, week, day for new exercise
     }
   }
 });
 Vue.component('program-exercise-row', {
   props: ['exercise'],
-  template: '<tr class="day-exercise-row">' +
-              '<td class="day-exercise-cell">{{ exercise.name }}</td>' +
-              '<td class="day-exercise-cell">{{ exercise.sets }}</td>' +
-              '<td class="day-exercise-cell">{{ exercise.reps }}</td>' +
-              '<td class="day-exercise-cell">{{ exercise.weight }}</td>' +
-              '<td class="day-exercise-cell">{{ exercise.note }}</td>' +
-            '</tr>'
-});          
-// Vue.component('', {
-//   props: ['exercise'],
-//   template: '<div class="add-exercise-input-panel" v-if="active == true">' +
-//               '<input type="text" v-model="name" placeholder="name" />' +
-//               '<input type="text" v-model="sets" placeholder="sets" />' +
-//               '<input type="text" v-model="reps" placeholder="reps" />' +
-//               '<input type="text" v-model="weight" placeholder="weight" />' +
-//               '<input type="text" v-model="note" placeholder="note" />' +
-//               '<button v-on:click="addExerciseToDay">Add</button>' +
-//               '<button v-on:click="closePanel">Close</button>' +
-//           '</div>'
-// });          
-var programDisplay = new Vue({
-  el: '#program-display',
+  template: 
+    '<tr class="day-exercise-row">' +
+      '<td class="day-exercise-cell">{{ exercise.name }}</td>' +
+      '<td class="day-exercise-cell">{{ exercise.sets }}</td>' +
+      '<td class="day-exercise-cell">{{ exercise.reps }}</td>' +
+      '<td class="day-exercise-cell">{{ exercise.weight }}</td>' +
+      '<td class="day-exercise-cell">{{ exercise.note }}</td>' +
+    '</tr>'
+});                
+var programBuilder = new Vue({
+  el: '#program-builder',
   data: {
-    week: [
-      [
+    programLoaded: false,
+    loadedProgram: {},
+    allPrograms: {},
+    addExercise: {
+      active: false,
+      block: '',
+      week: '',
+      day: '',
+      name: '',
+      sets: '',
+      reps: '',
+      weight: '',
+      note: ''
+    },
+    week: { //to be eliminated and replaced by loadedProgram
+      id: 0,
+      days: [
         {
-          name: 'snatch',
-          sets: 3,
-          reps: 3,
-          weight: '75%',
-          note: ''
-        },
-        {
-          name: 'clean + jerk',
-          sets: 2,
-          reps: '1 + 2',
-          weight: '75%',
-          note: ''
+          id: 0,
+          exercises: [
+            {
+              name: 'snatch',
+              sets: 3,
+              reps: 3,
+              weight: '75%',
+              note: ''
+            },
+            {
+              name: 'clean + jerk',
+              sets: 2,
+              reps: '1 + 2',
+              weight: '75%',
+              note: ''
+            }
+          ]
         }
       ]
-    ]
-  }
-});
-var addExercisePanel = new Vue({
-  el: '#add-exercise-panel',
-  data: {
-    active: false,
-    program: '',
-    block: '',
-    week: '',
-    day: '',
-    name: '',
-    sets: '',
-    reps: '',
-    weight: '',
-    note: ''
+    }
   },
-  methods: {
+  methods: { //rename these for new scope (may have more than 1 "panel" to close)
     addExerciseToDay: function () {
       var exerciseToPush = {
-        name: this.name,
-        sets: this.sets,
-        reps: this.reps,
-        weight: this.weight,
-        note: this.note
-      }
-      programDisplay.week[0].push(exerciseToPush);
+        name: this.addExercise.name,
+        sets: this.addExercise.sets,
+        reps: this.addExercise.reps,
+        weight: this.addExercise.weight,
+        note: this.addExercise.note
+      },
+      currentDay = programBuilder.week.days[0]; //use properties set when panel added
+      currentDay.exercises.push(exerciseToPush);
       this.resetInputs();
     },
     closePanel: function () {
-      this.active = false;
+      this.addExercise.active = false;
+      this.resetInputs();
     },
     resetInputs: function () {
-      this.program = '';
-      this.block = '';
-      this.week = '';
-      this.day = '';
-      this.name = '';
-      this.sets = '';
-      this.reps = '';
-      this.weight = '';
-      this.note = '';
+      //this.active = this.active;
+      this.addExercise.block = '';
+      this.addExercise.week = '';
+      this.addExercise.day = '';
+      this.addExercise.name = '';
+      this.addExercise.sets = '';
+      this.addExercise.reps = '';
+      this.addExercise.weight = '';
+      this.addExercise.note = '';
     }
   }
 });

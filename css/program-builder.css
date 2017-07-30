@@ -19,5 +19,6 @@ html {
   border: 1px solid #ccc;
   border-radius: 3px;
   display: inline-block;
+  margin: 5px 0;
   padding: 5px;
 }
