@@ -1,0 +1,21 @@
+@mixin table-cell() {
+    border: 1px solid #ccc;
+    padding: 5px;  
+}
+
+html {
+    font-family: sans-serif;
+}
+
+.day-table {
+    border-collapse: collapse;
+
+    .day-column-head, .day-exercise-cell {
+        @include table-cell();
+    }
+
+    .day-column-head {
+        background: #eee;
+    }
+    
+}

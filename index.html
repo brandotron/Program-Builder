@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/program-builder.css">
+    <script src="js/vue.js"></script>
+    <title>Program Builder</title>
+</head>
+
+<body>
+
+    <div id="add-exercise-panel" class="add-exercise-panel">
+        <input type="text" v-model="name" placeholder="name" />
+        <input type="text" v-model="sets" placeholder="sets" />
+        <input type="text" v-model="reps" placeholder="reps" />
+        <input type="text" v-model="weight" placeholder="weight" />
+        <input type="text" v-model="note" placeholder="note" />
+        <button v-on:click="addExerciseToDay">Add</button>
+    </div>
+    
+    <div id="program-display" class="program-display">
+        <program-day-table
+            v-for="item in program"
+            v-bind:day="item"
+        ></program-day-table>
+    </div>
+
+    <script src="js/program-builder.js"></script>
+
+</body>
+
+</html>
