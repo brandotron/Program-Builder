@@ -25,6 +25,18 @@ Vue.component('program-day-table', {
               '</tbody>' +
             '</table>'
 });
+// Vue.component('', {
+//   props: ['exercise'],
+//   template: '<div class="add-exercise-input-panel" v-if="active == true">' +
+//               '<input type="text" v-model="name" placeholder="name" />' +
+//               '<input type="text" v-model="sets" placeholder="sets" />' +
+//               '<input type="text" v-model="reps" placeholder="reps" />' +
+//               '<input type="text" v-model="weight" placeholder="weight" />' +
+//               '<input type="text" v-model="note" placeholder="note" />' +
+//               '<button v-on:click="addExerciseToDay">Add</button>' +
+//               '<button v-on:click="closePanel">Close</button>' +
+//           '</div>'
+// });          
 var programDisplay = new Vue({
   el: '#program-display',
   data: {
@@ -46,11 +58,17 @@ var programDisplay = new Vue({
         }
       ]
     ]
+  },
+  methods: {
+    openAddExercisePanel: function () {
+      addExercisePanel.active = true;
+    }
   }
 });
 var addExercisePanel = new Vue({
   el: '#add-exercise-panel',
   data: {
+    active: false,
     program: '',
     block: '',
     week: '',
@@ -72,6 +90,9 @@ var addExercisePanel = new Vue({
       }
       programDisplay.program[0].push(exerciseToPush);
       this.resetInputs();
+    },
+    closePanel: function () {
+      this.active = false;
     },
     resetInputs: function () {
       this.program = '';

@@ -13,19 +13,23 @@
 <body>
 
     <div id="add-exercise-panel" class="add-exercise-panel">
-        <input type="text" v-model="name" placeholder="name" />
-        <input type="text" v-model="sets" placeholder="sets" />
-        <input type="text" v-model="reps" placeholder="reps" />
-        <input type="text" v-model="weight" placeholder="weight" />
-        <input type="text" v-model="note" placeholder="note" />
-        <button v-on:click="addExerciseToDay">Add</button>
+        <div class="add-exercise-input-panel" v-if="active == true">
+            <input type="text" v-model="name" placeholder="name" />
+            <input type="text" v-model="sets" placeholder="sets" />
+            <input type="text" v-model="reps" placeholder="reps" />
+            <input type="text" v-model="weight" placeholder="weight" />
+            <input type="text" v-model="note" placeholder="note" />
+            <button v-on:click="addExerciseToDay">Add</button>
+            <button v-on:click="closePanel">Close</button>
+        </div>
     </div>
-    
+
     <div id="program-display" class="program-display">
         <program-day-table
             v-for="item in program"
             v-bind:day="item"
         ></program-day-table>
+        <button v-on:click="openAddExercisePanel">Add Exercise</button>
     </div>
 
     <script src="js/program-builder.js"></script>
