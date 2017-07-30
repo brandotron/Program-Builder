@@ -40,7 +40,7 @@ Vue.component('program-day-table', {
 var programDisplay = new Vue({
   el: '#program-display',
   data: {
-    program: [
+    week: [
       [
         {
           name: 'snatch',
@@ -88,7 +88,7 @@ var addExercisePanel = new Vue({
         weight: this.weight,
         note: this.note
       }
-      programDisplay.program[0].push(exerciseToPush);
+      programDisplay.week[0].push(exerciseToPush);
       this.resetInputs();
     },
     closePanel: function () {
