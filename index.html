@@ -22,8 +22,11 @@
             <input type="text" v-model="newExercise.reps" placeholder="reps" />
             <input type="text" v-model="newExercise.weight" placeholder="weight" />
             <input type="text" v-model="newExercise.note" placeholder="note" />
-            <button v-on:click="addExerciseToDay">Add</button>
-            <button v-on:click="closePanel">Close</button>
+
+            <button v-if="newExercise.mode == 'add'" v-on:click="addExerciseToDay">Add</button>
+            <button v-else-if="newExercise.mode == 'update'" v-on:click="updateExercise">Update</button>
+            
+            <button v-on:click="closeExercisePanel">Close</button>
         </div>
 
     </div>
