@@ -1,3 +1,53 @@
+var testProgram = {
+  id: 0,
+  name: '',
+  athlete: '',
+  startingDate: '',
+  blocks: [
+    {
+      id: 0,
+      name: '',
+      weeks: [
+        {
+          id: 0,
+          days: [
+            {
+              id: 0,
+              dayNumber: 0,
+              exercises: [
+                // {
+                //     id: 0
+                //     name: '',
+                //     sets: 0,
+                //     reps: 0,
+                //     percentage: 0,
+                //     weight: 0,
+                //     note: ''
+                // }
+                {
+                  id: 0,
+                  name: 'snatch',
+                  sets: 3,
+                  reps: 3,
+                  weight: '75%',
+                  note: ''
+                },
+                {
+                  id: 1,
+                  name: 'clean + jerk',
+                  sets: 2,
+                  reps: '1 + 2',
+                  weight: '75%',
+                  note: ''
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 Vue.component('loaded-program', {
   props: ['program'],
   template: 
@@ -53,8 +103,11 @@ Vue.component('program-day', {
     '</div>',
   methods: {
     openAddExercisePanel: function () {
-      programBuilder.addExercise.active = true;
-      //set block, week, day for new exercise
+      programBuilder.newExercise.day = this.day.id;
+      programBuilder.newExercise.week = this.$parent.week.id;
+      programBuilder.newExercise.block = this.$parent.$parent.block.id;
+      programBuilder.newExercise.id = this.day.exercises.length;
+      programBuilder.newExercise.active = true;
     }
   }
 });
@@ -72,72 +125,54 @@ Vue.component('program-exercise-row', {
 var programBuilder = new Vue({
   el: '#program-builder',
   data: {
-    programLoaded: false,
-    loadedProgram: {},
+    programLoaded: true,
+    //loading test program for now, will work on capability to deal with multiple programs later
+    loadedProgram: testProgram, //{},
     allPrograms: {},
-    addExercise: {
+    newExercise: {
       active: false,
       block: '',
       week: '',
       day: '',
+      id: 0,
       name: '',
       sets: '',
       reps: '',
       weight: '',
       note: ''
-    },
-    week: { //to be eliminated and replaced by loadedProgram
-      id: 0,
-      days: [
-        {
-          id: 0,
-          exercises: [
-            {
-              name: 'snatch',
-              sets: 3,
-              reps: 3,
-              weight: '75%',
-              note: ''
-            },
-            {
-              name: 'clean + jerk',
-              sets: 2,
-              reps: '1 + 2',
-              weight: '75%',
-              note: ''
-            }
-          ]
-        }
-      ]
     }
   },
-  methods: { //rename these for new scope (may have more than 1 "panel" to close)
+  methods: { //rename these functions for new scope (may have more than 1 "panel" to close, etc.)
     addExerciseToDay: function () {
       var exerciseToPush = {
-        name: this.addExercise.name,
-        sets: this.addExercise.sets,
-        reps: this.addExercise.reps,
-        weight: this.addExercise.weight,
-        note: this.addExercise.note
-      },
-      currentDay = programBuilder.week.days[0]; //use properties set when panel added
+        id: this.newExercise.id,
+        name: this.newExercise.name,
+        sets: this.newExercise.sets,
+        reps: this.newExercise.reps,
+        weight: this.newExercise.weight,
+        note: this.newExercise.note
+      }
+      var currentBlock = programBuilder.loadedProgram.blocks[this.newExercise.block];
+      var currentWeek = currentBlock.weeks[this.newExercise.week];
+      var currentDay = currentWeek.days[this.newExercise.day];
+
       currentDay.exercises.push(exerciseToPush);
       this.resetInputs();
     },
     closePanel: function () {
-      this.addExercise.active = false;
+      this.newExercise.active = false;
       this.resetInputs();
     },
     resetInputs: function () {
       //this.active = this.active;
-      this.addExercise.block = '';
-      this.addExercise.week = '';
-      this.addExercise.day = '';
-      this.addExercise.name = '';
-      this.addExercise.sets = '';
-      this.addExercise.reps = '';
-      this.addExercise.weight = '';
-      this.addExercise.note = '';
+      this.newExercise.block = '';
+      this.newExercise.week = '';
+      this.newExercise.day = '';
+      this.newExercise.name = '';
+      this.newExercise.sets = '';
+      this.newExercise.reps = '';
+      this.newExercise.weight = '';
+      this.newExercise.note = '';
     }
   }
 });
