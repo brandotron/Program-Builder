@@ -1,28 +1,49 @@
-@mixin table-cell() {
-    border: 1px solid #ccc;
-    padding: 5px;  
+*, 
+*:before, 
+*:after {
+    box-sizing: inherit;
 }
 
 html {
     font-family: sans-serif;
+    box-sizing: border-box;
 }
 
-.day-table {
-    border-collapse: collapse;
-
-    .day-column-head, .day-exercise-cell {
-        @include table-cell();
-    }
-
-    .day-column-head {
-        background: #eee;
-    }
-
+body {
+    margin: 0;
+    padding: 0;
 }
-.add-exercise-input-panel {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    display: inline-block;
-    margin: 5px 0;
+
+.program-builder {
+    height: 100vw;
+    width: 100vw;
     padding: 5px;
+
+    .day-table {
+        border-collapse: collapse;
+
+        .day-column-head, .exercise-cell {
+            border: 1px solid #ccc;
+            padding: 5px; 
+        }
+
+        .day-column-head {
+            background: #eee;
+        }
+
+        .exercise-row:first-child .exercise-move-up-btn,
+        .exercise-row:last-child  .exercise-move-down-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+    }
+
+    .add-exercise-input-panel, .program-day, .program-week, .program-block {
+        border: 1px solid #ccc;
+        margin: 5px;
+        padding: 5px;
+        max-width: 100%;
+    }
+
 }

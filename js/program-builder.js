@@ -51,7 +51,7 @@ var testProgram = {
 Vue.component('loaded-program', {
   props: ['program'],
   template: 
-    '<div class="loaded-program">' +
+    '<div class="loaded-program">Loaded Program' +
       '<program-block ' +
         'v-for="item in program.blocks"' + 
         'v-bind:block="item"' +
@@ -62,7 +62,7 @@ Vue.component('loaded-program', {
 Vue.component('program-block', {
   props: ['block'],
   template: 
-    '<div class="program-block">' +
+    '<div class="program-block">Block' +
       '<program-week ' +
         'v-for="item in block.weeks"' + 
         'v-bind:week="item"' +
@@ -73,7 +73,7 @@ Vue.component('program-block', {
 Vue.component('program-week', {
   props: ['week'],
   template: 
-    '<div class="program-week">' +
+    '<div class="program-week">Week' +
       '<program-day ' +
         'v-for="item in week.days"' +
         'v-bind:day="item"' +
@@ -84,7 +84,7 @@ Vue.component('program-week', {
 Vue.component('program-day', {
   props: ['day'],
   template: 
-    '<div class="program-day">' + 
+    '<div class="program-day">Day' + 
       '<table class="day-table">' +
         '<thead class="day-head">' +
           '<tr class="day-column-head-row">' +
@@ -97,11 +97,11 @@ Vue.component('program-day', {
           '</tr>' +
         '</thead>' +
         '<tbody class="day-body">' +
-          '<program-exercise-row ' +
+          '<exercise-row ' +
             'v-for="item in day.exercises"' +
             'v-bind:exercise="item"' +
             'v-bind:key="item.id"' +
-          '></program-exercise-row>' +
+          '></exercise-row>' +
         '</tbody>' +
       '</table>' + 
       '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
@@ -117,18 +117,20 @@ Vue.component('program-day', {
     }
   }
 });
-Vue.component('program-exercise-row', {
+Vue.component('exercise-row', {
   props: ['exercise'],
   template: 
-    '<tr class="day-exercise-row">' +
-      '<td class="day-exercise-cell">{{ exercise.name }}</td>' +
-      '<td class="day-exercise-cell">{{ exercise.sets }}</td>' +
-      '<td class="day-exercise-cell">{{ exercise.reps }}</td>' +
-      '<td class="day-exercise-cell">{{ exercise.weight }}</td>' +
-      '<td class="day-exercise-cell">{{ exercise.note }}</td>' +
-      '<td class="day-exercise-cell">' +
+    '<tr class="exercise-row">' +
+      '<td class="exercise-cell">{{ exercise.name }}</td>' +
+      '<td class="exercise-cell">{{ exercise.sets }}</td>' +
+      '<td class="exercise-cell">{{ exercise.reps }}</td>' +
+      '<td class="exercise-cell">{{ exercise.weight }}</td>' +
+      '<td class="exercise-cell">{{ exercise.note }}</td>' +
+      '<td class="exercise-cell">' +
         '<button v-on:click="openEditExercise">Edit</button>' +
         '<button v-on:click="removeExercise">X</button>' +
+        '<button v-on:click="move(\'up\')" class="exercise-move-up-btn">Up</button>' + 
+        '<button v-on:click="move(\'down\')" class="exercise-move-down-btn">Down</button>' + 
       '</td>' +
     '</tr>',
   // data: {
@@ -143,10 +145,15 @@ Vue.component('program-exercise-row', {
   //   }
   // },
   methods: {
-    removeExercise: function () {
+    getCurrentDay: function () {
       var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
       var currentWeek = currentBlock.weeks[this.$parent.$parent.week.id];
       var currentDay = currentWeek.days[this.$parent.day.id];
+
+      return currentDay;
+    },
+    removeExercise: function () {
+      var currentDay = this.getCurrentDay();
 
       currentDay.exercises.splice(this.exercise.id, 1);
     },
@@ -164,6 +171,46 @@ Vue.component('program-exercise-row', {
 
       programBuilder.newExercise.mode = 'update';
       programBuilder.newExercise.active = true;
+    },
+    move: function(direction) {
+      var currentDay = this.getCurrentDay(),
+          currentId,
+          newId,
+          tempObjThis,
+          tempObjSwap,
+          newObjThis,
+          newObjSwap;
+
+      if (direction == 'up') {
+        currentId = this.exercise.id;
+        newId = this.exercise.id - 1;
+      } else { // direction == 'down'
+        currentId = this.exercise.id;
+        newId = this.exercise.id + 1;
+      }
+
+      tempObjThis = currentDay.exercises.slice(currentId, currentId + 1)[0];
+      newobjThis = {
+        id: newId,
+        name: tempObjThis.name,
+        sets: tempObjThis.sets,
+        reps: tempObjThis.reps,
+        weight: tempObjThis.weight,
+        note: tempObjThis.note
+      };
+
+      tempObjSwap = currentDay.exercises.slice(newId, newId + 1)[0];
+      newobjSwap = {
+        id: this.exercise.id,
+        name: tempObjSwap.name,
+        sets: tempObjSwap.sets,
+        reps: tempObjSwap.reps,
+        weight: tempObjSwap.weight,
+        note: tempObjSwap.note
+      };
+
+      currentDay.exercises.splice(currentId, 1, newobjSwap);
+      currentDay.exercises.splice(newId, 1, newobjThis);
     }
   }
 });                
@@ -204,6 +251,8 @@ var programBuilder = new Vue({
 
       currentDay.exercises.push(exerciseToPush);
       this.resetExerciseInputs();
+
+      this.newExercise.id += 1;
     },
     updateExercise: function () { //TODO: combine this and above function
       var exerciseToPush = {
@@ -219,17 +268,28 @@ var programBuilder = new Vue({
       var currentDay = currentWeek.days[this.newExercise.day];
 
       currentDay.exercises.splice(this.newExercise.id, 1, exerciseToPush);
+
       this.resetExerciseInputs();
-    },
-    closeExercisePanel: function () {
-      this.newExercise.active = false;
-      this.resetExerciseInputs();
-    },
-    resetExerciseInputs: function () {
-      //this.active = this.active;
+
       this.newExercise.block = '';
       this.newExercise.week = '';
       this.newExercise.day = '';
+    },
+    closeExercisePanel: function () {
+      this.newExercise.active = false;
+
+      this.resetExerciseInputs();
+
+      this.newExercise.block = '';
+      this.newExercise.week = '';
+      this.newExercise.day = '';
+
+    },
+    resetExerciseInputs: function () {
+      // this.active = this.active;
+      // this.newExercise.block = '';
+      // this.newExercise.week = '';
+      // this.newExercise.day = '';
       this.newExercise.name = '';
       this.newExercise.sets = '';
       this.newExercise.reps = '';
