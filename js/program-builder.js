@@ -29,7 +29,7 @@ var testProgram = {
                   name: 'snatch',
                   sets: 3,
                   reps: 3,
-                  weight: '75%',
+                  weight: '73%',
                   note: ''
                 },
                 {
@@ -37,7 +37,23 @@ var testProgram = {
                   name: 'clean + jerk',
                   sets: 2,
                   reps: '1 + 2',
+                  weight: '72%',
+                  note: ''
+                },
+                {
+                  id: 2,
+                  name: 'squat',
+                  sets: 5,
+                  reps: 5,
                   weight: '75%',
+                  note: ''
+                },
+                {
+                  id: 3,
+                  name: 'press',
+                  sets: 4,
+                  reps: 6,
+                  weight: '70%',
                   note: ''
                 }
               ]
@@ -88,6 +104,7 @@ Vue.component('program-day', {
       '<table class="day-table">' +
         '<thead class="day-head">' +
           '<tr class="day-column-head-row">' +
+            '<th class="day-column-head"></th>' +
             '<th class="day-column-head">Exercise</th>' +
             '<th class="day-column-head">Sets</th>' +
             '<th class="day-column-head">Reps</th>' +
@@ -121,6 +138,10 @@ Vue.component('exercise-row', {
   props: ['exercise'],
   template: 
     '<tr class="exercise-row">' +
+      '<td class="exercise-cell">' +
+        '<button v-on:click="move(\'up\')" class="exercise-move-up-btn">^</button>' + 
+        '<button v-on:click="move(\'down\')" class="exercise-move-down-btn">v</button>' + 
+      '</td>' +
       '<td class="exercise-cell">{{ exercise.name }}</td>' +
       '<td class="exercise-cell">{{ exercise.sets }}</td>' +
       '<td class="exercise-cell">{{ exercise.reps }}</td>' +
@@ -129,8 +150,6 @@ Vue.component('exercise-row', {
       '<td class="exercise-cell">' +
         '<button v-on:click="openEditExercise">Edit</button>' +
         '<button v-on:click="removeExercise">X</button>' +
-        '<button v-on:click="move(\'up\')" class="exercise-move-up-btn">Up</button>' + 
-        '<button v-on:click="move(\'down\')" class="exercise-move-down-btn">Down</button>' + 
       '</td>' +
     '</tr>',
   // data: {
@@ -184,9 +203,11 @@ Vue.component('exercise-row', {
       if (direction == 'up') {
         currentId = this.exercise.id;
         newId = this.exercise.id - 1;
-      } else { // direction == 'down'
+      } else if (direction == 'down') { // direction == 'down'
         currentId = this.exercise.id;
         newId = this.exercise.id + 1;
+      } else {
+        return; //TODO: this would be an error
       }
 
       tempObjThis = currentDay.exercises.slice(currentId, currentId + 1)[0];
