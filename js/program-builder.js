@@ -15,15 +15,6 @@ var testProgram = {
               id: 0,
               dayNumber: 0,
               exercises: [
-                // {
-                //     id: 0
-                //     name: '',
-                //     sets: 0,
-                //     reps: 0,
-                //     percentage: 0,
-                //     weight: 0,
-                //     note: ''
-                // }
                 {
                   id: 0,
                   name: 'snatch',
@@ -63,7 +54,28 @@ var testProgram = {
       ]
     }
   ]
-}
+};
+var deepExtend = function(out) {
+  out = out || {};
+
+  for (var i = 1; i < arguments.length; i++) {
+    var obj = arguments[i];
+
+    if (!obj)
+      continue;
+
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object')
+          out[key] = deepExtend(out[key], obj[key]);
+        else
+          out[key] = obj[key];
+      }
+    }
+  }
+
+  return out;
+};
 Vue.component('loaded-program', {
   props: ['program'],
   template: 
@@ -122,6 +134,7 @@ Vue.component('program-day', {
         '</tbody>' +
       '</table>' + 
       '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
+      '<button v-on:click="removeDay">Remove Day</button>' +
     '</div>',
   methods: {
     openAddExercisePanel: function () {
@@ -131,6 +144,12 @@ Vue.component('program-day', {
       programBuilder.newExercise.id = this.day.exercises.length;
       programBuilder.newExercise.mode = 'add';
       programBuilder.newExercise.active = true;
+    },
+    removeDay: function () {
+      var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.block.id];
+      var currentWeek = currentBlock.weeks[this.$parent.week.id];
+
+      currentWeek.days.splice(this.day.id, 1);
     }
   }
 });
@@ -152,17 +171,6 @@ Vue.component('exercise-row', {
         '<button v-on:click="removeExercise">X</button>' +
       '</td>' +
     '</tr>',
-  // data: {
-  //   day: function () {
-  //     return this.$parent.day.id;
-  //   },
-  //   week: function () {
-  //     return this.$parent.$parent.week.id;
-  //   },
-  //   block: function () {
-  //     return this.$parent.$parent.$parent.block.id;
-  //   }
-  // },
   methods: {
     getCurrentDay: function () {
       var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
@@ -203,35 +211,22 @@ Vue.component('exercise-row', {
       if (direction == 'up') {
         currentId = this.exercise.id;
         newId = this.exercise.id - 1;
-      } else if (direction == 'down') { // direction == 'down'
+      } else if (direction == 'down') {
         currentId = this.exercise.id;
         newId = this.exercise.id + 1;
       } else {
         return; //TODO: this would be an error
       }
 
-      tempObjThis = currentDay.exercises.slice(currentId, currentId + 1)[0];
-      newobjThis = {
-        id: newId,
-        name: tempObjThis.name,
-        sets: tempObjThis.sets,
-        reps: tempObjThis.reps,
-        weight: tempObjThis.weight,
-        note: tempObjThis.note
-      };
+      tempObjThis = deepExtend({}, currentDay.exercises.slice(currentId, currentId + 1)[0]);
+      tempObjSwap = deepExtend({}, currentDay.exercises.slice(newId, newId + 1)[0]);
 
-      tempObjSwap = currentDay.exercises.slice(newId, newId + 1)[0];
-      newobjSwap = {
-        id: this.exercise.id,
-        name: tempObjSwap.name,
-        sets: tempObjSwap.sets,
-        reps: tempObjSwap.reps,
-        weight: tempObjSwap.weight,
-        note: tempObjSwap.note
-      };
+      tempObjThis.id = newId;
+      tempObjSwap.id = this.exercise.id;
 
-      currentDay.exercises.splice(currentId, 1, newobjSwap);
-      currentDay.exercises.splice(newId, 1, newobjThis);
+      currentDay.exercises.splice(currentId, 1, tempObjSwap);
+      currentDay.exercises.splice(newId, 1, tempObjThis);
+
     }
   }
 });                
@@ -242,6 +237,7 @@ var programBuilder = new Vue({
     //loading test program for now, will work on capability to deal with multiple programs later
     loadedProgram: testProgram, //{},
     allPrograms: {},
+    templates: {},
     newExercise: {
       active: false,
       mode: 'add',
@@ -254,6 +250,27 @@ var programBuilder = new Vue({
       reps: '',
       weight: '',
       note: ''
+    },
+    emptyDay: {
+      id: 0,
+      dayNumber: 0,
+      exercises: []
+    },
+    emptyWeek: {
+      id: 0,
+      days: []
+    },
+    emptyBlock: {
+      id: 0,
+      name: '',
+      weeks: []
+    },
+    emptyProgram: {
+      id: 0,
+      name: '',
+      athlete: '',
+      startingDate: '',
+      blocks: []
     }
   },
   methods: { //rename these functions for new scope (may have more than 1 "panel" to close, etc.)
