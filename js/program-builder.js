@@ -71,7 +71,7 @@ var deepExtend = function(out) {
           out[key] = obj[key].slice(0);
           var nestedObj = out[key]
           for (var nestedKey in nestedObj) {
-            nestedObj[key] = deepExtend({}, obj[key][nestedKey]);
+            nestedObj[nestedKey] = deepExtend({}, obj[key][nestedKey]);
           }
         } else if (typeof obj[key] === 'object') {
           out[key] = deepExtend(out[key], obj[key]);
