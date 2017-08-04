@@ -66,10 +66,17 @@ var deepExtend = function(out) {
 
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
-        if (typeof obj[key] === 'object')
+        if (Array.isArray(obj[key])) {
+          out[key] = obj[key].slice(0);
+          var nestedObj = out[key]
+          for (var nestedKey in nestedObj) {
+            nestedObj[key] = deepExtend({}, obj[key][nestedKey]);
+          }
+        } else if (typeof obj[key] === 'object') {
           out[key] = deepExtend(out[key], obj[key]);
-        else
+        } else {
           out[key] = obj[key];
+        }
       }
     }
   }
@@ -135,8 +142,15 @@ Vue.component('program-day', {
       '</table>' + 
       '<button v-on:click="openAddExercisePanel">Add Exercise</button>' +
       '<button v-on:click="removeDay">Remove Day</button>' +
+      '<button v-on:click="copyDay">Copy Day</button>' +
     '</div>',
   methods: {
+    getCurrentWeek: function () {
+      var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.block.id];
+      var currentWeek = currentBlock.weeks[this.$parent.week.id];
+      
+      return currentWeek;
+    },
     openAddExercisePanel: function () {
       programBuilder.newExercise.day = this.day.id;
       programBuilder.newExercise.week = this.$parent.week.id;
@@ -146,10 +160,18 @@ Vue.component('program-day', {
       programBuilder.newExercise.active = true;
     },
     removeDay: function () {
-      var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.block.id];
-      var currentWeek = currentBlock.weeks[this.$parent.week.id];
-
+      var currentWeek = this.getCurrentWeek();
       currentWeek.days.splice(this.day.id, 1);
+    },
+    copyDay: function () {
+      var currentWeek = this.getCurrentWeek(),
+          newDayObj;
+
+      newDayObj = deepExtend({}, currentWeek.days.slice(this.day.id, this.day.id + 1)[0]);
+      newDayObj.dayNumber = currentWeek.days.length; 
+      newDayObj.id = currentWeek.days.length; 
+
+      currentWeek.days.push(newDayObj);
     }
   }
 });
