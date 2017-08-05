@@ -6,7 +6,8 @@
       v-bind:day="item"
       v-bind:key="item.id"
       v-bind:num_days="week.days.length"
-      v-on:remove-object="removeObject"
+      v-on:remove-exercise="removeChildObject"
+      v-on:remove-day="removeChildObject"
     ></program-day> 
     <button v-on:click="addNewDay" v-if="week.days.length < 7">Add New Day</button>
     <button v-on:click="removeWeek">Remove Week</button>
@@ -26,7 +27,7 @@ export default {
     'program-day': programDay
   },
   methods: {
-    getCurrentBlock: function () {
+    getCurrentBlock: function () { //TODO: remove
       return programBuilder.loadedProgram.blocks[this.$parent.block.id];
     },
     addNewDay: function () {
@@ -40,13 +41,6 @@ export default {
 
       currentWeek.days.push(newDay);
     },
-    removeWeek: function () {
-      var currentBlock = this.getCurrentBlock();
-
-      currentBlock.weeks.splice(this.week.id, 1);
-
-      this.resequenceWeeks();
-    },
     copyWeek: function () {
       var currentBlock = this.getCurrentBlock(),
           newWeekObj;
@@ -55,18 +49,6 @@ export default {
       newWeekObj.id = currentBlock.weeks.length; 
 
       currentBlock.weeks.push(newWeekObj);
-    },
-    resequenceWeeks: function () {
-      var currentBlock = this.getCurrentBlock(),
-          resequencedWeeks,
-          resequencedBlock;
-
-      resequencedBlock = deepExtend({}, currentBlock);
-      resequencedWeeks = resequenceItems(currentBlock.weeks);
-
-      resequencedBlock.weeks = resequencedWeeks;
-
-      programBuilder.loadedProgram.blocks.splice(this.$parent.block.id, 1, resequencedBlock);
     },
     moveWeek: function (direction) {
       var currentBlock = this.getCurrentBlock(),
@@ -96,10 +78,25 @@ export default {
       currentBlock.weeks.splice(currentId, 1, tempObjSwap);
       currentBlock.weeks.splice(newId, 1, tempObjThis);
     },
-    removeObject: function () {
-      var keys = arguments[0];
+    removeWeek: function () {
+      var keys = {week: this.week.id};
+      this.$emit('remove-week', keys);
+    },
+    removeChildObject: function () {
+      var keys = arguments[0] || {},
+      event;
+
       keys.week = this.week.id;
-      this.$emit('remove-object', keys);
+
+      if (keys.exercise !== undefined) {
+        event = 'remove-exercise';
+      } else if (keys.day !== undefined) {
+        event = 'remove-day';
+      } else { //TODO: This would be an error
+        return;
+      }
+
+      this.$emit(event, keys);
     }
   }
 }

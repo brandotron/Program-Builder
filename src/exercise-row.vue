@@ -66,18 +66,16 @@ export default {
     }
   },
   methods: {
-    getCurrentWeek: function () {
+    getCurrentWeek: function () { //TODO: remove
       var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
       return currentBlock.weeks[this.$parent.$parent.week.id];
     },
-    getCurrentDay: function () {
+    getCurrentDay: function () { //TODO: remove
       return this.getCurrentWeek().days[this.$parent.day.id];
     },
     removeExercise: function () {
-      var keys = {
-        exercise: this.exercise.id
-      };
-      this.$emit('remove-object', keys);
+      var keys = {exercise: this.exercise.id};
+      this.$emit('remove-exercise', keys);
     },
     // openEditExercisePanel: function () {
     //   programBuilder.newExercise.day = this.$parent.day.id;

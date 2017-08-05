@@ -150,7 +150,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     }
   },
   methods: {
-    deepExtend: function(out) {
+    deepExtend: function(out) { // preserves nested arrays in objects
       out = out || {};
 
       for (var i = 1; i < arguments.length; i++) {
@@ -162,7 +162,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
 
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-            if (Array.isArray(obj[key])) {
+            if (Array.isArray(obj[key])) { // don't parse arrays as objects
               out[key] = obj[key].slice(0);
               var nestedObj = out[key]
               for (var nestedKey in nestedObj) {
@@ -196,7 +196,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
         name: this.newExercise.name,
         sets: this.newExercise.sets,
         reps: this.newExercise.reps,
-        weight: this.newExercise.weight, //calulate this based on percentage
+        weight: this.newExercise.weight, //calulate this based on percentage one we have "100%" values
         note: this.newExercise.note//,
         //percentage: 73,
         //percentIncrease: 3
@@ -255,25 +255,26 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       this.newExercise.note = '';
       this.newExercise.mode = 'add';
     },
-    removeObject: function () {
+    removeObject: function () { //this is only firing from exercise row, but day seems to pass all the way to loaded program OK
       var keys = arguments[0],
           targetArr,
           objectIndex;
-      if (keys.exercise) {
+      if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         objectIndex = keys.exercise;
-      } else if (keys.day) {
+      } else if (keys.day !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
         objectIndex = keys.day;
-      } else if (keys.week) {
+      } else if (keys.week !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks;
         objectIndex = keys.week;
-      } else if (keys.block) {
+      } else if (keys.block !== undefined) {
         targetArr = this.loadedProgram.blocks;
         objectIndex = keys.block;
       } else { //TODO: This would be an error
         return;
       }
+
       targetArr.splice(objectIndex, 1);
       this.resequenceObject(keys);
     },
@@ -286,22 +287,22 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           targetArrKey,
           newArr;
 
-      if (keys.exercise) {
+      if (keys.exercise !== undefined) {
         parentObj = this.loadedProgram.blocks[keys.block].weeks[keys.week];
         targetObj = parentObj.days[keys.day];
         parentArrKey = 'days';
         targetArrKey = 'exercises';
-      } else if (keys.day) {
+      } else if (keys.day !== undefined) {
         parentObj = this.loadedProgram.blocks[keys.block];
         targetObj = parentObj.weeks[keys.week];
         parentArrKey = 'weeks';
         targetArrKey = 'days';
-      } else if (keys.week) {
+      } else if (keys.week !== undefined) {
         parentObj = this.loadedProgram;
         targetObj = parentObj.blocks[keys.block];
         parentArrKey = 'blocks';
         targetArrKey = 'weeks';
-      } else if (keys.block) {
+      } else if (keys.block !== undefined) {
         parentObj = this;
         targetObj = this.loadedProgram;
         parentArrKey = 'loadedProgram';

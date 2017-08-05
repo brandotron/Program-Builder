@@ -5,7 +5,10 @@
       v-for="item in program.blocks" 
       v-bind:block="item" 
       v-bind:key="item.id"
-      v-on:remove-object="removeObject"
+      v-on:remove-exercise="removeChildObject"
+      v-on:remove-day="removeChildObject"
+      v-on:remove-week="removeChildObject"
+      v-on:remove-block="removeChildObject"
     ></program-block> 
   </div>
 </template>
@@ -20,7 +23,7 @@ export default {
     'program-block': programBlock
   },
   methods: {
-    removeObject: function () {
+    removeChildObject: function () {
       var keys = arguments[0];
       this.$emit('remove-object', keys);
     }
