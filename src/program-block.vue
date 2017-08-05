@@ -5,7 +5,7 @@
         v-for="item in block.weeks" 
         v-bind:week="item"
         v-bind:key="item.id"
-        v-on:remove-exercise="removeExercise"
+        v-on:remove-object="removeObject"
     ></program-week> 
   </div>
 </template>
@@ -20,10 +20,10 @@ export default {
     'program-week': programWeek
   },
   methods: {
-    removeExercise: function () {
+    removeObject: function () {
       var keys = arguments[0];
       keys.block = this.block.id;
-      this.$emit('remove-exercise', keys);
+      this.$emit('remove-object', keys);
     }
   }
 }

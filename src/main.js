@@ -169,7 +169,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
                 nestedObj[nestedKey] = deepExtend({}, obj[key][nestedKey]);
               }
             } else if (typeof obj[key] === 'object') {
-              out[key] = deepExtend(out[key], obj[key]);
+              out[key] = this.deepExtend(out[key], obj[key]);
             } else {
               out[key] = obj[key];
             }
@@ -182,7 +182,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     resequenceItems: function (arr) {
       var resequencedArr = []
       for (var i = 0, item; i < arr.length; i++) {
-        item = deepExtend({}, arr[i]);
+        item = this.deepExtend({}, arr[i]);
         item.id = i;
 
         resequencedArr.push(item);
@@ -255,23 +255,69 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       this.newExercise.note = '';
       this.newExercise.mode = 'add';
     },
-    removeExercise: function () {
-      var keys = arguments[0];
-      this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises.splice(keys.exercise, 1);
-      this.resequenceExercises(keys);
+    removeObject: function () {
+      var keys = arguments[0],
+          targetArr,
+          objectIndex;
+      if (keys.exercise) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
+        objectIndex = keys.exercise;
+      } else if (keys.day) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
+        objectIndex = keys.day;
+      } else if (keys.week) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks;
+        objectIndex = keys.week;
+      } else if (keys.block) {
+        targetArr = this.loadedProgram.blocks;
+        objectIndex = keys.block;
+      } else { //TODO: This would be an error
+        return;
+      }
+      targetArr.splice(objectIndex, 1);
+      this.resequenceObject(keys);
     },
-    resequenceExercises: function (keys) {
-      var targetWeek = this.loadedProgram.blocks[keys.block].weeks[keys.week];
-      var targetDay = targetWeek.days[keys.day],
-          resequencedExercises,
-          resequencedDay;
+    resequenceObject: function (keys) {
+      var parentObj,
+          targetObj,
+          newObj,
+          targetId,
+          parentArrKey,
+          targetArrKey,
+          newArr;
 
-      resequencedDay = this.deepExtend({}, targetDay);
-      resequencedExercises = this.resequenceItems(targetDay.exercises);
+      if (keys.exercise) {
+        parentObj = this.loadedProgram.blocks[keys.block].weeks[keys.week];
+        targetObj = parentObj.days[keys.day];
+        parentArrKey = 'days';
+        targetArrKey = 'exercises';
+      } else if (keys.day) {
+        parentObj = this.loadedProgram.blocks[keys.block];
+        targetObj = parentObj.weeks[keys.week];
+        parentArrKey = 'weeks';
+        targetArrKey = 'days';
+      } else if (keys.week) {
+        parentObj = this.loadedProgram;
+        targetObj = parentObj.blocks[keys.block];
+        parentArrKey = 'blocks';
+        targetArrKey = 'weeks';
+      } else if (keys.block) {
+        parentObj = this;
+        targetObj = this.loadedProgram;
+        parentArrKey = 'loadedProgram';
+        targetArrKey = 'blocks';
+      } else { //TODO: This would be an error
+        return;
+      }
 
-      resequencedDay.exercises = resequencedExercises;
+      targetId = targetObj.id;
 
-      targetWeek.days.splice(keys.day, 1, resequencedDay);
+      newObj = this.deepExtend({}, targetObj);
+      newArr = this.resequenceItems(targetObj[targetArrKey]);
+
+      newObj[targetArrKey] = newArr;
+
+      parentObj[parentArrKey].splice(targetId, 1, newObj);
     }
   }
 });

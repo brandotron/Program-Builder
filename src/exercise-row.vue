@@ -77,7 +77,7 @@ export default {
       var keys = {
         exercise: this.exercise.id
       };
-      this.$emit('remove-exercise', keys);
+      this.$emit('remove-object', keys);
     },
     // openEditExercisePanel: function () {
     //   programBuilder.newExercise.day = this.$parent.day.id;
