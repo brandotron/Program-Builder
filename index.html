@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/program-builder.css">
-    <script src="js/vue.js"></script>
+    <!-- temporary development stylesheet - basic borders, etc. -->
+    <link rel="stylesheet" href="./src/assets/css/program-builder.css">
     <title>Program Builder</title>
-</head>
-
-<body>
+  </head>
+  <body>
 
     <div id="program-builder" class="program-builder">
         
-        <loaded-program v-bind:program="loadedProgram" v-if="programLoaded == true"></loaded-program>
+        <loaded-program v-bind:program="loadedProgram" v-if="programLoaded == true"></loaded-program> 
 
         <div class="add-exercise-input-panel" v-if="newExercise.active == true">
-            <input type="text" v-model="newExercise.name" placeholder="name" />
-            <input type="text" v-model="newExercise.sets" placeholder="sets" />
-            <input type="text" v-model="newExercise.reps" placeholder="reps" />
-            <input type="text" v-model="newExercise.weight" placeholder="weight" />
-            <input type="text" v-model="newExercise.note" placeholder="note" />
+          <input type="text" v-model="newExercise.name" placeholder="name" />
+          <input type="text" v-model="newExercise.sets" placeholder="sets" />
+          <input type="text" v-model="newExercise.reps" placeholder="reps" />
+          <input type="text" v-model="newExercise.weight" placeholder="weight" />
+          <input type="text" v-model="newExercise.note" placeholder="note" />
 
-            <button v-if="newExercise.mode == 'add'" v-on:click="addExerciseToDay">Add</button>
-            <button v-else-if="newExercise.mode == 'update'" v-on:click="updateExercise">Update</button>
-            
-            <button v-on:click="closeExercisePanel">Close</button>
-        </div>
+          <button v-if="newExercise.mode == 'add'" v-on:click="addExerciseToDay">Add</button>
+          <button v-else-if="newExercise.mode == 'update'" v-on:click="updateExercise">Update</button>
+          
+          <button v-on:click="closeExercisePanel">Close</button>
+      </div>
 
-    </div>
+  </div>
 
-    <script src="js/program-builder.js"></script>
+  <script src="/dist/build.js"></script>
 
 </body>
-
 </html>
