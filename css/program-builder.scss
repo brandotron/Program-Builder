@@ -27,7 +27,7 @@ body {
         margin: 5px 0;
 
         .day-column-head, 
-        .exercise-cell {
+        .ex-cell {
             border-top: 1px solid $program-table-border-color;
             border-bottom: 1px solid $program-table-border-color;
             padding: 5px;
@@ -38,8 +38,8 @@ body {
             background: #eee;
         }
 
-        .exercise-row:first-child .exercise-move-up-btn,
-        .exercise-row:last-child  .exercise-move-down-btn {
+        .ex-row:first-child .ex-move-up-btn,
+        .ex-row:last-child  .ex-move-down-btn {
             opacity: 0;
             pointer-events: none;
         }

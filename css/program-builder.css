@@ -27,7 +27,7 @@ body {
 }
 
 .program-builder .day-table .day-column-head,
-.program-builder .day-table .exercise-cell {
+.program-builder .day-table .ex-cell {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding: 5px;
@@ -38,8 +38,8 @@ body {
   background: #eee;
 }
 
-.program-builder .day-table .exercise-row:first-child .exercise-move-up-btn,
-.program-builder .day-table .exercise-row:last-child .exercise-move-down-btn {
+.program-builder .day-table .ex-row:first-child .ex-move-up-btn,
+.program-builder .day-table .ex-row:last-child .ex-move-down-btn {
   opacity: 0;
   pointer-events: none;
 }
