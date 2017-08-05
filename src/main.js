@@ -60,7 +60,7 @@ var testProgram = {
   ]
 };
 
-window.deepExtend = function(out) { //TODO: add proper event firing from child components so these don't need to be attached to the window
+window.deepExtend = function(out) { //TODO: remove these once proper vue event handling is set up
   out = out || {};
 
   for (var i = 1; i < arguments.length; i++) {
@@ -90,7 +90,7 @@ window.deepExtend = function(out) { //TODO: add proper event firing from child c
   return out;
 };
 
-window.resequenceItems = function (arr) {
+window.resequenceItems = function (arr) {  //TODO: remove these once proper vue event handling is set up
   var resequencedArr = []
   for (var i = 0, item; i < arr.length; i++) {
     item = deepExtend({}, arr[i]);
@@ -102,7 +102,7 @@ window.resequenceItems = function (arr) {
   return resequencedArr;
 };
 
-window.programBuilder = new Vue({
+window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
   el: '#program-builder',
   components: {
     'loaded-program': loadedProgram    
@@ -125,7 +125,7 @@ window.programBuilder = new Vue({
       reps: '',
       weight: '',
       note: ''//,
-      //percentage: 73,
+      //percentage: 73, //need "100%" value for this to be meaningful
       //percentIncrease: 3
     },
     emptyDay: {
@@ -149,7 +149,47 @@ window.programBuilder = new Vue({
       blocks: []
     }
   },
-  methods: { //rename these functions for new scope (may have more than 1 "panel" to close, etc.)
+  methods: {
+    deepExtend: function(out) {
+      out = out || {};
+
+      for (var i = 1; i < arguments.length; i++) {
+        var obj = arguments[i];
+
+        if (!obj) {
+          continue;
+        }
+
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (Array.isArray(obj[key])) {
+              out[key] = obj[key].slice(0);
+              var nestedObj = out[key]
+              for (var nestedKey in nestedObj) {
+                nestedObj[nestedKey] = deepExtend({}, obj[key][nestedKey]);
+              }
+            } else if (typeof obj[key] === 'object') {
+              out[key] = deepExtend(out[key], obj[key]);
+            } else {
+              out[key] = obj[key];
+            }
+          }
+        }
+      }
+
+      return out;
+    },
+    resequenceItems: function (arr) {
+      var resequencedArr = []
+      for (var i = 0, item; i < arr.length; i++) {
+        item = deepExtend({}, arr[i]);
+        item.id = i;
+
+        resequencedArr.push(item);
+      }
+
+      return resequencedArr;
+    },
     addExerciseToDay: function () {
       var exerciseToPush = {
         id: this.newExercise.id,
@@ -226,8 +266,8 @@ window.programBuilder = new Vue({
           resequencedExercises,
           resequencedDay;
 
-      resequencedDay = deepExtend({}, targetDay);
-      resequencedExercises = resequenceItems(targetDay.exercises);
+      resequencedDay = this.deepExtend({}, targetDay);
+      resequencedExercises = this.resequenceItems(targetDay.exercises);
 
       resequencedDay.exercises = resequencedExercises;
 
