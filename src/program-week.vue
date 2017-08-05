@@ -6,6 +6,7 @@
       v-bind:day="item"
       v-bind:key="item.id"
       v-bind:num_days="week.days.length"
+      v-on:remove-exercise="removeExercise"
     ></program-day> 
     <button v-on:click="addNewDay" v-if="week.days.length < 7">Add New Day</button>
     <button v-on:click="removeWeek">Remove Week</button>
@@ -94,6 +95,11 @@ export default {
 
       currentBlock.weeks.splice(currentId, 1, tempObjSwap);
       currentBlock.weeks.splice(newId, 1, tempObjThis);
+    },
+    removeExercise: function () {
+      var keys = arguments[0];
+      keys.week = this.week.id;
+      this.$emit('remove-exercise', keys);
     }
   }
 }

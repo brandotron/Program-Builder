@@ -19,6 +19,7 @@
           v-bind:exercise="item"
           v-bind:key="item.id"
           v-bind:edits_active="editsActive"
+          v-on:remove-exercise="removeExercise"
         ></exercise-row>
       </tbody>
     </table> 
@@ -117,6 +118,11 @@ export default {
 
       currentWeek.days.splice(currentId, 1, tempObjSwap);
       currentWeek.days.splice(newId, 1, tempObjThis);
+    },
+    removeExercise: function () {
+      var keys = arguments[0];
+      keys.day = this.day.id;
+      this.$emit('remove-exercise', keys);
     }
   }
 }

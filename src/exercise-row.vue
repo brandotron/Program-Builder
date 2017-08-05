@@ -54,12 +54,12 @@ export default {
     return {
       editMode: false,
       updatedExercise: {
-        id: '',
-        name: '',
-        sets: '',
-        reps: '',
-        weight: '',
-        note: ''//,
+        id: this.exercise.id,
+        name: this.exercise.name,
+        sets: this.exercise.sets,
+        reps: this.exercise.reps,
+        weight: this.exercise.weight,
+        note: this.exercise.note//,
         //percentage: 73,
         //percentIncrease: 3
       }
@@ -74,26 +74,12 @@ export default {
       return this.getCurrentWeek().days[this.$parent.day.id];
     },
     removeExercise: function () {
-      var currentDay = this.getCurrentDay();
-
-      currentDay.exercises.splice(this.exercise.id, 1);
-
-      this.resequenceExercises();
+      var keys = {
+        exercise: this.exercise.id
+      };
+      this.$emit('remove-exercise', keys);
     },
-    resequenceExercises: function () {
-      var currentWeek = this.getCurrentWeek(),
-          currentDay = this.getCurrentDay(),
-          resequencedExercises,
-          resequencedDay;
-
-      resequencedDay = deepExtend({}, currentDay);
-      resequencedExercises = resequenceItems(currentDay.exercises);
-
-      resequencedDay.exercises = resequencedExercises;
-
-      currentWeek.days.splice(this.$parent.day.id, 1, resequencedDay);
-    },
-    // openEditExercise: function () {
+    // openEditExercisePanel: function () {
     //   programBuilder.newExercise.day = this.$parent.day.id;
     //   programBuilder.newExercise.week = this.$parent.$parent.week.id;
     //   programBuilder.newExercise.block = this.$parent.$parent.$parent.block.id;

@@ -214,6 +214,24 @@ window.programBuilder = new Vue({
       this.newExercise.weight = '';
       this.newExercise.note = '';
       this.newExercise.mode = 'add';
+    },
+    removeExercise: function () {
+      var keys = arguments[0];
+      this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises.splice(keys.exercise, 1);
+      this.resequenceExercises(keys);
+    },
+    resequenceExercises: function (keys) {
+      var targetWeek = this.loadedProgram.blocks[keys.block].weeks[keys.week];
+      var targetDay = targetWeek.days[keys.day],
+          resequencedExercises,
+          resequencedDay;
+
+      resequencedDay = deepExtend({}, targetDay);
+      resequencedExercises = resequenceItems(targetDay.exercises);
+
+      resequencedDay.exercises = resequencedExercises;
+
+      targetWeek.days.splice(keys.day, 1, resequencedDay);
     }
   }
 });

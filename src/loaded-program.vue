@@ -5,6 +5,7 @@
       v-for="item in program.blocks" 
       v-bind:block="item" 
       v-bind:key="item.id"
+      v-on:remove-exercise="removeExercise"
     ></program-block> 
   </div>
 </template>
@@ -17,6 +18,12 @@ export default {
   props: ['program'],
   components: {
     'program-block': programBlock
+  },
+  methods: {
+    removeExercise: function () {
+      var keys = arguments[0];
+      this.$emit('remove-exercise', keys);
+    }
   }
 }
 </script>

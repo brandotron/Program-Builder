@@ -2,9 +2,10 @@
   <div class="program-block">
     <div class="block-title">Block {{ block.id + 1 }}</div>
       <program-week 
-      v-for="item in block.weeks" 
-      v-bind:week="item"
-      v-bind:key="item.id"
+        v-for="item in block.weeks" 
+        v-bind:week="item"
+        v-bind:key="item.id"
+        v-on:remove-exercise="removeExercise"
     ></program-week> 
   </div>
 </template>
@@ -17,6 +18,13 @@ export default {
   props: ['block'],
   components: {
     'program-week': programWeek
+  },
+  methods: {
+    removeExercise: function () {
+      var keys = arguments[0];
+      keys.block = this.block.id;
+      this.$emit('remove-exercise', keys);
+    }
   }
 }
 </script>

@@ -12,7 +12,11 @@
 
     <div id="program-builder" class="program-builder">
         
-        <loaded-program v-bind:program="loadedProgram" v-if="programLoaded == true"></loaded-program> 
+        <loaded-program 
+          v-bind:program="loadedProgram" 
+          v-if="programLoaded == true"
+          v-on:remove-exercise="removeExercise"
+        ></loaded-program> 
 
         <div class="add-exercise-input-panel" v-if="newExercise.active == true">
           <input type="text" v-model="newExercise.name" placeholder="name" />
