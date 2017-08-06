@@ -1,5 +1,6 @@
-import Vue from 'vue'
-import loadedProgram from './loaded-program.vue'
+import Vue from 'vue';
+import loadedProgram from './loaded-program.vue';
+import Utilities from './utilities.js';
 
 var testProgram = {
   id: 0,
@@ -60,48 +61,6 @@ var testProgram = {
   ]
 };
 
-window.deepExtend = function(out) { //TODO: remove these once proper vue event handling is set up
-  out = out || {};
-
-  for (var i = 1; i < arguments.length; i++) {
-    var obj = arguments[i];
-
-    if (!obj) {
-      continue;
-    }
-
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (Array.isArray(obj[key])) {
-          out[key] = obj[key].slice(0);
-          var nestedObj = out[key]
-          for (var nestedKey in nestedObj) {
-            nestedObj[nestedKey] = deepExtend({}, obj[key][nestedKey]);
-          }
-        } else if (typeof obj[key] === 'object') {
-          out[key] = deepExtend(out[key], obj[key]);
-        } else {
-          out[key] = obj[key];
-        }
-      }
-    }
-  }
-
-  return out;
-};
-
-window.resequenceItems = function (arr) {  //TODO: remove these once proper vue event handling is set up
-  var resequencedArr = []
-  for (var i = 0, item; i < arr.length; i++) {
-    item = deepExtend({}, arr[i]);
-    item.id = i;
-
-    resequencedArr.push(item);
-  }
-
-  return resequencedArr;
-};
-
 window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
   el: '#program-builder',
   components: {
@@ -150,46 +109,6 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     }
   },
   methods: {
-    deepExtend: function(out) { // preserves nested arrays in objects
-      out = out || {};
-
-      for (var i = 1; i < arguments.length; i++) {
-        var obj = arguments[i];
-
-        if (!obj) {
-          continue;
-        }
-
-        for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            if (Array.isArray(obj[key])) { // don't parse arrays as objects
-              out[key] = obj[key].slice(0);
-              var nestedObj = out[key]
-              for (var nestedKey in nestedObj) {
-                nestedObj[nestedKey] = deepExtend({}, obj[key][nestedKey]);
-              }
-            } else if (typeof obj[key] === 'object') {
-              out[key] = this.deepExtend(out[key], obj[key]);
-            } else {
-              out[key] = obj[key];
-            }
-          }
-        }
-      }
-
-      return out;
-    },
-    resequenceItems: function (arr) {
-      var resequencedArr = []
-      for (var i = 0, item; i < arr.length; i++) {
-        item = this.deepExtend({}, arr[i]);
-        item.id = i;
-
-        resequencedArr.push(item);
-      }
-
-      return resequencedArr;
-    },
     addExerciseToDay: function () {
       var exerciseToPush = {
         id: this.newExercise.id,
@@ -201,7 +120,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
         //percentage: 73,
         //percentIncrease: 3
       }
-      var currentBlock = programBuilder.loadedProgram.blocks[this.newExercise.block];
+      var currentBlock = this.loadedProgram.blocks[this.newExercise.block];
       var currentWeek = currentBlock.weeks[this.newExercise.week];
       var currentDay = currentWeek.days[this.newExercise.day];
 
@@ -313,12 +232,81 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
 
       targetId = targetObj.id;
 
-      newObj = this.deepExtend({}, targetObj);
-      newArr = this.resequenceItems(targetObj[targetArrKey]);
+      newObj = Utilities.deepExtend({}, targetObj);
+      newArr = Utilities.resequenceItems(targetObj[targetArrKey]);
 
       newObj[targetArrKey] = newArr;
 
       parentObj[parentArrKey].splice(targetId, 1, newObj);
+    },
+    moveObject: function () {
+      var keys = arguments[0],
+          targetArr,//currentDay.exercises
+          currentId,
+          newId,
+          tempObjThis,
+          tempObjSwap,
+          newObjThis,
+          newObjSwap;
+
+      if (keys.exercise !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
+        currentId = keys.exercise;
+      } else if (keys.day !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
+        currentId = keys.day;
+      } else if (keys.week !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks;
+        currentId = keys.week;
+      } else if (keys.block !== undefined) {
+        targetArr = this.loadedProgram.blocks;
+        currentId = keys.block;
+      } else { //TODO: This would be an error
+        return;
+      }
+
+      if (keys.direction == 'up') {
+        newId = currentId - 1;
+      } else if (keys.direction == 'down') {
+        newId = currentId + 1;
+      } else {
+        return; //TODO: this would be an error
+      }
+
+      tempObjThis = deepExtend({}, targetArr.slice(currentId, currentId + 1)[0]);
+      tempObjSwap = deepExtend({}, targetArr.slice(newId, newId + 1)[0]);
+
+      tempObjThis.id = newId;
+      tempObjSwap.id = currentId;
+
+      targetArr.splice(currentId, 1, tempObjSwap);
+      targetArr.splice(newId, 1, tempObjThis);
+    },
+    updateObject: function () {
+      var keys = arguments[0],
+          targetArr,//currentDay.exercises
+          currentId,
+          updatedObj;
+
+      if (keys.exercise !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
+        currentId = keys.exercise;
+      } else if (keys.day !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
+        currentId = keys.day;
+      } else if (keys.week !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks;
+        currentId = keys.week;
+      } else if (keys.block !== undefined) {
+        targetArr = this.loadedProgram.blocks;
+        currentId = keys.block;
+      } else { //TODO: This would be an error
+        return;
+      } 
+      
+      updatedObj = Utilities.deepExtend({}, keys.updatedObj);
+
+      targetArr.splice(currentId, 1, updatedObj);
     }
   }
 });

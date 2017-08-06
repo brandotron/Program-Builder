@@ -1,19 +1,20 @@
 <template>
   <div class="program-block">
-    <div class="block-title">Block {{ block.id + 1 }}</div>
+    <label class="block-title">Block {{ block.id + 1 }}</label>
       <program-week 
         v-for="item in block.weeks" 
         v-bind:week="item"
         v-bind:key="item.id"
-        v-on:remove-exercise="removeChildObject"
-        v-on:remove-day="removeChildObject"
-        v-on:remove-week="removeChildObject"
+        v-on:remove-object="removeObject"
+        v-on:move-object="moveObject"
+        v-on:update-object="updateObject"
     ></program-week> 
   </div>
 </template>
 
 <script>
-import programWeek from './program-week.vue'
+import programWeek from './program-week.vue';
+import Utilities from './utilities.js';
 
 export default {
   name: 'programBlock',
@@ -22,27 +23,17 @@ export default {
     'program-week': programWeek
   },
   methods: {
-    removeBlock: function () {
-      var keys = {block: this.block.id};
-      this.$emit('remove-block', keys);
+    removeObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      this.$emit('remove-object', keys);
     },
-    removeChildObject: function () {
-      var keys = arguments[0] || {},
-      event;
-
-      keys.block = this.block.id;
-
-      if (keys.exercise !== undefined) {
-        event = 'remove-exercise';
-      } else if (keys.day !== undefined) {
-        event = 'remove-day';
-      } else if (keys.week !== undefined) {
-        event = 'remove-week';
-      } else { //TODO: This would be an error
-        return;
-      }
-
-      this.$emit(event, keys);
+    moveObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      this.$emit('move-object', keys);
+    },
+    updateObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      this.$emit('update-object', keys);
     }
   }
 }

@@ -1,24 +1,26 @@
 <template>
   <div class="program-week">
-    <div class="week-title">Week {{ week.id + 1 }}</div>
+    <label class="week-title">Week {{ week.id + 1 }}</label>
     <program-day 
       v-for="item in week.days"
       v-bind:day="item"
       v-bind:key="item.id"
       v-bind:num_days="week.days.length"
-      v-on:remove-exercise="removeChildObject"
-      v-on:remove-day="removeChildObject"
+      v-on:remove-object="removeObject"
+      v-on:move-object="moveObject"
+      v-on:update-object="updateObject"
     ></program-day> 
     <button v-on:click="addNewDay" v-if="week.days.length < 7">Add New Day</button>
-    <button v-on:click="removeWeek">Remove Week</button>
+    <button v-on:click="removeObject">Remove Week</button>
     <button v-on:click="copyWeek">Copy Week</button>
-    <button v-on:click="moveWeek('up')" class="week-move-up-btn">^</button> 
-    <button v-on:click="moveWeek('down')" class="week-move-down-btn">v</button> 
+    <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">^</button> 
+    <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">v</button> 
   </div>
 </template>
 
 <script>
-import programDay from './program-day.vue'
+import programDay from './program-day.vue';
+import Utilities from './utilities.js';
 
 export default {
   name: 'programWeek',
@@ -32,7 +34,7 @@ export default {
     },
     addNewDay: function () {
       var currentBlock = this.getCurrentBlock(),
-          newDay = deepExtend({}, programBuilder.emptyDay),
+          newDay = Utilities.deepExtend({}, programBuilder.emptyDay),
           currentWeek;
       
       currentWeek = currentBlock.weeks[this.week.id];
@@ -45,58 +47,22 @@ export default {
       var currentBlock = this.getCurrentBlock(),
           newWeekObj;
 
-      newWeekObj = deepExtend({}, currentBlock.weeks.slice(this.week.id, this.week.id + 1)[0]);
+      newWeekObj = Utilities.deepExtend({}, currentBlock.weeks.slice(this.week.id, this.week.id + 1)[0]);
       newWeekObj.id = currentBlock.weeks.length; 
 
       currentBlock.weeks.push(newWeekObj);
     },
-    moveWeek: function (direction) {
-      var currentBlock = this.getCurrentBlock(),
-          currentId,
-          newId,
-          tempObjThis,
-          tempObjSwap,
-          newObjThis,
-          newObjSwap;
-
-      if (direction == 'up') {
-        currentId = this.week.id;
-        newId = this.week.id - 1;
-      } else if (direction == 'down') {
-        currentId = this.week.id;
-        newId = this.week.id + 1;
-      } else {
-        return; //TODO: this would be an error
-      }
-
-      tempObjThis = deepExtend({}, currentBlock.weeks.slice(currentId, currentId + 1)[0]);
-      tempObjSwap = deepExtend({}, currentBlock.weeks.slice(newId, newId + 1)[0]);
-
-      tempObjThis.id = newId;
-      tempObjSwap.id = this.week.id;
-
-      currentBlock.weeks.splice(currentId, 1, tempObjSwap);
-      currentBlock.weeks.splice(newId, 1, tempObjThis);
+    removeObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      this.$emit('remove-object', keys);
     },
-    removeWeek: function () {
-      var keys = {week: this.week.id};
-      this.$emit('remove-week', keys);
+    moveObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      this.$emit('move-object', keys);
     },
-    removeChildObject: function () {
-      var keys = arguments[0] || {},
-      event;
-
-      keys.week = this.week.id;
-
-      if (keys.exercise !== undefined) {
-        event = 'remove-exercise';
-      } else if (keys.day !== undefined) {
-        event = 'remove-day';
-      } else { //TODO: This would be an error
-        return;
-      }
-
-      this.$emit(event, keys);
+    updateObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      this.$emit('update-object', keys);
     }
   }
 }

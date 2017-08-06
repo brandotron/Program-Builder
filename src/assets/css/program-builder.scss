@@ -38,12 +38,18 @@ body {
             background: #eee;
         }
 
-        .ex-row:first-child .ex-move-up-btn,
-        .ex-row:last-child  .ex-move-down-btn {
-            opacity: 0;
-            pointer-events: none;
-        }
+    }
 
+    .program-day:first-of-type .day-move-up-btn, 
+    .program-day:last-of-type .day-move-down-btn, 
+    .program-week:first-of-type .week-move-up-btn, 
+    .program-week:last-of-type .week-move-down-btn, 
+    .program-block:first-of-type .block-move-up-btn,
+    .program-block:last-of-type .block-move-down-btn, 
+    .ex-row:first-child .ex-move-up-btn,
+    .ex-row:last-child  .ex-move-down-btn {
+        opacity: 0;
+        pointer-events: none;
     }
 
     .add-exercise-input-panel, 

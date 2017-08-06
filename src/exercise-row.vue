@@ -1,8 +1,8 @@
 <template>
   <tr class="ex-row" v-if="!editMode">
       <td class="ex-cell" v-if="!edits_active">
-        <button v-on:click="move('up')" class="ex-move-up-btn">^</button> 
-        <button v-on:click="move('down')" class="ex-move-down-btn">v</button> 
+        <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
+        <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
       </td>
       <td class="ex-cell" v-else>
         <button disabled class="ex-move-up-btn">^</button> 
@@ -15,7 +15,7 @@
       <td class="ex-cell">{{ exercise.note }}</td>
       <td class="ex-cell"> 
         <button v-on:click="activateEditMode">Edit</button>
-        <button v-on:click="removeExercise" v-if="!edits_active">X</button>
+        <button v-on:click="removeObject" v-if="!edits_active">X</button>
         <button disabled v-else>X</button>
       </td>
     </tr>
@@ -40,13 +40,15 @@
         <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
       </td>
       <td class="ex-cell" nowrap="nowrap"> 
-        <button v-on:click="updateExercise">Save</button>
+        <button v-on:click="updateObject">Save</button>
         <button v-on:click="cancelUpdate">X</button>
       </td>
     </tr>
 </template>
 
 <script>
+import Utilities from './utilities.js';
+
 export default {
   name: 'exerciseRow',
   props: ['exercise', 'edits_active'],
@@ -73,57 +75,15 @@ export default {
     getCurrentDay: function () { //TODO: remove
       return this.getCurrentWeek().days[this.$parent.day.id];
     },
-    removeExercise: function () {
-      var keys = {exercise: this.exercise.id};
-      this.$emit('remove-exercise', keys);
+    removeObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      this.$emit('remove-object', keys);
     },
-    // openEditExercisePanel: function () {
-    //   programBuilder.newExercise.day = this.$parent.day.id;
-    //   programBuilder.newExercise.week = this.$parent.$parent.week.id;
-    //   programBuilder.newExercise.block = this.$parent.$parent.$parent.block.id;
-    //   programBuilder.newExercise.id = this.exercise.id;
-
-    //   programBuilder.newExercise.name = this.exercise.name;
-    //   programBuilder.newExercise.sets = this.exercise.sets;
-    //   programBuilder.newExercise.reps = this.exercise.reps;
-    //   programBuilder.newExercise.weight = this.exercise.weight;
-    //   programBuilder.newExercise.note = this.exercise.note;
-
-    //   programBuilder.newExercise.mode = 'update';
-    //   programBuilder.newExercise.active = true;
-    // },
-    move: function(direction) {
-      var currentDay = this.getCurrentDay(),
-          currentId,
-          newId,
-          tempObjThis,
-          tempObjSwap,
-          newObjThis,
-          newObjSwap;
-
-      if (direction == 'up') {
-        currentId = this.exercise.id;
-        newId = this.exercise.id - 1;
-      } else if (direction == 'down') {
-        currentId = this.exercise.id;
-        newId = this.exercise.id + 1;
-      } else {
-        return; //TODO: this would be an error
-      }
-
-      tempObjThis = deepExtend({}, currentDay.exercises.slice(currentId, currentId + 1)[0]);
-      tempObjSwap = deepExtend({}, currentDay.exercises.slice(newId, newId + 1)[0]);
-
-      tempObjThis.id = newId;
-      tempObjSwap.id = this.exercise.id;
-
-      currentDay.exercises.splice(currentId, 1, tempObjSwap);
-      currentDay.exercises.splice(newId, 1, tempObjThis);
+    moveObject: function() {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      this.$emit('move-object', keys);
     },
     activateEditMode: function () {
-      var thisDay,
-          buttonsToDisable;
-
       this.updatedExercise.name = this.exercise.name;
       this.updatedExercise.sets = this.exercise.sets;
       this.updatedExercise.reps = this.exercise.reps;
@@ -131,29 +91,34 @@ export default {
       this.updatedExercise.note = this.exercise.note;
 
       this.editMode = true;
-
-      this.$parent.editsActive = true;
+      this.$emit('edit-mode', true);
     },
-    updateExercise: function () {
-      var updatedObj = deepExtend({}, this.updatedExercise),
-          currentDay = this.getCurrentDay();
-
-      currentDay.exercises.splice(this.exercise.id, 1, updatedObj);
-
+    closeEditMode: function () {
       this.editMode = false;
+      this.$emit('edit-mode', false);
     },
     cancelUpdate: function () {
-      var editsActive = false;
-
-      this.editMode = false;
-
-      for (var sibling in this.$parent.$children) {
-        if (sibling.editMode == true) {
-          editsActive = true;
-        }
+      var resetObj = {
+        id: this.exercise.id,
+        name: this.exercise.name,
+        sets: this.exercise.sets,
+        reps: this.exercise.reps,
+        weight: this.exercise.weight,
+        note: this.exercise.note//,
+        //percentage: 73,
+        //percentIncrease: 3
       }
-
-      this.$parent.editsActive = editsActive;
+      this.updatedExercise = resetObj;
+      this.closeEditMode();
+    },
+    updateObject: function () { // add handlers up the chain for this
+      var updatedObj = Utilities.deepExtend({}, this.updatedExercise);
+      var keys = Utilities.deepExtend({}, 
+        {updatedObj: updatedObj}, 
+        {exercise: this.exercise.id}
+      );
+      this.closeEditMode();
+      this.$emit('update-object', keys);
     }
   }
 }

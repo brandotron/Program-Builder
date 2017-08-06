@@ -1,20 +1,20 @@
 <template>
   <div class="loaded-program">
-    Loaded Program
+    <label class="loaded-program-title">Loaded Program</label>
     <program-block 
       v-for="item in program.blocks" 
       v-bind:block="item" 
       v-bind:key="item.id"
-      v-on:remove-exercise="removeChildObject"
-      v-on:remove-day="removeChildObject"
-      v-on:remove-week="removeChildObject"
-      v-on:remove-block="removeChildObject"
+      v-on:remove-object="removeObject"
+      v-on:move-object="moveObject"
+      v-on:update-object="updateObject"
     ></program-block> 
   </div>
 </template>
 
 <script>
-import programBlock from './program-block.vue'
+import programBlock from './program-block.vue';
+import Utilities from './utilities.js';
 
 export default {
   name: 'loadedProgram',
@@ -23,9 +23,17 @@ export default {
     'program-block': programBlock
   },
   methods: {
-    removeChildObject: function () {
+    removeObject: function () {
       var keys = arguments[0];
       this.$emit('remove-object', keys);
+    },
+    moveObject: function () {
+      var keys = arguments[0];
+      this.$emit('move-object', keys);
+    },
+    updateObject: function () {
+      var keys = arguments[0];
+      this.$emit('update-object', keys);
     }
   }
 }

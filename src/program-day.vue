@@ -1,6 +1,6 @@
 <template>
   <div class="program-day"> 
-    <div class="day-title">Day {{ day.id + 1 }}</div>
+    <label class="day-title">Day {{ day.id + 1 }}</label>
     <table class="day-table" v-if="day.exercises.length > 0">
       <thead class="day-head">
         <tr class="day-column-head-row">
@@ -19,22 +19,26 @@
           v-bind:exercise="item"
           v-bind:key="item.id"
           v-bind:edits_active="editsActive"
-          v-on:remove-exercise="removeChildObject"
+          v-on:remove-object="removeObject"
+          v-on:move-object="moveObject"
+          v-on:update-object="updateObject"
+          v-on:edit-mode="childEditMode"
         ></exercise-row>
       </tbody>
     </table> 
     <button v-on:click="openAddExercisePanel">Add Exercise</button>
-    <button v-on:click="removeDay">Remove Day</button>
+    <button v-on:click="removeObject">Remove Day</button>
     <button v-on:click="copyDay"
       v-if="num_days < 7"
     >Copy Day</button>
-    <button v-on:click="moveDay('up')" class="day-move-up-btn">^</button> 
-    <button v-on:click="moveDay('down')" class="days-move-down-btn">v</button> 
+    <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">^</button> 
+    <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">v</button> 
   </div>
 </template>
 
 <script>
-import exerciseRow from './exercise-row.vue'
+import exerciseRow from './exercise-row.vue';
+import Utilities from './utilities.js';
 
 export default {
   name: 'programDay',
@@ -44,7 +48,8 @@ export default {
   },
   data: function () {
     return {
-      editsActive: false
+      editsActive: false,
+      editCount: 0
     }
   },
   methods: {
@@ -66,56 +71,39 @@ export default {
       var currentWeek = this.getCurrentWeek(),
           newDayObj;
 
-      newDayObj = deepExtend({}, currentWeek.days.slice(this.day.id, this.day.id + 1)[0]);
+      newDayObj = Utilities.deepExtend({}, currentWeek.days.slice(this.day.id, this.day.id + 1)[0]);
       newDayObj.id = currentWeek.days.length; 
 
       currentWeek.days.push(newDayObj);
     },
-    moveDay: function (direction) {
-      var currentWeek = this.getCurrentWeek(),
-          currentId,
-          newId,
-          tempObjThis,
-          tempObjSwap,
-          newObjThis,
-          newObjSwap;
-
-      if (direction == 'up') {
-        currentId = this.day.id;
-        newId = this.day.id - 1;
-      } else if (direction == 'down') {
-        currentId = this.day.id;
-        newId = this.day.id + 1;
-      } else {
-        return; //TODO: this would be an error
-      }
-
-      tempObjThis = deepExtend({}, currentWeek.days.slice(currentId, currentId + 1)[0]);
-      tempObjSwap = deepExtend({}, currentWeek.days.slice(newId, newId + 1)[0]);
-
-      tempObjThis.id = newId;
-      tempObjSwap.id = this.day.id;
-
-      currentWeek.days.splice(currentId, 1, tempObjSwap);
-      currentWeek.days.splice(newId, 1, tempObjThis);
+    removeObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('remove-object', keys);
     },
-    removeDay: function () {
-      var keys = {day: this.day.id};
-      this.$emit('remove-day', keys);
+    moveObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('move-object', keys);
     },
-    removeChildObject: function () {
-      var keys = arguments[0] || {},
-      event;
-
-      keys.day = this.day.id;
-
-      if (keys.exercise !== undefined) {
-        event = 'remove-exercise';
-      } else { //TODO: This would be an error
+    updateObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('update-object', keys);
+    },
+    childEditMode: function () {
+      var editActivated = true,
+          editDeactivated = false;
+      if (arguments[0] == editActivated) {
+        this.editCount++;
+      } else if (arguments[0] == editDeactivated) {
+        this.editCount--;
+      } else { //TODO: would be an error
         return;
       }
 
-      this.$emit(event, keys);
+      if (this.editCount > 0) {
+        this.editsActive = true;
+      } else {
+        this.editsActive = false;
+      }
     }
   }
 }

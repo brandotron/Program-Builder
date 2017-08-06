@@ -16,6 +16,8 @@
           v-bind:program="loadedProgram" 
           v-if="programLoaded == true"
           v-on:remove-object="removeObject"
+          v-on:move-object="moveObject"
+          v-on:update-object="updateObject"
         ></loaded-program> 
 
         <div class="add-exercise-input-panel" v-if="newExercise.active == true">
