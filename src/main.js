@@ -129,29 +129,29 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
 
       this.newExercise.id += 1;
     },
-    updateExercise: function () { //TODO: combine this and above function
-      var exerciseToPush = {
-        id: this.newExercise.id,
-        name: this.newExercise.name,
-        sets: this.newExercise.sets,
-        reps: this.newExercise.reps,
-        weight: this.newExercise.weight,
-        note: this.newExercise.note//,
-        //percentage: ,
-        //percentIncrease: 
-      }
-      var currentBlock = programBuilder.loadedProgram.blocks[this.newExercise.block];
-      var currentWeek = currentBlock.weeks[this.newExercise.week];
-      var currentDay = currentWeek.days[this.newExercise.day];
+    // updateExercise: function () { //TODO: combine this and above function when moving to component
+    //   var exerciseToPush = {
+    //     id: this.newExercise.id,
+    //     name: this.newExercise.name,
+    //     sets: this.newExercise.sets,
+    //     reps: this.newExercise.reps,
+    //     weight: this.newExercise.weight,
+    //     note: this.newExercise.note//,
+    //     //percentage: ,
+    //     //percentIncrease: 
+    //   }
+    //   var currentBlock = programBuilder.loadedProgram.blocks[this.newExercise.block];
+    //   var currentWeek = currentBlock.weeks[this.newExercise.week];
+    //   var currentDay = currentWeek.days[this.newExercise.day];
 
-      currentDay.exercises.splice(this.newExercise.id, 1, exerciseToPush);
+    //   currentDay.exercises.splice(this.newExercise.id, 1, exerciseToPush);
 
-      this.resetExerciseInputs();
+    //   this.resetExerciseInputs();
 
-      this.newExercise.block = '';
-      this.newExercise.week = '';
-      this.newExercise.day = '';
-    },
+    //   this.newExercise.block = '';
+    //   this.newExercise.week = '';
+    //   this.newExercise.day = '';
+    // },
     closeExercisePanel: function () {
       this.newExercise.active = false;
 
@@ -174,10 +174,11 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       this.newExercise.note = '';
       this.newExercise.mode = 'add';
     },
-    removeObject: function () { //this is only firing from exercise row, but day seems to pass all the way to loaded program OK
+    removeObject: function () {
       var keys = arguments[0],
           targetArr,
           objectIndex;
+
       if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         objectIndex = keys.exercise;
