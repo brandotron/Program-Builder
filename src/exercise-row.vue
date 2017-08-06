@@ -66,7 +66,8 @@ export default {
         //percentIncrease: 3
       }
     }
-  },
+  },//TODO: add create method to check if exercise is blank and set edit mode to true if so, 
+    //use blank exercise in edit mode instead of separate panel
   methods: {
     getCurrentWeek: function () { //TODO: remove
       var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
@@ -111,7 +112,7 @@ export default {
       this.updatedExercise = resetObj;
       this.closeEditMode();
     },
-    updateObject: function () { // add handlers up the chain for this
+    updateObject: function () {
       var updatedObj = Utilities.deepExtend({}, this.updatedExercise);
       var keys = Utilities.deepExtend({}, 
         {updatedObj: updatedObj}, 

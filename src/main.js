@@ -109,6 +109,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     }
   },
   methods: {
+    //exercise input panel
     addExerciseToDay: function () {
       var exerciseToPush = {
         id: this.newExercise.id,
@@ -174,6 +175,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       this.newExercise.note = '';
       this.newExercise.mode = 'add';
     },
+    //end exercise input panel
     removeObject: function () {
       var keys = arguments[0],
           targetArr,
@@ -242,7 +244,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     },
     moveObject: function () {
       var keys = arguments[0],
-          targetArr,//currentDay.exercises
+          targetArr,
           currentId,
           newId,
           tempObjThis,
@@ -285,7 +287,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     },
     updateObject: function () {
       var keys = arguments[0],
-          targetArr,//currentDay.exercises
+          targetArr,
           currentId,
           updatedObj;
 
