@@ -268,6 +268,11 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
         return;
       }
 
+      if ((keys.direction == 'up' && currentId == 0) || 
+          (keys.direction == 'down' && currentId == targetArr.length - 1)) {
+        return;
+      }
+
       if (keys.direction == 'up') {
         newId = currentId - 1;
       } else if (keys.direction == 'down') {
@@ -276,8 +281,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
         return; //TODO: this would be an error
       }
 
-      tempObjThis = deepExtend({}, targetArr.slice(currentId, currentId + 1)[0]);
-      tempObjSwap = deepExtend({}, targetArr.slice(newId, newId + 1)[0]);
+      tempObjThis = Utilities.deepExtend({}, targetArr.slice(currentId, currentId + 1)[0]);
+      tempObjSwap = Utilities.deepExtend({}, targetArr.slice(newId, newId + 1)[0]);
 
       tempObjThis.id = newId;
       tempObjSwap.id = currentId;
