@@ -1,49 +1,49 @@
 <template>
   <tr class="ex-row" v-if="!editMode">
-      <td class="ex-cell" v-if="!edits_active">
-        <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
-        <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
-      </td>
-      <td class="ex-cell" v-else>
-        <button disabled class="ex-move-up-btn">^</button> 
-        <button disabled class="ex-move-down-btn">v</button> 
-      </td>
-      <td class="ex-cell">{{ exercise.name }}</td>
-      <td class="ex-cell">{{ exercise.sets }}</td>
-      <td class="ex-cell">{{ exercise.reps }}</td>
-      <td class="ex-cell">{{ exercise.weight }}</td>
-      <td class="ex-cell">{{ exercise.note }}</td>
-      <td class="ex-cell"> 
-        <button v-on:click="activateEditMode()">Edit</button>
-        <button v-on:click="removeObject()" v-if="!edits_active">X</button>
-        <button disabled v-else>X</button>
-      </td>
-    </tr>
-    <tr class="ex-row" v-else>
-      <td class="ex-cell" nowrap="nowrap">
-        <button disabled class="ex-move-up-btn">^</button> 
-        <button disabled class="ex-move-down-btn">v</button> 
-      </td>
-      <td class="ex-cell">
-        <input type="text" size="8" class="ex-name-input" v-model="updatedExercise.name"/>
-      </td>
-      <td class="ex-cell">
-        <input type="text" size="1" class="ex-sets-input" v-model="updatedExercise.sets"/>
-      </td>
-      <td class="ex-cell">
-        <input type="text" size="2" class="ex-reps-input" v-model="updatedExercise.reps"/>
-      </td>
-      <td class="ex-cell">
-        <input type="text" size="4" class="ex-weight-input" v-model="updatedExercise.weight"/>
-      </td>
-      <td class="ex-cell">
-        <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
-      </td>
-      <td class="ex-cell" nowrap="nowrap"> 
-        <button v-on:click="updateExercise()">Save</button>
-        <button v-on:click="cancelUpdate()">X</button>
-      </td>
-    </tr>
+    <td class="ex-cell" v-if="!edits_active">
+      <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
+      <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
+    </td>
+    <td class="ex-cell" v-else>
+      <button disabled class="ex-move-up-btn">^</button> 
+      <button disabled class="ex-move-down-btn">v</button> 
+    </td>
+    <td class="ex-cell">{{ exercise.name }}</td>
+    <td class="ex-cell">{{ exercise.sets }}</td>
+    <td class="ex-cell">{{ exercise.reps }}</td>
+    <td class="ex-cell">{{ exercise.weight }}</td>
+    <td class="ex-cell">{{ exercise.note }}</td>
+    <td class="ex-cell"> 
+      <button v-on:click="activateEditMode()">Edit</button>
+      <button v-on:click="removeObject()" v-if="!edits_active">X</button>
+      <button disabled v-else>X</button>
+    </td>
+  </tr>
+  <tr class="ex-row" v-else>
+    <td class="ex-cell" nowrap="nowrap">
+      <button disabled class="ex-move-up-btn">^</button> 
+      <button disabled class="ex-move-down-btn">v</button> 
+    </td>
+    <td class="ex-cell">
+      <input type="text" size="8" class="ex-name-input" v-model="updatedExercise.name"/>
+    </td>
+    <td class="ex-cell">
+      <input type="text" size="1" class="ex-sets-input" v-model="updatedExercise.sets"/>
+    </td>
+    <td class="ex-cell">
+      <input type="text" size="2" class="ex-reps-input" v-model="updatedExercise.reps"/>
+    </td>
+    <td class="ex-cell">
+      <input type="text" size="4" class="ex-weight-input" v-model="updatedExercise.weight"/>
+    </td>
+    <td class="ex-cell">
+      <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
+    </td>
+    <td class="ex-cell" nowrap="nowrap"> 
+      <button v-on:click="updateExercise()">Save</button>
+      <button v-on:click="cancelUpdate()">X</button>
+    </td>
+  </tr>
 </template>
 
 <script>
