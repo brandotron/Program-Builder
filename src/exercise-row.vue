@@ -66,8 +66,7 @@ export default {
         //percentIncrease: 3
       }
     }
-  },//TODO: add create method to check if exercise is blank and set edit mode to true if so, 
-    //use blank exercise in edit mode instead of separate panel
+  },
   created: function () {
     var obj = this.exercise,
         inputsEmpty = true;
@@ -82,7 +81,7 @@ export default {
     }
 
     if (inputsEmpty) {
-      this.activateEditMode();
+      this.activateEditMode(); //TODO: focus name input
     }
   },
   methods: {
