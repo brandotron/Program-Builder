@@ -1,49 +1,49 @@
 <template>
-  <tr class="ex-row" v-if="!editMode">
-    <td class="ex-cell" v-if="!edits_active">
+  <div class="exercise-grid" v-if="!editMode">
+    <div v-if="!edits_active">
       <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
       <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
-    </td>
-    <td class="ex-cell" v-else>
+    </div>
+    <div v-else>
       <button disabled class="ex-move-up-btn">^</button> 
       <button disabled class="ex-move-down-btn">v</button> 
-    </td>
-    <td class="ex-cell">{{ exercise.name }}</td>
-    <td class="ex-cell">{{ exercise.sets }}</td>
-    <td class="ex-cell">{{ exercise.reps }}</td>
-    <td class="ex-cell">{{ exercise.weight }}</td>
-    <td class="ex-cell">{{ exercise.note }}</td>
-    <td class="ex-cell"> 
+    </div>
+    <div>{{ exercise.name }}</div>
+    <div>{{ exercise.sets }}</div>
+    <div>{{ exercise.reps }}</div>
+    <div>{{ exercise.weight }}</div>
+    <div>{{ exercise.note }}</div>
+    <div>
       <button v-on:click="activateEditMode()">Edit</button>
       <button v-on:click="removeObject()" v-if="!edits_active">X</button>
       <button disabled v-else>X</button>
-    </td>
-  </tr>
-  <tr class="ex-row" v-else>
-    <td class="ex-cell" nowrap="nowrap">
+    </div>
+  </div>
+  <div class="exercise-grid" v-else>
+    <div>
       <button disabled class="ex-move-up-btn">^</button> 
       <button disabled class="ex-move-down-btn">v</button> 
-    </td>
-    <td class="ex-cell">
+    </div>
+    <div>
       <input type="text" size="8" class="ex-name-input" v-model="updatedExercise.name"/>
-    </td>
-    <td class="ex-cell">
+    </div>
+    <div>
       <input type="text" size="1" class="ex-sets-input" v-model="updatedExercise.sets"/>
-    </td>
-    <td class="ex-cell">
+    </div>
+    <div>
       <input type="text" size="2" class="ex-reps-input" v-model="updatedExercise.reps"/>
-    </td>
-    <td class="ex-cell">
+    </div>
+    <div>
       <input type="text" size="4" class="ex-weight-input" v-model="updatedExercise.weight"/>
-    </td>
-    <td class="ex-cell">
+    </div>
+    <div>
       <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
-    </td>
-    <td class="ex-cell" nowrap="nowrap"> 
+    </div>
+    <div> 
       <button v-on:click="updateExercise()">Save</button>
       <button v-on:click="cancelUpdate()">X</button>
-    </td>
-  </tr>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -131,3 +131,25 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  .name {
+    grid-column: 2 / 3;
+  }
+  .sets {
+    grid-column: 3 / 4;
+  }
+  .reps {
+    grid-column: 4 / 5;
+  }
+  .weight {
+    grid-column: 5 / 6;
+  }
+  .note {
+    grid-column: 6 / 7
+  }
+}
+</style>

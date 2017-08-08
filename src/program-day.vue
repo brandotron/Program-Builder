@@ -1,20 +1,16 @@
 <template>
   <div class="program-day"> 
     <label class="day-title">Day {{ day.id + 1 }}</label>
-    <table class="day-table" v-if="day.exercises.length > 0">
-      <thead class="day-head">
-        <tr class="day-column-head-row">
-          <th class="day-column-head"></th>
-          <th class="day-column-head">Exercise</th>
-          <th class="day-column-head">Sets</th>
-          <th class="day-column-head">Reps</th>
-          <th class="day-column-head">Weight</th>
-          <th class="day-column-head">Note</th>
-          <th class="day-column-head"></th>
-        </tr>
-      </thead>
-      <tbody class="day-body">
-        <exercise-row 
+    <div class="day-grid" v-if="day.exercises.length > 0">
+      <div class="day-head">
+        <div class="name">Exercise</div>
+        <div class="sets">Sets</div>
+        <div class="reps">Reps</div>
+        <div class="weight">Weight</div>
+        <div class="note">Note</div>
+      </div>
+      <div class="day-body">
+        <exercise-row
           v-for="item in day.exercises"
           v-bind:exercise="item"
           v-bind:key="item.id"
@@ -24,13 +20,15 @@
           v-on:update-object="updateObject"
           v-on:edit-mode="childEditMode"
         ></exercise-row>
-      </tbody>
-    </table> 
-    <button v-on:click="addObject()">Add Exercise</button>
-    <button v-on:click="removeObject()">Remove Day</button>
-    <button v-on:click="copyObject()" v-if="num_days < 7">Copy Day</button>
-    <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">^</button> 
-    <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">v</button> 
+      </div>
+      <div class="day-buttons">
+        <button v-on:click="addObject()">Add Exercise</button>
+        <button v-on:click="removeObject()">Remove Day</button>
+        <button v-on:click="copyObject()" v-if="num_days < 7">Copy Day</button>
+        <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">^</button> 
+        <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">v</button> 
+      </div>
+    </div>
   </div>
 </template>
 
@@ -91,3 +89,25 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.day-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  .name {
+    grid-column: 2 / 3;
+  }
+  .sets {
+    grid-column: 3 / 4;
+  }
+  .reps {
+    grid-column: 4 / 5;
+  }
+  .weight {
+    grid-column: 5 / 6;
+  }
+  .note {
+    grid-column: 6 / 7
+  }
+}
+</style>
