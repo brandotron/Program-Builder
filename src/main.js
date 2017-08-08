@@ -335,10 +335,9 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } else if (action == 'redo') {
         sourceArr = this.redoStates;
       }
-
-      this.saveState(action);
       
       if (sourceArr[sourceArr.length - 1] !== undefined) {
+        this.saveState(action);
         this.loadedProgram = Utilities.deepExtend({}, sourceArr.pop());
       }
     }
