@@ -2,7 +2,7 @@ import Vue from 'vue';
 import loadedProgram from './loaded-program.vue';
 import Utilities from './utilities.js';
 
-let testProgram = {
+var testProgram = {
   id: 0,
   name: '',
   athlete: '',
@@ -105,7 +105,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
   },
   methods: {
     addObject: function () {
-      let keys = arguments[0],
+      var keys = arguments[0],
           targetArr,
           newObj;
 
@@ -130,7 +130,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       targetArr.push(newObj);
     },
     copyObject: function () {
-      let keys = arguments[0],
+      var keys = arguments[0],
           targetArr,
           newObj;
 
@@ -155,7 +155,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       targetArr.push(newObj);
     },
     removeObject: function () {
-      let keys = arguments[0],
+      var keys = arguments[0],
           targetArr,
           objectIndex;
 
@@ -179,7 +179,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       this.resequenceObject(keys);
     },
     resequenceObject: function (keys) {
-      let parentObj,
+      var parentObj,
           targetObj,
           newObj,
           targetId,
@@ -221,7 +221,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       parentObj[parentArrKey].splice(targetId, 1, newObj);
     },
     moveObject: function () {
-      let keys = arguments[0],
+      var keys = arguments[0],
           targetArr,
           currentId,
           newId,
@@ -269,7 +269,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       targetArr.splice(newId, 1, tempObjThis);
     },
     updateObject: function () {
-      let keys = arguments[0],
+      var keys = arguments[0],
           targetArr,
           currentId,
           updatedObj;

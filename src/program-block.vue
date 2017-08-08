@@ -26,23 +26,23 @@ export default {
   },
   methods: {
     addObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('add-object', keys);
     },
     copyObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('copy-object', keys);
     },
     removeObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('remove-object', keys);
     },
     moveObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('move-object', keys);
     },
     updateObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('update-object', keys);
     }
   }

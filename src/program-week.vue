@@ -35,23 +35,23 @@ export default {
       return programBuilder.loadedProgram.blocks[this.$parent.block.id];
     },
     addObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('add-object', keys);
     },
     copyObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('copy-object', keys);
     },
     removeObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('remove-object', keys);
     },
     moveObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('move-object', keys);
     },
     updateObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('update-object', keys);
     }
   }

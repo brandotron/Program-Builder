@@ -1,49 +1,49 @@
 <template>
-  <div class="exercise-grid" v-if="!editMode">
-    <div v-if="!edits_active">
+  <tr class="ex-row" v-if="!editMode">
+    <td class="ex-cell" v-if="!edits_active">
       <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
       <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
-    </div>
-    <div v-else>
+    </td>
+    <td class="ex-cell" v-else>
       <button disabled class="ex-move-up-btn">^</button> 
       <button disabled class="ex-move-down-btn">v</button> 
-    </div>
-    <div>{{ exercise.name }}</div>
-    <div>{{ exercise.sets }}</div>
-    <div>{{ exercise.reps }}</div>
-    <div>{{ exercise.weight }}</div>
-    <div>{{ exercise.note }}</div>
-    <div>
+    </td>
+    <td class="ex-cell">{{ exercise.name }}</td>
+    <td class="ex-cell">{{ exercise.sets }}</td>
+    <td class="ex-cell">{{ exercise.reps }}</td>
+    <td class="ex-cell">{{ exercise.weight }}</td>
+    <td class="ex-cell">{{ exercise.note }}</td>
+    <td class="ex-cell"> 
       <button v-on:click="activateEditMode()">Edit</button>
       <button v-on:click="removeObject()" v-if="!edits_active">X</button>
       <button disabled v-else>X</button>
-    </div>
-  </div>
-  <div class="exercise-grid" v-else>
-    <div>
+    </td>
+  </tr>
+  <tr class="ex-row" v-else>
+    <td class="ex-cell" nowrap="nowrap">
       <button disabled class="ex-move-up-btn">^</button> 
       <button disabled class="ex-move-down-btn">v</button> 
-    </div>
-    <div>
+    </td>
+    <td class="ex-cell">
       <input type="text" size="8" class="ex-name-input" v-model="updatedExercise.name"/>
-    </div>
-    <div>
+    </td>
+    <td class="ex-cell">
       <input type="text" size="1" class="ex-sets-input" v-model="updatedExercise.sets"/>
-    </div>
-    <div>
+    </td>
+    <td class="ex-cell">
       <input type="text" size="2" class="ex-reps-input" v-model="updatedExercise.reps"/>
-    </div>
-    <div>
+    </td>
+    <td class="ex-cell">
       <input type="text" size="4" class="ex-weight-input" v-model="updatedExercise.weight"/>
-    </div>
-    <div>
+    </td>
+    <td class="ex-cell">
       <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
-    </div>
-    <div> 
+    </td>
+    <td class="ex-cell" nowrap="nowrap"> 
       <button v-on:click="updateExercise()">Save</button>
       <button v-on:click="cancelUpdate()">X</button>
-    </div>
-  </div>
+    </td>
+  </tr>
 </template>
 
 <script>
@@ -68,10 +68,10 @@ export default {
     }
   },
   created: function () {
-    let obj = this.exercise,
+    var obj = this.exercise,
         inputsEmpty = true;
 
-    for (let key in obj) {
+    for (var key in obj) {
       if (key == 'id') {
         continue;
       }
@@ -86,22 +86,22 @@ export default {
   },
   methods: {
     getCurrentWeek: function () { //TODO: remove
-      let currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
+      var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
       return currentBlock.weeks[this.$parent.$parent.week.id];
     },
     getCurrentDay: function () { //TODO: remove
       return this.getCurrentWeek().days[this.$parent.day.id];
     },
     removeObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('remove-object', keys);
     },
     moveObject: function() {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('move-object', keys);
     },
     updateObject: function () {
-      let keys = Utilities.deepExtend(arguments[0] || {}, {exercise: this.exercise.id});
+      var keys = Utilities.deepExtend(arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('update-object', keys);
     },
     activateEditMode: function () {
@@ -123,33 +123,11 @@ export default {
       this.closeEditMode();
     },
     updateExercise: function () {
-      let updatedObj = Utilities.deepExtend({}, this.updatedExercise);
-      let keys = {updatedObj: updatedObj};
+      var updatedObj = Utilities.deepExtend({}, this.updatedExercise);
+      var keys = {updatedObj: updatedObj};
       this.updateObject(keys);
       this.closeEditMode();
     }
   }
 }
 </script>
-
-<style lang="scss">
-.exercise-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  .name {
-    grid-column: 2 / 3;
-  }
-  .sets {
-    grid-column: 3 / 4;
-  }
-  .reps {
-    grid-column: 4 / 5;
-  }
-  .weight {
-    grid-column: 5 / 6;
-  }
-  .note {
-    grid-column: 6 / 7
-  }
-}
-</style>
