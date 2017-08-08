@@ -2,19 +2,19 @@ class Utilities {
   static deepExtend(out) {
     out = out || {};
 
-    for (var i = 1; i < arguments.length; i++) {
-      var obj = arguments[i];
+    for (let i = 1; i < arguments.length; i++) {
+      let obj = arguments[i];
 
       if (!obj) {
         continue;
       }
 
-      for (var key in obj) {
+      for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
           if (Array.isArray(obj[key])) {
             out[key] = obj[key].slice(0);
-            var nestedObj = out[key]
-            for (var nestedKey in nestedObj) {
+            let nestedObj = out[key]
+            for (let nestedKey in nestedObj) {
               nestedObj[nestedKey] = this.deepExtend({}, obj[key][nestedKey]);
             }
           } else if (typeof obj[key] === 'object') {
@@ -30,8 +30,8 @@ class Utilities {
   }
 
   static resequenceItems(arr) {
-    var resequencedArr = []
-    for (var i = 0, item; i < arr.length; i++) {
+    let resequencedArr = []
+    for (let i = 0, item; i < arr.length; i++) {
       item = this.deepExtend({}, arr[i]);
       item.id = i;
 

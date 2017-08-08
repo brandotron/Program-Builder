@@ -26,23 +26,23 @@ export default {
   },
   methods: {
     addObject: function () {
-      var keys = arguments[0];
+      let keys = arguments[0];
       this.$emit('add-object', keys);
     },
     copyObject: function () {
-      var keys = arguments[0];
+      let keys = arguments[0];
       this.$emit('copy-object', keys);
     },
     removeObject: function () {
-      var keys = arguments[0];
+      let keys = arguments[0];
       this.$emit('remove-object', keys);
     },
     moveObject: function () {
-      var keys = arguments[0];
+      let keys = arguments[0];
       this.$emit('move-object', keys);
     },
     updateObject: function () {
-      var keys = arguments[0];
+      let keys = arguments[0];
       this.$emit('update-object', keys);
     }
   }
