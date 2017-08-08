@@ -68,10 +68,10 @@ export default {
     }
   },
   created: function () {
-    var obj = this.exercise,
+    let obj = this.exercise,
         inputsEmpty = true;
 
-    for (var key in obj) {
+    for (let key in obj) {
       if (key == 'id') {
         continue;
       }
@@ -86,22 +86,22 @@ export default {
   },
   methods: {
     getCurrentWeek: function () { //TODO: remove
-      var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
+      let currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
       return currentBlock.weeks[this.$parent.$parent.week.id];
     },
     getCurrentDay: function () { //TODO: remove
       return this.getCurrentWeek().days[this.$parent.day.id];
     },
     removeObject: function () {
-      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('remove-object', keys);
     },
     moveObject: function() {
-      var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('move-object', keys);
     },
     updateObject: function () {
-      var keys = Utilities.deepExtend(arguments[0] || {}, {exercise: this.exercise.id});
+      let keys = Utilities.deepExtend(arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('update-object', keys);
     },
     activateEditMode: function () {
@@ -123,8 +123,8 @@ export default {
       this.closeEditMode();
     },
     updateExercise: function () {
-      var updatedObj = Utilities.deepExtend({}, this.updatedExercise);
-      var keys = {updatedObj: updatedObj};
+      let updatedObj = Utilities.deepExtend({}, this.updatedExercise);
+      let keys = {updatedObj: updatedObj};
       this.updateObject(keys);
       this.closeEditMode();
     }
@@ -132,7 +132,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
