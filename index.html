@@ -11,6 +11,9 @@
   <body>
 
     <div id="program-builder" class="program-builder">
+
+      <button v-on:click="loadState('undo')">Undo</button>
+      <button v-on:click="loadState('redo')">Redo</button>
         
         <loaded-program 
           v-bind:program="loadedProgram" 
@@ -20,6 +23,8 @@
           v-on:remove-object="removeObject"
           v-on:move-object="moveObject"
           v-on:update-object="updateObject"
+          v-on:save-state="saveState"
+          v-on:load-state="loadState"
         ></loaded-program> 
 
     </div>

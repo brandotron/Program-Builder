@@ -72,6 +72,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     loadedProgram: testProgram, //{},
     programs: {},
     templates: {},
+    undoStates: [],
+    redoStates: [],
     emptyExercise: {
       id: 0,
       name: '',
@@ -109,6 +111,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           targetArr,
           newObj;
 
+      this.saveState();
+      
       if (keys.exercise !== undefined) {
         return; //exercise has no child objects, but it might at some point
       } else if (keys.day !== undefined) {
@@ -134,6 +138,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           targetArr,
           newObj;
 
+      this.saveState();
+      
       if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         newObj = Utilities.deepExtend({}, targetArr[keys.exercise]);
@@ -159,6 +165,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           targetArr,
           objectIndex;
 
+      this.saveState();
+      
       if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         objectIndex = keys.exercise;
@@ -187,6 +195,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           targetArrKey,
           newArr;
 
+      this.saveState();
+      
       if (keys.exercise !== undefined) {
         parentObj = this.loadedProgram.blocks[keys.block].weeks[keys.week];
         targetObj = parentObj.days[keys.day];
@@ -230,6 +240,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           newObjThis,
           newObjSwap;
 
+      this.saveState();
+      
       if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         currentId = keys.exercise;
@@ -274,6 +286,8 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
           currentId,
           updatedObj;
 
+      this.saveState();
+
       if (keys.exercise !== undefined) {
         targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
         currentId = keys.exercise;
@@ -291,8 +305,42 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } 
       
       updatedObj = Utilities.deepExtend({}, keys.updatedObj);
+    
 
       targetArr.splice(currentId, 1, updatedObj);
+    },
+    saveState: function () {
+      var maxStates = 5,
+          action = arguments[0] || '',
+          targetArr;
+
+      if (action == 'undo') {
+        targetArr = this.redoStates;
+      } else {
+        targetArr = this.undoStates;
+      }
+
+      targetArr.push(Utilities.deepExtend({}, this.loadedProgram)); //encapsulate pgm state in obj with prop for action performed to display in drop-down?
+      if (targetArr.length > maxStates) {
+        targetArr.shift();
+      }
+    },
+    loadState: function () {
+      var action = arguments[0],
+          sourceArr,
+          state;
+
+      if (action == 'undo') {
+        sourceArr = this.undoStates;
+      } else if (action == 'redo') {
+        sourceArr = this.redoStates;
+      }
+
+      this.saveState(action);
+      
+      if (sourceArr[sourceArr.length - 1] !== undefined) {
+        this.loadedProgram = Utilities.deepExtend({}, sourceArr.pop());
+      }
     }
   }
 });
