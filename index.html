@@ -15,25 +15,14 @@
         <loaded-program 
           v-bind:program="loadedProgram" 
           v-if="programLoaded == true"
+          v-on:add-object="addObject"
+          v-on:copy-object="copyObject"
           v-on:remove-object="removeObject"
           v-on:move-object="moveObject"
           v-on:update-object="updateObject"
         ></loaded-program> 
 
-        <div class="add-exercise-input-panel" v-if="newExercise.active == true">
-          <input type="text" v-model="newExercise.name" placeholder="name" />
-          <input type="text" v-model="newExercise.sets" placeholder="sets" />
-          <input type="text" v-model="newExercise.reps" placeholder="reps" />
-          <input type="text" v-model="newExercise.weight" placeholder="weight" />
-          <input type="text" v-model="newExercise.note" placeholder="note" />
-
-          <button v-if="newExercise.mode == 'add'" v-on:click="addExerciseToDay">Add</button>
-          <button v-else-if="newExercise.mode == 'update'" v-on:click="updateExercise">Update</button>
-          
-          <button v-on:click="closeExercisePanel">Close</button>
-      </div>
-
-  </div>
+    </div>
 
   <script src="/dist/build.js"></script>
 

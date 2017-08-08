@@ -70,22 +70,17 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     programLoaded: true,
     //loading test program for now, will work on capability to deal with multiple programs later
     loadedProgram: testProgram, //{},
-    allPrograms: {},
+    programs: {},
     templates: {},
-    newExercise: {
-      active: false,
-      mode: 'add',
-      block: '',
-      week: '',
-      day: '',
+    emptyExercise: {
       id: 0,
       name: '',
       sets: '',
       reps: '',
       weight: '',
       note: ''//,
-      //percentage: 73, //need "100%" value for this to be meaningful
-      //percentIncrease: 3
+      //percentage: 0, //need "100%" value for this to be meaningful
+      //percentIncrease: 0
     },
     emptyDay: {
       id: 0,
@@ -109,73 +104,56 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
     }
   },
   methods: {
-    //exercise input panel
-    addExerciseToDay: function () {
-      var exerciseToPush = {
-        id: this.newExercise.id,
-        name: this.newExercise.name,
-        sets: this.newExercise.sets,
-        reps: this.newExercise.reps,
-        weight: this.newExercise.weight, //calulate this based on percentage one we have "100%" values
-        note: this.newExercise.note//,
-        //percentage: 73,
-        //percentIncrease: 3
+    addObject: function () {
+      var keys = arguments[0],
+          targetArr,
+          newObj;
+
+      if (keys.exercise !== undefined) {
+        return; //exercise has no child objects, but it might at some point
+      } else if (keys.day !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
+        newObj = Utilities.deepExtend({}, this.emptyExercise);
+      } else if (keys.week !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
+        newObj = Utilities.deepExtend({}, this.emptyDay);
+      } else if (keys.block !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks;
+        newObj = Utilities.deepExtend({}, this.emptyWeek);
+      } else { 
+        targetArr = this.loadedProgram.blocks;
+        newObj = Utilities.deepExtend({}, this.emptyBlock);
       }
-      var currentBlock = this.loadedProgram.blocks[this.newExercise.block];
-      var currentWeek = currentBlock.weeks[this.newExercise.week];
-      var currentDay = currentWeek.days[this.newExercise.day];
 
-      currentDay.exercises.push(exerciseToPush);
-      this.resetExerciseInputs();
+      newObj.id = targetArr.length;
 
-      this.newExercise.id += 1;
+      targetArr.push(newObj);
     },
-    // updateExercise: function () { //TODO: combine this and above function when moving to component
-    //   var exerciseToPush = {
-    //     id: this.newExercise.id,
-    //     name: this.newExercise.name,
-    //     sets: this.newExercise.sets,
-    //     reps: this.newExercise.reps,
-    //     weight: this.newExercise.weight,
-    //     note: this.newExercise.note//,
-    //     //percentage: ,
-    //     //percentIncrease: 
-    //   }
-    //   var currentBlock = programBuilder.loadedProgram.blocks[this.newExercise.block];
-    //   var currentWeek = currentBlock.weeks[this.newExercise.week];
-    //   var currentDay = currentWeek.days[this.newExercise.day];
+    copyObject: function () {
+      var keys = arguments[0],
+          targetArr,
+          newObj;
 
-    //   currentDay.exercises.splice(this.newExercise.id, 1, exerciseToPush);
+      if (keys.exercise !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days[keys.day].exercises;
+        newObj = Utilities.deepExtend({}, targetArr[keys.exercise]);
+      } else if (keys.day !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks[keys.week].days;
+        newObj = Utilities.deepExtend({}, targetArr[keys.day]);
+      } else if (keys.week !== undefined) {
+        targetArr = this.loadedProgram.blocks[keys.block].weeks;
+        newObj = Utilities.deepExtend({}, targetArr[keys.week]);
+      } else if (keys.block !== undefined) {
+        targetArr = this.loadedProgram.blocks;
+        newObj = Utilities.deepExtend({}, targetArr[keys.block]);
+      } else { //TODO: no keys, this would be an error
+        return;
+      }
 
-    //   this.resetExerciseInputs();
+      newObj.id = targetArr.length;  // insert with 0 id after original and resequence array instead of adding to end?
 
-    //   this.newExercise.block = '';
-    //   this.newExercise.week = '';
-    //   this.newExercise.day = '';
-    // },
-    closeExercisePanel: function () {
-      this.newExercise.active = false;
-
-      this.resetExerciseInputs();
-
-      this.newExercise.block = '';
-      this.newExercise.week = '';
-      this.newExercise.day = '';
-
+      targetArr.push(newObj);
     },
-    resetExerciseInputs: function () {
-      // this.active = this.active;
-      // this.newExercise.block = '';
-      // this.newExercise.week = '';
-      // this.newExercise.day = '';
-      this.newExercise.name = '';
-      this.newExercise.sets = '';
-      this.newExercise.reps = '';
-      this.newExercise.weight = '';
-      this.newExercise.note = '';
-      this.newExercise.mode = 'add';
-    },
-    //end exercise input panel
     removeObject: function () {
       var keys = arguments[0],
           targetArr,
@@ -193,7 +171,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } else if (keys.block !== undefined) {
         targetArr = this.loadedProgram.blocks;
         objectIndex = keys.block;
-      } else { //TODO: This would be an error
+      } else { //TODO: no keys, this would be an error
         return;
       }
 
@@ -229,7 +207,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
         targetObj = this.loadedProgram;
         parentArrKey = 'loadedProgram';
         targetArrKey = 'blocks';
-      } else { //TODO: This would be an error
+      } else { //TODO: no keys, this would be an error
         return;
       }
 
@@ -264,7 +242,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } else if (keys.block !== undefined) {
         targetArr = this.loadedProgram.blocks;
         currentId = keys.block;
-      } else { //TODO: This would be an error
+      } else { //TODO: no keys, this would be an error
         return;
       }
 
@@ -278,7 +256,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } else if (keys.direction == 'down') {
         newId = currentId + 1;
       } else {
-        return; //TODO: this would be an error
+        return; //TODO: no direction, this would be an error
       }
 
       tempObjThis = Utilities.deepExtend({}, targetArr.slice(currentId, currentId + 1)[0]);
@@ -308,7 +286,7 @@ window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue even
       } else if (keys.block !== undefined) {
         targetArr = this.loadedProgram.blocks;
         currentId = keys.block;
-      } else { //TODO: This would be an error
+      } else { //TODO: no keys, this would be an error
         return;
       } 
       
