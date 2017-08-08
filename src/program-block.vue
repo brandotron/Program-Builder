@@ -5,6 +5,8 @@
         v-for="item in block.weeks" 
         v-bind:week="item"
         v-bind:key="item.id"
+        v-on:add-object="addObject"
+        v-on:copy-object="copyObject"
         v-on:remove-object="removeObject"
         v-on:move-object="moveObject"
         v-on:update-object="updateObject"
@@ -23,6 +25,14 @@ export default {
     'program-week': programWeek
   },
   methods: {
+    addObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      this.$emit('add-object', keys);
+    },
+    copyObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
+      this.$emit('copy-object', keys);
+    },
     removeObject: function () {
       var keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('remove-object', keys);

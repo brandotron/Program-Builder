@@ -26,11 +26,9 @@
         ></exercise-row>
       </tbody>
     </table> 
-    <button v-on:click="openAddExercisePanel">Add Exercise</button>
-    <button v-on:click="removeObject">Remove Day</button>
-    <button v-on:click="copyDay"
-      v-if="num_days < 7"
-    >Copy Day</button>
+    <button v-on:click="addObject()">Add Exercise</button>
+    <button v-on:click="removeObject()">Remove Day</button>
+    <button v-on:click="copyObject()" v-if="num_days < 7">Copy Day</button>
     <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">^</button> 
     <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">v</button> 
   </div>
@@ -53,28 +51,13 @@ export default {
     }
   },
   methods: {
-    getCurrentBlock: function () { //TODO: remove
-      return programBuilder.loadedProgram.blocks[this.$parent.$parent.block.id];
+    addObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('add-object', keys);
     },
-    getCurrentWeek: function () { //TODO: remove
-      return this.getCurrentBlock().weeks[this.$parent.week.id];
-    },
-    openAddExercisePanel: function () {
-      programBuilder.newExercise.day = this.day.id;
-      programBuilder.newExercise.week = this.$parent.week.id;
-      programBuilder.newExercise.block = this.$parent.$parent.block.id;
-      programBuilder.newExercise.id = this.day.exercises.length;
-      programBuilder.newExercise.mode = 'add';
-      programBuilder.newExercise.active = true;
-    },
-    copyDay: function () {
-      var currentWeek = this.getCurrentWeek(),
-          newDayObj;
-
-      newDayObj = Utilities.deepExtend({}, currentWeek.days.slice(this.day.id, this.day.id + 1)[0]);
-      newDayObj.id = currentWeek.days.length; 
-
-      currentWeek.days.push(newDayObj);
+    copyObject: function () {
+      var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('copy-object', keys);
     },
     removeObject: function () {
       var keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});

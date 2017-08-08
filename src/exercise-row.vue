@@ -14,8 +14,8 @@
       <td class="ex-cell">{{ exercise.weight }}</td>
       <td class="ex-cell">{{ exercise.note }}</td>
       <td class="ex-cell"> 
-        <button v-on:click="activateEditMode">Edit</button>
-        <button v-on:click="removeObject" v-if="!edits_active">X</button>
+        <button v-on:click="activateEditMode()">Edit</button>
+        <button v-on:click="removeObject()" v-if="!edits_active">X</button>
         <button disabled v-else>X</button>
       </td>
     </tr>
@@ -40,8 +40,8 @@
         <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
       </td>
       <td class="ex-cell" nowrap="nowrap"> 
-        <button v-on:click="updateObject">Save</button>
-        <button v-on:click="cancelUpdate">X</button>
+        <button v-on:click="updateExercise()">Save</button>
+        <button v-on:click="cancelUpdate()">X</button>
       </td>
     </tr>
 </template>
@@ -68,6 +68,23 @@ export default {
     }
   },//TODO: add create method to check if exercise is blank and set edit mode to true if so, 
     //use blank exercise in edit mode instead of separate panel
+  created: function () {
+    var obj = this.exercise,
+        inputsEmpty = true;
+
+    for (var key in obj) {
+      if (key == 'id') {
+        continue;
+      }
+      if (obj[key]) {
+        inputsEmpty = false;
+      }
+    }
+
+    if (inputsEmpty) {
+      this.activateEditMode();
+    }
+  },
   methods: {
     getCurrentWeek: function () { //TODO: remove
       var currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
@@ -84,6 +101,10 @@ export default {
       var keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('move-object', keys);
     },
+    updateObject: function () {
+      var keys = Utilities.deepExtend(arguments[0] || {}, {exercise: this.exercise.id});
+      this.$emit('update-object', keys);
+    },
     activateEditMode: function () {
       this.updatedExercise.name = this.exercise.name;
       this.updatedExercise.sets = this.exercise.sets;
@@ -99,27 +120,14 @@ export default {
       this.$emit('edit-mode', false);
     },
     cancelUpdate: function () {
-      var resetObj = {
-        id: this.exercise.id,
-        name: this.exercise.name,
-        sets: this.exercise.sets,
-        reps: this.exercise.reps,
-        weight: this.exercise.weight,
-        note: this.exercise.note//,
-        //percentage: 73,
-        //percentIncrease: 3
-      }
-      this.updatedExercise = resetObj;
+      this.updatedExercise = Utilities.deepExtend({}, this.exercise);
       this.closeEditMode();
     },
-    updateObject: function () {
+    updateExercise: function () {
       var updatedObj = Utilities.deepExtend({}, this.updatedExercise);
-      var keys = Utilities.deepExtend({}, 
-        {updatedObj: updatedObj}, 
-        {exercise: this.exercise.id}
-      );
+      var keys = {updatedObj: updatedObj};
+      this.updateObject(keys);
       this.closeEditMode();
-      this.$emit('update-object', keys);
     }
   }
 }

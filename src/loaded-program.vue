@@ -5,6 +5,8 @@
       v-for="item in program.blocks" 
       v-bind:block="item" 
       v-bind:key="item.id"
+      v-on:add-object="addObject"
+      v-on:copy-object="copyObject"
       v-on:remove-object="removeObject"
       v-on:move-object="moveObject"
       v-on:update-object="updateObject"
@@ -23,6 +25,14 @@ export default {
     'program-block': programBlock
   },
   methods: {
+    addObject: function () {
+      var keys = arguments[0];
+      this.$emit('add-object', keys);
+    },
+    copyObject: function () {
+      var keys = arguments[0];
+      this.$emit('copy-object', keys);
+    },
     removeObject: function () {
       var keys = arguments[0];
       this.$emit('remove-object', keys);
