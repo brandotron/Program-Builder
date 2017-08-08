@@ -91,23 +91,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.day-grid {
+  margin: 0.5rem 0;
+  width: 760px;
+}
 .day-head {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  // grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: 75px 2fr 4em 5em 5em 3fr 100px;
+  %head-item {
+    background: #ddd;
+    padding: 0.25em;
+  }
   .name {
+    @extend %head-item;
     grid-column: 2 / 3;
   }
   .sets {
+    @extend %head-item;
     grid-column: 3 / 4;
   }
   .reps {
+    @extend %head-item;
     grid-column: 4 / 5;
   }
   .weight {
+    @extend %head-item;
     grid-column: 5 / 6;
   }
   .note {
+    @extend %head-item;
     grid-column: 6 / 7
   }
+}
+.day-buttons {
+  margin-top: 0.5rem;
 }
 </style>

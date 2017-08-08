@@ -135,7 +135,11 @@ export default {
 <style lang="scss">
 .exercise-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  // grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: 75px 2fr 4em 5em 5em 3fr 100px;
+  & > div {
+    padding: 0.25em;
+  }
   .name {
     grid-column: 2 / 3;
   }
