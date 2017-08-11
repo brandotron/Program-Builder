@@ -9,7 +9,8 @@
         <div class="weight">Weight</div>
         <div class="note">Note</div>
       </div>
-      <div class="day-body">
+      <div name="flip-list" tag="div" class="day-body">
+        <!-- <transition-group name="flip-list" tag="div"> look into making this work-->
         <exercise-row
           v-for="item in day.exercises"
           v-bind:exercise="item"
@@ -20,13 +21,27 @@
           v-on:update-object="updateObject"
           v-on:edit-mode="childEditMode"
         ></exercise-row>
+        <!-- </transition-group> -->
       </div>
       <div class="day-buttons">
-        <button v-on:click="addObject()">Add Exercise</button>
-        <button v-on:click="removeObject()">Remove Day</button>
-        <button v-on:click="copyObject()" v-if="num_days < 7">Copy Day</button>
-        <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">^</button> 
-        <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">v</button> 
+        <button v-on:click="addObject()" class="day-add-ex-btn">
+          <icon name="plus"></icon>
+          <span class="btn-txt">Add Exercise</span>
+        </button>
+        <button v-on:click="removeObject()" class="day-remove-btn">
+          <icon name="times-circle"></icon>
+          <span class="btn-txt">Remove Day</span>
+        </button>
+        <button v-on:click="copyObject()" v-if="num_days < 7" class="day-copy-btn">
+          <icon name="copy"></icon>
+          <span class="btn-txt">Copy Day</span>
+        </button>
+        <button v-on:click="moveObject({direction: 'up'})" class="day-move-up-btn">
+          <icon name="chevron-up"></icon>
+        </button> 
+        <button v-on:click="moveObject({direction: 'down'})" class="day-move-down-btn">
+          <icon name="chevron-down"></icon>
+        </button> 
       </div>
     </div>
   </div>
@@ -35,12 +50,15 @@
 <script>
 import exerciseRow from './exercise-row.vue';
 import Utilities from './utilities.js';
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'programDay',
   props: ['day', 'num_days'],
   components: {
-    'exercise-row': exerciseRow
+    'exercise-row': exerciseRow,
+    Icon
   },
   data: function () {
     return {
@@ -91,20 +109,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$head-border-color: rgba(0,0,0,0.2);
+.day-title {
+  display: block;
+}
 .day-grid {
+  display: inline-block;
+  border: 0px solid transparent;
+  border-radius: 3px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
   margin: 0.5rem 0;
-  width: 760px;
+  padding: 1rem;
+  position: relative;
 }
 .day-head {
   display: grid;
-  // grid-template-columns: repeat(7, 1fr);
-  grid-template-columns: 75px 2fr 4em 5em 5em 3fr 100px;
+  grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
   %head-item {
-    background: #ddd;
+    //background: #ddd;
     padding: 0.25em;
+    //border-top: 1px solid $head-border-color;
+    border-bottom: 1px solid $head-border-color;
   }
   .name {
     @extend %head-item;
+    //border-left: 1px solid $head-border-color;
+    //border-radius: 3px; 
     grid-column: 2 / 3;
   }
   .sets {
@@ -121,10 +151,61 @@ export default {
   }
   .note {
     @extend %head-item;
+    //border-right: 1px solid $head-border-color;
+    //border-radius: 3px; 
     grid-column: 6 / 7
+  }
+}
+%day-button {
+  background: none;
+  border: none;
+  display: inline-flex;
+  opacity: 0.2;
+  overflow: hidden;
+  padding: 0;
+  transition: opacity 100ms linear;
+  white-space: nowrap;
+  &:not([disabled]):hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  > .fa-icon {
+    flex: 0 0 auto;
+  }
+  .btn-txt {
+    flex: 1 1 auto;
+    overflow: hidden;
+    transition: width 100ms linear;
+    width: 0;
   }
 }
 .day-buttons {
   margin-top: 0.5rem;
+  .day-add-ex-btn {
+    @extend %day-button;
+    &:not([disabled]):hover > span {
+      width: 6.25em;
+    }
+  }
+  .day-remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5em;
+    @extend %day-button;
+    // &:not([disabled]):hover > span {
+    //   width: 5.4em;
+    // }
+  }
+  .day-copy-btn {
+    @extend %day-button;
+    &:not([disabled]):hover > span {
+      width: 5em;
+    }
+  }
+  .day-move-up-btn,
+  .day-move-down-btn {
+    @extend %day-button;
+  }
 }
 </style>

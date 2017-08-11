@@ -1,12 +1,20 @@
 <template>
   <div class="exercise-grid" v-if="!editMode">
     <div v-if="!edits_active">
-      <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">^</button> 
-      <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">v</button> 
+      <button v-on:click="moveObject({direction: 'up'})" class="ex-move-up-btn">
+        <icon name="chevron-up"></icon>
+      </button> 
+      <button v-on:click="moveObject({direction: 'down'})" class="ex-move-down-btn">
+        <icon name="chevron-down"></icon>
+      </button> 
     </div>
     <div v-else>
-      <button disabled class="ex-move-up-btn">^</button> 
-      <button disabled class="ex-move-down-btn">v</button> 
+      <button disabled class="ex-move-up-btn">
+        <icon name="chevron-up"></icon>
+      </button> 
+      <button disabled class="ex-move-down-btn">
+        <icon name="chevron-down"></icon>
+      </button> 
     </div>
     <div>{{ exercise.name }}</div>
     <div>{{ exercise.sets }}</div>
@@ -14,44 +22,63 @@
     <div>{{ exercise.weight }}</div>
     <div>{{ exercise.note }}</div>
     <div>
-      <button v-on:click="activateEditMode()">Edit</button>
-      <button v-on:click="removeObject()" v-if="!edits_active">X</button>
-      <button disabled v-else>X</button>
+      <button v-on:click="activateEditMode()" class="ex-edit-btn">
+        <icon name="pencil"></icon>
+      </button>
+      <button v-on:click="removeObject()" v-if="!edits_active" class="ex-remove-btn">
+        <icon name="remove"></icon>
+      </button>
+      <button disabled v-else class="ex-remove-btn">
+        <icon name="remove"></icon>
+      </button>
     </div>
   </div>
   <div class="exercise-grid" v-else>
     <div>
-      <button disabled class="ex-move-up-btn">^</button> 
-      <button disabled class="ex-move-down-btn">v</button> 
+      <button disabled class="ex-move-up-btn">
+        <icon name="chevron-up"></icon>
+      </button> 
+      <button disabled class="ex-move-down-btn">
+        <icon name="chevron-down"></icon>
+      </button> 
     </div>
     <div>
-      <input type="text" size="8" class="ex-name-input" v-model="updatedExercise.name"/>
+      <input type="text" class="ex-name-input" v-model="updatedExercise.name"/>
     </div>
     <div>
-      <input type="text" size="1" class="ex-sets-input" v-model="updatedExercise.sets"/>
+      <input type="text" class="ex-sets-input" v-model="updatedExercise.sets"/>
     </div>
     <div>
-      <input type="text" size="2" class="ex-reps-input" v-model="updatedExercise.reps"/>
+      <input type="text" class="ex-reps-input" v-model="updatedExercise.reps"/>
     </div>
     <div>
-      <input type="text" size="4" class="ex-weight-input" v-model="updatedExercise.weight"/>
+      <input type="text" class="ex-weight-input" v-model="updatedExercise.weight"/>
     </div>
     <div>
-      <input type="text" size="20" class="ex-note-input" v-model="updatedExercise.note"/>
+      <input type="text" class="ex-note-input" v-model="updatedExercise.note"/>
     </div>
     <div> 
-      <button v-on:click="updateExercise()">Save</button>
-      <button v-on:click="cancelUpdate()">X</button>
+      <button v-on:click="updateExercise()" class="ex-update-btn">
+        <icon name="save"></icon>
+      </button>
+      <button v-on:click="cancelUpdate()" class="ex-cancel-update-btn">
+        <icon name="reply"></icon>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import Utilities from './utilities.js';
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'exerciseRow',
   props: ['exercise', 'edits_active'],
+  components: {
+    Icon
+  },
   data: function () {
     return {
       editMode: false,
@@ -135,8 +162,10 @@ export default {
 <style lang="scss">
 .exercise-grid {
   display: grid;
-  // grid-template-columns: repeat(7, 1fr);
-  grid-template-columns: 75px 2fr 4em 5em 5em 3fr 100px;
+  grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
   & > div {
     padding: 0.25em;
   }
@@ -154,6 +183,42 @@ export default {
   }
   .note {
     grid-column: 6 / 7
+  }
+  input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    font-size: 1rem;
+    padding: 0.1em;
+  }
+  %row-buttons {
+    background: none;
+    border: none;
+    opacity: 0.2;
+    padding: 0;
+    transition: opacity 100ms linear;
+    &:not([disabled]):hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
+  .ex-move-up-btn,
+  .ex-move-down-btn,
+  .ex-cancel-update-btn {
+    @extend %row-buttons;
+    .fa-icon {
+      width: auto;
+      height: 1em;
+    }
+  }
+  .ex-edit-btn,
+  .ex-remove-btn,
+  .ex-update-btn {
+    @extend %row-buttons;
+  }
+  .ex-remove-btn {
+    color: #a41c1c;
   }
 }
 </style>
