@@ -27,7 +27,16 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        //exclude: /node_modules/
+        
+        // resolve: {
+        //   projectRoot: path.resolve('./')
+        // },
+        // include: [
+        //   path.join(path.resolve('./'), 'src'),
+        //   path.join(path.resolve('./'), 'node_modules/vue-awesome')
+        // ],
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
