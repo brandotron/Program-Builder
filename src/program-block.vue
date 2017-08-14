@@ -10,7 +10,9 @@
           v-bind:key="item.id"
           v-bind:active_week="activeWeek"
           v-on:change_active_week="changeActiveWeek"
+          v-on:remove-object="removeObject"
         ></program-week-tab>
+        <div class="filler"></div>
       </div>
       
       <program-week 
@@ -31,7 +33,12 @@
   .block-week-tab-row {
     border: 1px solid rgba(0, 0, 0, 0.3);
     display: flex;
+    overflow: auto;
     & > div {
+      flex: 0 0 auto;
+    }
+    & > .filler {
+      background: rgba(0,0,0,0.2);
       flex: 1 0 auto;
     }
   }
