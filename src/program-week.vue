@@ -13,7 +13,7 @@
       v-on:update-object="updateObject"
     ></program-day> 
     <button v-on:click="addObject" v-if="week.days.length < 7">Add New Day</button>
-    <button v-on:click="removeObject">Remove Week</button>
+    <!-- <button v-on:click="removeObject">Remove Week</button> -->
     <button v-on:click="copyObject">Copy Week</button>
     <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">&lt;</button> 
     <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">&gt;</button> 
