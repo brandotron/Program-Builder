@@ -20,11 +20,13 @@
         v-bind:week="item"
         v-bind:key="item.id"
         v-bind:active_week="activeWeek"
+        v-bind:num_weeks="numWeeks"
         v-on:add-object="addObject"
         v-on:copy-object="copyObject"
         v-on:remove-object="removeObject"
         v-on:move-object="moveObject"
         v-on:update-object="updateObject"
+        v-on:change_active_week="changeActiveWeek"
     ></program-week> 
   </div>
 </template>
@@ -59,6 +61,11 @@ export default {
   data: function () {
     return {
       activeWeek: 0
+    }
+  },
+  computed: {
+    numWeeks: function () {
+      return this.block.weeks.length;
     }
   },
   methods: {

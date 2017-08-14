@@ -33,7 +33,7 @@ import Utilities from './utilities.js';
 
 export default {
   name: 'programWeek',
-  props: ['week', 'active_week'],
+  props: ['week', 'active_week', 'num_weeks'],
   components: {
     'program-day': programDay
   },
@@ -65,6 +65,18 @@ export default {
     },
     moveObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
+      if (keys.day === undefined) { 
+        let tabKeys;
+        //if we are moving this week, keep it active
+        if (keys.direction == 'up' && this.week.id != 0) {
+          tabKeys = {week: this.week.id - 1};
+        } else if (keys.direction == 'down' && this.week.id != this.$props.num_weeks - 1) {
+          tabKeys = {week: this.week.id + 1};
+        } else {
+          return; //TODO: this is an error
+        }
+        this.$emit('change_active_week', tabKeys);
+      }
       this.$emit('move-object', keys);
     },
     updateObject: function () {
