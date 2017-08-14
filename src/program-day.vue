@@ -1,7 +1,7 @@
 <template>
   <div class="program-day"> 
-    <label class="day-title">Day {{ day.id + 1 }}</label>
     <div class="day-grid">
+      <label class="day-title">Day {{ day.id + 1 }}</label>
       <div class="day-head" v-if="day.exercises.length > 0">
         <div class="name">Exercise</div>
         <div class="sets">Sets</div>

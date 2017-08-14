@@ -1,6 +1,6 @@
 <template>
-  <div class="program-week">
-    <label class="week-title">Week {{ week.id + 1 }}</label>
+  <div class="program-week" v-if="isActive">
+    <!-- <label class="week-title">Week {{ week.id + 1 }}</label> -->
     <program-day 
       v-for="item in week.days"
       v-bind:day="item"
@@ -13,10 +13,10 @@
       v-on:update-object="updateObject"
     ></program-day> 
     <button v-on:click="addObject" v-if="week.days.length < 7">Add New Day</button>
-    <button v-on:click="removeObject">Remove Week</button>
+    <!-- <button v-on:click="removeObject">Remove Week</button> -->
     <button v-on:click="copyObject">Copy Week</button>
-    <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">^</button> 
-    <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">v</button> 
+    <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">&lt;</button> 
+    <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">&gt;</button> 
   </div>
 </template>
 
@@ -38,8 +38,13 @@ export default {
     'program-day': programDay
   },
   computed: {
+    classObject: function () {
+      return {
+        active: this.week.id == this.$props.active_week
+      }
+    },
     isActive: function () {
-      return this.id == this.active_week;
+      return this.week.id == this.$props.active_week;
     }
   },
   methods: {
