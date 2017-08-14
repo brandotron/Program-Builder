@@ -43,7 +43,7 @@
       </button> 
     </div>
     <div>
-      <input type="text" class="ex-name-input" v-model="updatedExercise.name"/>
+      <input type="text" class="ex-name-input" v-model="updatedExercise.name" ref="name-input"/>
     </div>
     <div>
       <input type="text" class="ex-sets-input" v-model="updatedExercise.sets"/>
