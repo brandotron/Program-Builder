@@ -172,8 +172,14 @@ export default {
     }
 
     if (inputsEmpty) {
-      this.activateEditMode(); //TODO: focus name input
+      this.activateEditMode();
     }
+  },
+  mounted: function () {
+    this.focusOnEditMode();
+  },
+  updated: function () {
+    this.focusOnEditMode();
   },
   methods: {
     getCurrentWeek: function () { //TODO: remove
@@ -218,6 +224,11 @@ export default {
       let keys = {updatedObj: updatedObj};
       this.updateObject(keys);
       this.closeEditMode();
+    },
+    focusOnEditMode: function () {
+      if (this.editMode) {
+        this.$refs['name-input'].focus();
+      }
     }
   }
 }
