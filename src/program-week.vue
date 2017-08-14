@@ -20,15 +20,27 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+  .program-week {
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 0.25rem;
+  }
+</style>
+
 <script>
 import programDay from './program-day.vue';
 import Utilities from './utilities.js';
 
 export default {
   name: 'programWeek',
-  props: ['week'],
+  props: ['week', 'active_week'],
   components: {
     'program-day': programDay
+  },
+  computed: {
+    isActive: function () {
+      return this.id == this.active_week;
+    }
   },
   methods: {
     getCurrentBlock: function () { //TODO: remove

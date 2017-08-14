@@ -43,7 +43,7 @@
       </button> 
     </div>
     <div>
-      <input type="text" class="ex-name-input" v-model="updatedExercise.name"/>
+      <input type="text" class="ex-name-input" v-model="updatedExercise.name" ref="name-input"/>
     </div>
     <div>
       <input type="text" class="ex-sets-input" v-model="updatedExercise.sets"/>
@@ -67,6 +67,70 @@
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.exercise-grid {
+  display: grid;
+  grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  & > div {
+    padding: 0.25em;
+  }
+  .name {
+    grid-column: 2 / 3;
+  }
+  .sets {
+    grid-column: 3 / 4;
+  }
+  .reps {
+    grid-column: 4 / 5;
+  }
+  .weight {
+    grid-column: 5 / 6;
+  }
+  .note {
+    grid-column: 6 / 7
+  }
+  input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    padding: 0.4em;
+  }
+  %row-buttons {
+    background: none;
+    border: none;
+    opacity: 0.2;
+    padding: 0;
+    transition: opacity 100ms linear;
+    &:not([disabled]):hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
+  .ex-move-up-btn,
+  .ex-move-down-btn,
+  .ex-cancel-update-btn {
+    @extend %row-buttons;
+    .fa-icon {
+      width: auto;
+      height: 1em;
+    }
+  }
+  .ex-edit-btn,
+  .ex-remove-btn,
+  .ex-update-btn {
+    @extend %row-buttons;
+  }
+  .ex-remove-btn {
+    color: #a41c1c;
+  }
+}
+</style>
 
 <script>
 import Utilities from './utilities.js';
@@ -108,8 +172,14 @@ export default {
     }
 
     if (inputsEmpty) {
-      this.activateEditMode(); //TODO: focus name input
+      this.activateEditMode();
     }
+  },
+  mounted: function () {
+    this.focusOnEditMode();
+  },
+  updated: function () {
+    this.focusOnEditMode();
   },
   methods: {
     getCurrentWeek: function () { //TODO: remove
@@ -154,71 +224,12 @@ export default {
       let keys = {updatedObj: updatedObj};
       this.updateObject(keys);
       this.closeEditMode();
+    },
+    focusOnEditMode: function () {
+      if (this.editMode) {
+        this.$refs['name-input'].focus();
+      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-.exercise-grid {
-  display: grid;
-  grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-  & > div {
-    padding: 0.25em;
-  }
-  .name {
-    grid-column: 2 / 3;
-  }
-  .sets {
-    grid-column: 3 / 4;
-  }
-  .reps {
-    grid-column: 4 / 5;
-  }
-  .weight {
-    grid-column: 5 / 6;
-  }
-  .note {
-    grid-column: 6 / 7
-  }
-  input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    font-size: 1rem;
-    padding: 0.1em;
-  }
-  %row-buttons {
-    background: none;
-    border: none;
-    opacity: 0.2;
-    padding: 0;
-    transition: opacity 100ms linear;
-    &:not([disabled]):hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-  }
-  .ex-move-up-btn,
-  .ex-move-down-btn,
-  .ex-cancel-update-btn {
-    @extend %row-buttons;
-    .fa-icon {
-      width: auto;
-      height: 1em;
-    }
-  }
-  .ex-edit-btn,
-  .ex-remove-btn,
-  .ex-update-btn {
-    @extend %row-buttons;
-  }
-  .ex-remove-btn {
-    color: #a41c1c;
-  }
-}
-</style>

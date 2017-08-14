@@ -5,6 +5,7 @@
         v-for="item in block.weeks" 
         v-bind:week="item"
         v-bind:key="item.id"
+        v-bind:active_week="activeWeek"
         v-on:add-object="addObject"
         v-on:copy-object="copyObject"
         v-on:remove-object="removeObject"
@@ -23,6 +24,9 @@ export default {
   props: ['block'],
   components: {
     'program-week': programWeek
+  },
+  data: {
+    activeWeek: 0
   },
   methods: {
     addObject: function () {

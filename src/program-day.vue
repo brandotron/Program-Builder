@@ -1,15 +1,15 @@
 <template>
   <div class="program-day"> 
     <label class="day-title">Day {{ day.id + 1 }}</label>
-    <div class="day-grid" v-if="day.exercises.length > 0">
-      <div class="day-head">
+    <div class="day-grid">
+      <div class="day-head" v-if="day.exercises.length > 0">
         <div class="name">Exercise</div>
         <div class="sets">Sets</div>
         <div class="reps">Reps</div>
         <div class="weight">Weight</div>
         <div class="note">Note</div>
       </div>
-      <div name="flip-list" tag="div" class="day-body">
+      <div name="flip-list" tag="div" class="day-body" v-if="day.exercises.length > 0">
         <!-- <transition-group name="flip-list" tag="div"> look into making this work-->
         <exercise-row
           v-for="item in day.exercises"
@@ -47,67 +47,6 @@
   </div>
 </template>
 
-<script>
-import exerciseRow from './exercise-row.vue';
-import Utilities from './utilities.js';
-import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon.vue';
-
-export default {
-  name: 'programDay',
-  props: ['day', 'num_days'],
-  components: {
-    'exercise-row': exerciseRow,
-    Icon
-  },
-  data: function () {
-    return {
-      editsActive: false,
-      editCount: 0
-    }
-  },
-  methods: {
-    addObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
-      this.$emit('add-object', keys);
-    },
-    copyObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
-      this.$emit('copy-object', keys);
-    },
-    removeObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
-      this.$emit('remove-object', keys);
-    },
-    moveObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
-      this.$emit('move-object', keys);
-    },
-    updateObject: function () {
-      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
-      this.$emit('update-object', keys);
-    },
-    childEditMode: function () {
-      let editActivated = true,
-          editDeactivated = false;
-      if (arguments[0] == editActivated) {
-        this.editCount++;
-      } else if (arguments[0] == editDeactivated) {
-        this.editCount--;
-      } else { //TODO: would be an error
-        return;
-      }
-
-      if (this.editCount > 0) {
-        this.editsActive = true;
-      } else {
-        this.editsActive = false;
-      }
-    }
-  }
-}
-</script>
-
 <style lang="scss" scoped>
 $head-border-color: rgba(0,0,0,0.2);
 .day-title {
@@ -130,6 +69,7 @@ $head-border-color: rgba(0,0,0,0.2);
     padding: 0.25em;
     //border-top: 1px solid $head-border-color;
     border-bottom: 1px solid $head-border-color;
+    font-weight: bold;
   }
   .name {
     @extend %head-item;
@@ -209,3 +149,64 @@ $head-border-color: rgba(0,0,0,0.2);
   }
 }
 </style>
+
+<script>
+import exerciseRow from './exercise-row.vue';
+import Utilities from './utilities.js';
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon.vue';
+
+export default {
+  name: 'programDay',
+  props: ['day', 'num_days'],
+  components: {
+    'exercise-row': exerciseRow,
+    Icon
+  },
+  data: function () {
+    return {
+      editsActive: false,
+      editCount: 0
+    }
+  },
+  methods: {
+    addObject: function () {
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('add-object', keys);
+    },
+    copyObject: function () {
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('copy-object', keys);
+    },
+    removeObject: function () {
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('remove-object', keys);
+    },
+    moveObject: function () {
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('move-object', keys);
+    },
+    updateObject: function () {
+      let keys = Utilities.deepExtend({}, arguments[0] || {}, {day: this.day.id});
+      this.$emit('update-object', keys);
+    },
+    childEditMode: function () {
+      let editActivated = true,
+          editDeactivated = false;
+      if (arguments[0] == editActivated) {
+        this.editCount++;
+      } else if (arguments[0] == editDeactivated) {
+        this.editCount--;
+      } else { //TODO: would be an error
+        return;
+      }
+
+      if (this.editCount > 0) {
+        this.editsActive = true;
+      } else {
+        this.editsActive = false;
+      }
+    }
+  }
+}
+</script>
