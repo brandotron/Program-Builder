@@ -1,15 +1,15 @@
 <template>
   <div class="program-day"> 
     <label class="day-title">Day {{ day.id + 1 }}</label>
-    <div class="day-grid" v-if="day.exercises.length > 0">
-      <div class="day-head">
+    <div class="day-grid">
+      <div class="day-head" v-if="day.exercises.length > 0">
         <div class="name">Exercise</div>
         <div class="sets">Sets</div>
         <div class="reps">Reps</div>
         <div class="weight">Weight</div>
         <div class="note">Note</div>
       </div>
-      <div name="flip-list" tag="div" class="day-body">
+      <div name="flip-list" tag="div" class="day-body" v-if="day.exercises.length > 0">
         <!-- <transition-group name="flip-list" tag="div"> look into making this work-->
         <exercise-row
           v-for="item in day.exercises"
