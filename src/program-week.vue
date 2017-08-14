@@ -20,6 +20,13 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+  .program-week {
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 0.25rem;
+  }
+</style>
+
 <script>
 import programDay from './program-day.vue';
 import Utilities from './utilities.js';
