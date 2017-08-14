@@ -1,6 +1,18 @@
 <template>
   <div class="program-block">
     <label class="block-title">Block {{ block.id + 1 }}</label>
+      <!-- tab controls for week go here -->
+      
+      <div class="block-week-tab-row">
+        <program-week-tab
+          v-for="item in block.weeks" 
+          v-bind:week="item"
+          v-bind:key="item.id"
+          v-bind:active_week="activeWeek"
+          v-on:change_active_week="changeActiveWeek"
+        ></program-week-tab>
+      </div>
+      
       <program-week 
         v-for="item in block.weeks" 
         v-bind:week="item"
@@ -15,18 +27,32 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+  .block-week-tab-row {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    & > div {
+      flex: 1 0 auto;
+    }
+  }
+</style>
+
 <script>
 import programWeek from './program-week.vue';
+import programWeekTab from './program-week-tab.vue';
 import Utilities from './utilities.js';
 
 export default {
   name: 'programBlock',
   props: ['block'],
   components: {
-    'program-week': programWeek
+    'program-week': programWeek,
+    'program-week-tab': programWeekTab
   },
-  data: {
-    activeWeek: 0
+  data: function () {
+    return {
+      activeWeek: 0
+    }
   },
   methods: {
     addObject: function () {
@@ -48,6 +74,12 @@ export default {
     updateObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {block: this.block.id});
       this.$emit('update-object', keys);
+    },
+    changeActiveWeek: function () {
+      var keys = arguments[0];
+      if (keys.week !== undefined) {
+        this.activeWeek = keys.week;
+      }
     }
   }
 }
