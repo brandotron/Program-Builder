@@ -50,6 +50,7 @@
 <style lang="scss" scoped>
 $head-border-color: rgba(0,0,0,0.2);
 .day-title {
+  color: rgba(0,0,0,0.54);
   display: block;
 }
 .day-grid {
