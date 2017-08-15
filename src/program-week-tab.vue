@@ -6,9 +6,9 @@
   >
     <label>
       Week {{ week.id + 1 }}
-      <button v-on:click="removeObject()" class="week-remove-btn" v-if="isActive">
+      <span v-on:click="removeObject()" class="week-remove-btn" v-if="isActive">
         <icon name="remove"></icon>
-      </button>
+      </span>
     </label>
   </div>
 </template>
@@ -17,20 +17,29 @@
   $active-tab-highlight: #6ed5ff;
   
   .block-week-tab {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.1);
     border: 1px solid rgba(0,0,0,0.3);
+    border-bottom: none;
     max-width: 10em;
     & > label {
-      color: rgba(0, 0, 0, 0.5);
+      color: rgba(0, 0, 0, 0.54);
       display: block;
       height: 100%;
-      padding: 0.25em;
+      padding: 0.25em 0.5em;
+      padding-right: 1.75em;
     }
     &.active {
       background: none;
       & > label {
-        border-bottom: 2px solid $active-tab-highlight;
+        border-bottom: 3px solid $active-tab-highlight;
         color: rgba(0, 0, 0, 0.87);
+        padding-right: 0.25em;
+      }
+    }
+    &:hover {
+      background: none;
+      & > label {
+        border-bottom: 3px solid $active-tab-highlight;
       }
     } 
   }
@@ -49,7 +58,7 @@
 </style>
 
 <script>
-import 'vue-awesome/icons';
+import 'vue-awesome/icons/remove';
 import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {

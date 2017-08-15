@@ -1,6 +1,6 @@
 <template>
   <div class="loaded-program">
-    <label class="loaded-program-title">Loaded Program</label>
+    <!-- <label class="loaded-program-title">Loaded Program</label> -->
     <program-block 
       v-for="item in program.blocks" 
       v-bind:block="item" 

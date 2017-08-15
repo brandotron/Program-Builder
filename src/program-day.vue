@@ -9,7 +9,7 @@
         <div class="weight">Weight</div>
         <div class="note">Note</div>
       </div>
-      <div name="flip-list" tag="div" class="day-body" v-if="day.exercises.length > 0">
+      <div class="day-body" v-if="day.exercises.length > 0">
         <!-- <transition-group name="flip-list" tag="div"> look into making this work-->
         <exercise-row
           v-for="item in day.exercises"
@@ -50,6 +50,7 @@
 <style lang="scss" scoped>
 $head-border-color: rgba(0,0,0,0.2);
 .day-title {
+  color: rgba(0,0,0,0.54);
   display: block;
 }
 .day-grid {
@@ -153,7 +154,11 @@ $head-border-color: rgba(0,0,0,0.2);
 <script>
 import exerciseRow from './exercise-row.vue';
 import Utilities from './utilities.js';
-import 'vue-awesome/icons';
+import 'vue-awesome/icons/chevron-up';
+import 'vue-awesome/icons/chevron-down';
+import 'vue-awesome/icons/plus';
+import 'vue-awesome/icons/times-circle';
+import 'vue-awesome/icons/copy';
 import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
