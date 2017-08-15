@@ -64,9 +64,6 @@ export default {
     }
   },
   methods: {
-    getCurrentBlock: function () { //TODO: remove
-      return programBuilder.loadedProgram.blocks[this.$parent.block.id];
-    },
     addObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('add-object', keys);
