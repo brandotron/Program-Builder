@@ -15,6 +15,23 @@
         box-sizing: border-box;
         color: rgba(0, 0, 0, 0.87);
         font-family: sans-serif;
+        margin: 0;
+      }
+      .program-builder {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        padding: 0.25rem;
+        width: 100vw;
+      }
+      .ribbon,
+      .status-bar {
+        flex: 0 0 auto;
+        padding: 0.25rem;
+      }
+      .loaded-program {
+        flex: 1 1 auto;
+        overflow: hidden;
       }
     </style>
   </head>
@@ -22,20 +39,24 @@
 
     <div id="program-builder" class="program-builder">
 
-      <button v-on:click="loadState('undo')">Undo</button>
-      <button v-on:click="loadState('redo')">Redo</button>
+      <div class="ribbon">
+        <button v-on:click="loadState('undo')">Undo</button>
+        <button v-on:click="loadState('redo')">Redo</button>
+      </div>
         
-        <loaded-program 
-          v-bind:program="loadedProgram" 
-          v-if="programLoaded == true"
-          v-on:add-object="addObject"
-          v-on:copy-object="copyObject"
-          v-on:remove-object="removeObject"
-          v-on:move-object="moveObject"
-          v-on:update-object="updateObject"
-          v-on:save-state="saveState"
-          v-on:load-state="loadState"
-        ></loaded-program> 
+      <loaded-program 
+        v-bind:program="loadedProgram" 
+        v-if="programLoaded == true"
+        v-on:add-object="addObject"
+        v-on:copy-object="copyObject"
+        v-on:remove-object="removeObject"
+        v-on:move-object="moveObject"
+        v-on:update-object="updateObject"
+        v-on:save-state="saveState"
+        v-on:load-state="loadState"
+      ></loaded-program> 
+
+      <div class="status-bar">[status bar stub]</div>
 
     </div>
 
