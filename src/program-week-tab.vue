@@ -6,9 +6,9 @@
   >
     <label>
       Week {{ week.id + 1 }}
-      <button v-on:click="removeObject()" class="week-remove-btn" v-if="isActive">
+      <span v-on:click="removeObject()" class="week-remove-btn" v-if="isActive">
         <icon name="remove"></icon>
-      </button>
+      </span>
     </label>
   </div>
 </template>
