@@ -4,6 +4,7 @@
       <!-- tab controls for week go here -->
       
       <div class="block-week-tab-row">
+        <div class="tab-offset"></div>
         <program-week-tab
           v-for="item in block.weeks" 
           v-bind:week="item"
@@ -34,27 +35,28 @@
 <style lang="scss" scoped>
   $tab-bar-height: 2em;
   .program-block {
-    display: flex;
-    flex-direction: column;
     height: 100%;
   }
   .block-week-tab-row {
     border: 1px solid rgba(0, 0, 0, 0.3);
     box-shadow: 0 3px 3px rgba(0,0,0,0.3);
     display: flex;
-    flex: 0 0 auto;
     height: $tab-bar-height;
     overflow: auto;
     & > div {
       flex: 0 0 auto;
+    }
+    & > .tab-offset {
+      background: rgba(0,0,0,0.1);
+      border-right: 1px solid rgba(0,0,0,0.3);
+      width: 0.5em;
     }
     & > .filler {
       background: rgba(0,0,0,0.1);
       flex: 1 0 auto;
     }
   }
-  .program-week { //need to give this max height based on 100% - height of tab row
-    flex: 1 1 auto;
+  .program-week {
     height: calc(100% - #{$tab-bar-height});
   }
 </style>
