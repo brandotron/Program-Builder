@@ -1,5 +1,7 @@
 import Vue from 'vue';
+import toolBar from './tool-bar.vue';
 import loadedProgram from './loaded-program.vue';
+import statusBar from './status-bar.vue';
 import Utilities from './utilities.js';
 
 let testProgram = {
@@ -64,7 +66,9 @@ let testProgram = {
 programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
   el: '#program-builder',
   components: {
-    'loaded-program': loadedProgram    
+    'loaded-program': loadedProgram,
+    'tool-bar': toolBar,
+    'status-bar': statusBar  
   },
   data: {
     programLoaded: true,

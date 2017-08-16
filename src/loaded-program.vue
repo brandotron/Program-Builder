@@ -14,6 +14,15 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+  @import 'styles/_variables';
+
+  .loaded-program {
+    color: $base-text-color;
+    overflow: hidden;
+  }
+</style>
+
 <script>
 import programBlock from './program-block.vue';
 import Utilities from './utilities.js';

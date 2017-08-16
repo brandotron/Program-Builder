@@ -13,7 +13,6 @@
       }
       body {
         box-sizing: border-box;
-        color: rgba(0, 0, 0, 0.87);
         font-family: sans-serif;
         margin: 0;
       }
@@ -23,27 +22,16 @@
         height: 100vh;
         width: 100vw;
       }
-      .ribbon,
-      .status-bar {
-        background: rgba(0, 0, 0, 0.1);
-        padding: 0.25rem;
-      }
-      .loaded-program {
-        overflow: hidden;
-      }
-      .status-bar {
-        font-size: 0.75rem;
-      }
     </style>
   </head>
   <body>
 
     <div id="program-builder" class="program-builder">
 
-      <div class="ribbon">
-        <button v-on:click="loadState('undo')">Undo</button>
-        <button v-on:click="loadState('redo')">Redo</button>
-      </div>
+      <tool-bar
+        v-on:save-state="saveState"
+        v-on:load-state="loadState"
+      ></tool-bar>
         
       <loaded-program 
         v-bind:program="loadedProgram" 
@@ -53,11 +41,9 @@
         v-on:remove-object="removeObject"
         v-on:move-object="moveObject"
         v-on:update-object="updateObject"
-        v-on:save-state="saveState"
-        v-on:load-state="loadState"
       ></loaded-program> 
 
-      <div class="status-bar">[status bar stub]</div>
+      <status-bar></status-bar>
 
     </div>
 
