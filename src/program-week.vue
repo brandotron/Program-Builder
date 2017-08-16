@@ -34,61 +34,61 @@
 </template>
 
 <style lang="scss" scoped>
-  .program-week {
-    border: 1px solid rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
+.program-week {
+  border: 1px solid rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+.week-days {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0.25rem;
+}
+%week-button {
+  background: none;
+  border: none;
+  display: inline-flex;
+  opacity: 0.2;
+  overflow: hidden;
+  padding: 0;
+  transition: opacity 100ms linear;
+  white-space: nowrap;
+  &:not([disabled]):hover {
+    cursor: pointer;
+    opacity: 0.8;
   }
-  .week-days {
-    flex: 1 1 auto;
-    overflow-y: auto;
-    padding: 0.25rem;
-  }
-  %week-button {
-    background: none;
-    border: none;
-    display: inline-flex;
-    opacity: 0.2;
-    overflow: hidden;
-    padding: 0;
-    transition: opacity 100ms linear;
-    white-space: nowrap;
-    &:not([disabled]):hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-    > .fa-icon {
-      flex: 0 0 auto;
-    }
-    .btn-txt {
-      flex: 1 1 auto;
-      overflow: hidden;
-      transition: width 100ms linear;
-      width: 0;
-    }
-  }
-  .week-buttons {
-    background: rgba(0,0,0,0.05);
-    border-top: 1px solid rgba(0,0,0,0.2);
+  > .fa-icon {
     flex: 0 0 auto;
-    padding: 0.25rem;
-    .week-add-day-btn {
-      @extend %week-button;
-      &:not([disabled]):hover > span {
-        width: 4.5em;
-      }
-    }
-    .week-copy-btn {
-      @extend %week-button;
-      &:not([disabled]):hover > span {
-        width: 6em;
-      }
-    }
-    .week-move-up-btn,
-    .week-move-down-btn {
-      @extend %week-button;
+  }
+  .btn-txt {
+    flex: 1 1 auto;
+    overflow: hidden;
+    transition: width 100ms linear;
+    width: 0;
+  }
+}
+.week-buttons {
+  background: rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(0,0,0,0.2);
+  flex: 0 0 auto;
+  padding: 0.25rem;
+  .week-add-day-btn {
+    @extend %week-button;
+    &:not([disabled]):hover > span {
+      width: 4.5em;
     }
   }
+  .week-copy-btn {
+    @extend %week-button;
+    &:not([disabled]):hover > span {
+      width: 6em;
+    }
+  }
+  .week-move-up-btn,
+  .week-move-down-btn {
+    @extend %week-button;
+  }
+}
 </style>
 
 <script>

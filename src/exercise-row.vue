@@ -69,6 +69,8 @@
 </template>
 
 <style lang="scss">
+@import 'styles/_variables';
+
 .exercise-grid {
   display: grid;
   grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;

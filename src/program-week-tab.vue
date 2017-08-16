@@ -14,46 +14,46 @@
 </template>
 
 <style lang="scss" scoped>
-  $active-tab-highlight: #6ed5ff;
-  
-  .block-week-tab {
-    background: rgba(0,0,0,0.1);
-    border-right: 1px solid rgba(0,0,0,0.3);
-    max-width: 10em;
-    & > label {
-      color: rgba(0, 0, 0, 0.54);
-      display: block;
-      height: 100%;
-      padding: 0.25em 0.5em;
-      padding-right: 1.8em;
-    }
-    &.active {
-      background: none;
-      & > label {
-        border-bottom: 3px solid $active-tab-highlight;
-        color: rgba(0, 0, 0, 0.87);
-        padding-right: 0.25em;
-      }
-    }
-    &:hover {
-      background: none;
-      & > label {
-        border-bottom: 3px solid $active-tab-highlight;
-      }
-    } 
+$active-tab-highlight: #6ed5ff;
+
+.block-week-tab {
+  background: rgba(0,0,0,0.1);
+  border-right: 1px solid rgba(0,0,0,0.3);
+  max-width: 10em;
+  & > label {
+    color: rgba(0, 0, 0, 0.54);
+    display: block;
+    height: 100%;
+    padding: 0.25em 0.5em;
+    padding-right: 1.8em;
   }
-  .week-remove-btn {
+  &.active {
     background: none;
-    border: none;
-    margin-left: 0.5em;
-    opacity: 0.2;
-    padding: 0;
-    transition: opacity 100ms linear;
-    &:not([disabled]):hover {
-      cursor: pointer;
-      opacity: 0.8;
+    & > label {
+      border-bottom: 3px solid $active-tab-highlight;
+      color: rgba(0, 0, 0, 0.87);
+      padding-right: 0.25em;
     }
   }
+  &:hover {
+    background: none;
+    & > label {
+      border-bottom: 3px solid $active-tab-highlight;
+    }
+  } 
+}
+.week-remove-btn {
+  background: none;
+  border: none;
+  margin-left: 0.5em;
+  opacity: 0.2;
+  padding: 0;
+  transition: opacity 100ms linear;
+  &:not([disabled]):hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
 </style>
 
 <script>

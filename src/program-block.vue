@@ -33,32 +33,32 @@
 </template>
 
 <style lang="scss" scoped>
-  $tab-bar-height: 2em;
-  .program-block {
-    height: 100%;
+$tab-bar-height: 2em;
+.program-block {
+  height: 100%;
+}
+.block-week-tab-row {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+  display: flex;
+  height: $tab-bar-height;
+  overflow: auto;
+  & > div {
+    flex: 0 0 auto;
   }
-  .block-week-tab-row {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.3);
-    display: flex;
-    height: $tab-bar-height;
-    overflow: auto;
-    & > div {
-      flex: 0 0 auto;
-    }
-    & > .tab-offset {
-      background: rgba(0,0,0,0.1);
-      border-right: 1px solid rgba(0,0,0,0.3);
-      width: 0.25rem;
-    }
-    & > .filler {
-      background: rgba(0,0,0,0.1);
-      flex: 1 0 auto;
-    }
+  & > .tab-offset {
+    background: rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(0,0,0,0.3);
+    width: 0.25rem;
   }
-  .program-week {
-    height: calc(100% - #{$tab-bar-height});
+  & > .filler {
+    background: rgba(0,0,0,0.1);
+    flex: 1 0 auto;
   }
+}
+.program-week {
+  height: calc(100% - #{$tab-bar-height});
+}
 </style>
 
 <script>
