@@ -5,14 +5,14 @@
 </template>
 
 <style lang="scss" scoped>
-  @import 'styles/_variables';
-  
-  .status-bar {
-    background: rgba(0, 0, 0, 0.1);
-    color: $base-text-color;
-    font-size: 0.75rem;
-    padding: 0.25rem;
-  }
+@import 'styles/_variables';
+
+.status-bar {
+  background: rgba(0, 0, 0, 0.1);
+  color: $base-text-color;
+  font-size: 0.75rem;
+  padding: 0.25rem;
+}
 </style>
 
 <script>

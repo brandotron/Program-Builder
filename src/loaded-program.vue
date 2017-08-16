@@ -15,12 +15,12 @@
 </template>
 
 <style lang="scss" scoped>
-  @import 'styles/_variables';
+@import 'styles/_variables';
 
-  .loaded-program {
-    color: $base-text-color;
-    overflow: hidden;
-  }
+.loaded-program {
+  color: $base-text-color;
+  overflow: hidden;
+}
 </style>
 
 <script>

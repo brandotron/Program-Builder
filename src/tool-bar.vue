@@ -6,13 +6,13 @@
 </template>
 
 <style lang="scss" scoped>
-  @import 'styles/_variables';
-  
-  .tool-bar {
-    background: rgba(0, 0, 0, 0.1);
-    color: $base-text-color;
-    padding: 0.25rem;
-  }
+@import 'styles/_variables';
+
+.tool-bar {
+  background: rgba(0, 0, 0, 0.1);
+  color: $base-text-color;
+  padding: 0.25rem;
+}
 </style>
 
 <script>
