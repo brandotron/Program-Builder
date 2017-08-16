@@ -18,15 +18,14 @@
   
   .block-week-tab {
     background: rgba(0,0,0,0.1);
-    border: 1px solid rgba(0,0,0,0.3);
-    border-bottom: none;
+    border-right: 1px solid rgba(0,0,0,0.3);
     max-width: 10em;
     & > label {
       color: rgba(0, 0, 0, 0.54);
       display: block;
       height: 100%;
       padding: 0.25em 0.5em;
-      padding-right: 1.75em;
+      padding-right: 1.8em;
     }
     &.active {
       background: none;

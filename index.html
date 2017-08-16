@@ -18,20 +18,21 @@
         margin: 0;
       }
       .program-builder {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: min-content auto min-content;
         height: 100vh;
-        padding: 0.25rem;
         width: 100vw;
       }
       .ribbon,
       .status-bar {
-        flex: 0 0 auto;
+        background: rgba(0, 0, 0, 0.1);
         padding: 0.25rem;
       }
       .loaded-program {
-        flex: 1 1 auto;
         overflow: hidden;
+      }
+      .status-bar {
+        font-size: 0.75rem;
       }
     </style>
   </head>

@@ -187,13 +187,6 @@ export default {
     this.focusOnEditMode();
   },
   methods: {
-    getCurrentWeek: function () { //TODO: remove
-      let currentBlock = programBuilder.loadedProgram.blocks[this.$parent.$parent.$parent.block.id];
-      return currentBlock.weeks[this.$parent.$parent.week.id];
-    },
-    getCurrentDay: function () { //TODO: remove
-      return this.getCurrentWeek().days[this.$parent.day.id];
-    },
     removeObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});
       this.$emit('remove-object', keys);

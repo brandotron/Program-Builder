@@ -14,12 +14,21 @@
         v-on:update-object="updateObject"
       ></program-day> 
     </div>
-    <div class="week-buttons">
-      <button v-on:click="addObject" v-if="week.days.length < 7">Add New Day</button>
-      <!-- <button v-on:click="removeObject">Remove Week</button> -->
-      <button v-on:click="copyObject">Copy Week</button>
-      <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">&lt;</button> 
-      <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">&gt;</button>
+    <div class="week-buttons">      
+      <button v-on:click="addObject()" class="week-add-day-btn" v-if="week.days.length < 7">
+        <icon name="plus"></icon>
+        <span class="btn-txt">Add Day</span>
+      </button>
+      <button v-on:click="copyObject()" class="week-copy-btn">
+        <icon name="copy"></icon>
+        <span class="btn-txt">Copy Week</span>
+      </button>
+      <button v-on:click="moveObject({direction: 'up'})" class="week-move-up-btn">
+        <icon name="chevron-left"></icon>
+      </button> 
+      <button v-on:click="moveObject({direction: 'down'})" class="week-move-down-btn">
+        <icon name="chevron-right"></icon>
+      </button> 
     </div> 
   </div>
 </template>
@@ -35,23 +44,68 @@
     overflow-y: auto;
     padding: 0.25rem;
   }
+  %week-button {
+    background: none;
+    border: none;
+    display: inline-flex;
+    opacity: 0.2;
+    overflow: hidden;
+    padding: 0;
+    transition: opacity 100ms linear;
+    white-space: nowrap;
+    &:not([disabled]):hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+    > .fa-icon {
+      flex: 0 0 auto;
+    }
+    .btn-txt {
+      flex: 1 1 auto;
+      overflow: hidden;
+      transition: width 100ms linear;
+      width: 0;
+    }
+  }
   .week-buttons {
     background: rgba(0,0,0,0.05);
     border-top: 1px solid rgba(0,0,0,0.2);
     flex: 0 0 auto;
     padding: 0.25rem;
+    .week-add-day-btn {
+      @extend %week-button;
+      &:not([disabled]):hover > span {
+        width: 4.5em;
+      }
+    }
+    .week-copy-btn {
+      @extend %week-button;
+      &:not([disabled]):hover > span {
+        width: 6em;
+      }
+    }
+    .week-move-up-btn,
+    .week-move-down-btn {
+      @extend %week-button;
+    }
   }
 </style>
 
 <script>
 import programDay from './program-day.vue';
 import Utilities from './utilities.js';
+import 'vue-awesome/icons/chevron-left';
+import 'vue-awesome/icons/chevron-right';
+import 'vue-awesome/icons/plus';
+import 'vue-awesome/icons/copy';
+import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'programWeek',
   props: ['week', 'active_week', 'num_weeks'],
   components: {
-    'program-day': programDay
+    'program-day': programDay,
+    Icon
   },
   computed: {
     classObject: function () {
@@ -64,9 +118,6 @@ export default {
     }
   },
   methods: {
-    getCurrentBlock: function () { //TODO: remove
-      return programBuilder.loadedProgram.blocks[this.$parent.block.id];
-    },
     addObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {week: this.week.id});
       this.$emit('add-object', keys);

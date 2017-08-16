@@ -61,7 +61,7 @@ let testProgram = {
   ]
 };
 
-window.programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
+programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
   el: '#program-builder',
   components: {
     'loaded-program': loadedProgram    
