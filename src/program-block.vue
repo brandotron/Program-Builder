@@ -49,7 +49,7 @@
     & > .tab-offset {
       background: rgba(0,0,0,0.1);
       border-right: 1px solid rgba(0,0,0,0.3);
-      width: 0.5em;
+      width: 0.25rem;
     }
     & > .filler {
       background: rgba(0,0,0,0.1);
