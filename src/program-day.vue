@@ -55,6 +55,7 @@ $head-border-color: $light-hint-text-color;
 .day-title {
   color: $light-secondary-text-color;
   display: block;
+  margin-bottom: 0.5em;
 }
 .day-grid {
   background: rgba(0, 0, 0, 0.1);
