@@ -48,7 +48,8 @@ $tab-bar-height: 2em;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
   display: flex;
   height: $tab-bar-height;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   & > div {
     flex: 0 0 auto;
   }
