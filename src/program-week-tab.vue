@@ -57,8 +57,8 @@ $active-tab-highlight: #6ed5ff;
 </style>
 
 <script>
-import 'vue-awesome/icons/remove';
 import Icon from 'vue-awesome/components/Icon.vue';
+import 'vue-awesome/icons/remove';
 
 export default {
   name: 'programWeekTab',
