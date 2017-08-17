@@ -111,6 +111,7 @@ $head-border-color: $light-hint-text-color;
   overflow: hidden;
   padding: 0;
   transition: opacity 100ms linear;
+  vertical-align: middle;
   white-space: nowrap;
   &:not([disabled]):hover {
     cursor: pointer;

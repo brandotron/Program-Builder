@@ -26,7 +26,7 @@ $active-tab-highlight: #6ed5ff;
     color: $light-secondary-text-color;
     display: block;
     height: 100%;
-    padding: 0.25rem 0.5rem;
+    padding: 0.4rem 0.5rem;
     padding-right: 1.95rem;
   }
   &.active {
@@ -55,6 +55,7 @@ $active-tab-highlight: #6ed5ff;
   opacity: 0.4;
   padding: 0;
   transition: opacity 100ms linear;
+  vertical-align: middle;
   &:not([disabled]):hover {
     cursor: pointer;
     opacity: 0.8;

@@ -55,6 +55,7 @@
   overflow: hidden;
   padding: 0;
   transition: opacity 100ms linear;
+  vertical-align: middle;
   white-space: nowrap;
   &:not([disabled]):hover {
     cursor: pointer;
