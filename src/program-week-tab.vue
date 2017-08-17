@@ -19,13 +19,12 @@ $active-tab-highlight: #6ed5ff;
 .block-week-tab {
   background: rgba(0,0,0,0.1);
   border-right: 1px solid rgba(0,0,0,0.3);
-  max-width: 10em;
   & > label {
     color: rgba(0, 0, 0, 0.54);
     display: block;
     height: 100%;
-    padding: 0.25em 0.5em;
-    padding-right: 1.8em;
+    padding: 0.25rem 0.5rem;
+    padding-right: 1.95rem;
   }
   &.active {
     background: none;
@@ -45,7 +44,8 @@ $active-tab-highlight: #6ed5ff;
 .week-remove-btn {
   background: none;
   border: none;
-  margin-left: 0.5em;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
   opacity: 0.2;
   padding: 0;
   transition: opacity 100ms linear;
