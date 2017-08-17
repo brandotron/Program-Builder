@@ -136,13 +136,13 @@
 
 <script>
 import Utilities from './utilities.js';
+import Icon from 'vue-awesome/components/Icon.vue';
 import 'vue-awesome/icons/chevron-up';
 import 'vue-awesome/icons/chevron-down';
 import 'vue-awesome/icons/pencil';
 import 'vue-awesome/icons/remove';
 import 'vue-awesome/icons/save';
 import 'vue-awesome/icons/reply';
-import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'exerciseRow',

@@ -18,7 +18,7 @@
 @import 'styles/_variables';
 
 .loaded-program {
-  color: $base-text-color;
+  color: $dark-primary-text-color;
   overflow: hidden;
 }
 </style>

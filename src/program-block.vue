@@ -13,7 +13,11 @@
           v-on:change_active_week="changeActiveWeek"
           v-on:remove-object="removeObject"
         ></program-week-tab>
-        <div class="filler"></div>
+        <div class="filler">
+          <span class="block-add-week-btn" v-on:click="addObject">
+            <icon name="plus"></icon>
+          </span>
+        </div>
       </div>
       
       <program-week 
@@ -56,6 +60,17 @@ $tab-bar-height: 2em;
     flex: 1 0 auto;
   }
 }
+.block-add-week-btn {
+  display: inline-block;
+  height: 100%;
+  margin: 0.4rem 0.8rem;
+  opacity: 0.2;
+  transition: opacity 100ms linear;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
 .program-week {
   height: calc(100% - #{$tab-bar-height});
 }
@@ -65,13 +80,16 @@ $tab-bar-height: 2em;
 import programWeek from './program-week.vue';
 import programWeekTab from './program-week-tab.vue';
 import Utilities from './utilities.js';
+import Icon from 'vue-awesome/components/Icon.vue';
+import 'vue-awesome/icons/plus';
 
 export default {
   name: 'programBlock',
   props: ['block'],
   components: {
     'program-week': programWeek,
-    'program-week-tab': programWeekTab
+    'program-week-tab': programWeekTab,
+    Icon
   },
   data: function () {
     return {

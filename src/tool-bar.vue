@@ -27,7 +27,7 @@
 }
 .tool-bar {
   background: rgba(0, 0, 0, 0.1);
-  color: $base-text-color;
+  color: $dark-primary-text-color;
   padding: 0 0.25rem;
   .undo,
   .redo {

@@ -66,16 +66,12 @@ $head-border-color: rgba(0,0,0,0.2);
   display: grid;
   grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
   %head-item {
-    //background: #ddd;
     padding: 0.25em;
-    //border-top: 1px solid $head-border-color;
     border-bottom: 1px solid $head-border-color;
     font-weight: bold;
   }
   .name {
     @extend %head-item;
-    //border-left: 1px solid $head-border-color;
-    //border-radius: 3px; 
     grid-column: 2 / 3;
   }
   .sets {
@@ -92,8 +88,6 @@ $head-border-color: rgba(0,0,0,0.2);
   }
   .note {
     @extend %head-item;
-    //border-right: 1px solid $head-border-color;
-    //border-radius: 3px; 
     grid-column: 6 / 7
   }
 }
@@ -134,9 +128,6 @@ $head-border-color: rgba(0,0,0,0.2);
     right: 0;
     margin: 0.5em;
     @extend %day-button;
-    // &:not([disabled]):hover > span {
-    //   width: 5.4em;
-    // }
   }
   .day-copy-btn {
     @extend %day-button;
@@ -154,12 +145,12 @@ $head-border-color: rgba(0,0,0,0.2);
 <script>
 import exerciseRow from './exercise-row.vue';
 import Utilities from './utilities.js';
+import Icon from 'vue-awesome/components/Icon.vue';
 import 'vue-awesome/icons/chevron-up';
 import 'vue-awesome/icons/chevron-down';
 import 'vue-awesome/icons/plus';
 import 'vue-awesome/icons/times-circle';
 import 'vue-awesome/icons/copy';
-import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'programDay',

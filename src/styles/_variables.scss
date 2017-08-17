@@ -1,6 +1,13 @@
-$base-text-color: rgba(0, 0, 0, 0.87);
-$secondary-text-color: rgba(0, 0, 0, 0.54);
-$hint-text-color: rgba(0, 0, 0, 0.38);
+$dark-primary-text-color: rgba(0, 0, 0, 0.87);
+$dark-secondary-text-color: rgba(0, 0, 0, 0.54);
+$dark-hint-text-color: rgba(0, 0, 0, 0.38);
 
-$active-icon-color: rgba(0, 0, 0, 0.54);
-$inactive-icon-color: rgba(0, 0, 0, 0.38);
+$dark-active-icon-color: rgba(0, 0, 0, 0.54);
+$dark-inactive-icon-color: rgba(0, 0, 0, 0.38);
+
+$light-primary-text-color: rgba(255, 255, 255, 1);
+$light-secondary-text-color: rgba(255, 255, 255, 0.7);
+$light-hint-text-color: rgba(255, 255, 255, 0.5);
+
+$light-active-icon-color: rgba(255, 255, 255, 1);
+$light-inactive-icon-color: rgba(255, 255, 255, 0.5);
