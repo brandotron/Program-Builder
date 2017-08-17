@@ -19,7 +19,7 @@
     <div>{{ exercise.name }}</div>
     <div>{{ exercise.sets }}</div>
     <div>{{ exercise.reps }}</div>
-    <div>{{ exercise.weight }}</div>
+    <div>{{ displayWeight }}</div>
     <div>{{ exercise.note }}</div>
     <div>
       <button v-on:click="activateEditMode()" class="ex-edit-btn">
@@ -162,8 +162,24 @@ export default {
         reps: this.exercise.reps,
         weight: this.exercise.weight,
         note: this.exercise.note//,
-        //percentage: 73,
+        //unit: %,
         //percentIncrease: 3
+      }
+    }
+  },
+  computed: {
+    displayWeight: function () { 
+      //TODO: when 100% values are available, calculate displayed weight based on percentage of 100%,
+      //      use unit instead of over/under 1 to determine %, nobody likes typing '.'
+      //      (have to capture unit first)
+      if (!this.exercise.weight) {
+        return '';
+      } else if (Number(this.exercise.weight) === NaN) {
+        return this.exercise.weight;
+      } else if (Number(this.exercise.weight) && Number(this.exercise.weight) < 1){
+        return (Number(this.exercise.weight) * 100) + '%';
+      } else if (Number(this.exercise.weight)) {
+        return this.exercise.weight + (this.exercise.unit || 'kg');
       }
     }
   },
@@ -187,9 +203,6 @@ export default {
   mounted: function () {
     this.focusOnEditMode();
   },
-  // updated: function () {
-  //   this.focusOnEditMode();
-  // },
   methods: {
     removeObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});

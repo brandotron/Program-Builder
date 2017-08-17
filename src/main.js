@@ -25,9 +25,9 @@ let testProgram = {
                   name: 'snatch',
                   sets: 3,
                   reps: 3,
-                  weight: '73%',
+                  weight: 0.73,
                   note: ''
-                  //percentage: 73,
+                  //unit: %,
                   //percentIncrease: 3
                 },
                 {
@@ -35,7 +35,7 @@ let testProgram = {
                   name: 'clean + jerk',
                   sets: 2,
                   reps: '1 + 2',
-                  weight: '72%',
+                  weight: .72,
                   note: ''
                 },
                 {
@@ -43,7 +43,7 @@ let testProgram = {
                   name: 'squat',
                   sets: 5,
                   reps: 5,
-                  weight: '75%',
+                  weight: .75,
                   note: ''
                 },
                 {
