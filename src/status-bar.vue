@@ -8,8 +8,8 @@
 @import 'styles/_variables';
 
 .status-bar {
-  background: rgba(0, 0, 0, 0.1);
-  color: $base-text-color;
+  background: rgba(0, 0, 0, 0.5);
+  color: $light-hint-text-color;
   font-size: 0.7rem;
   padding: 0.25rem;
 }
