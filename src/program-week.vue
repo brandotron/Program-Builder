@@ -94,11 +94,11 @@
 <script>
 import programDay from './program-day.vue';
 import Utilities from './utilities.js';
+import Icon from 'vue-awesome/components/Icon.vue';
 import 'vue-awesome/icons/chevron-left';
 import 'vue-awesome/icons/chevron-right';
 import 'vue-awesome/icons/plus';
 import 'vue-awesome/icons/copy';
-import Icon from 'vue-awesome/components/Icon.vue';
 
 export default {
   name: 'programWeek',
