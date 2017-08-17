@@ -72,10 +72,11 @@
 @import 'styles/_variables';
 
 .exercise-grid {
+  color: $light-primary-text-color;
   display: grid;
   grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.1);
   }
   & > div {
     padding: 0.25em;
@@ -106,7 +107,8 @@
   %row-buttons {
     background: none;
     border: none;
-    opacity: 0.2;
+    color: $light-primary-text-color;
+    opacity: 0.3;
     padding: 0;
     transition: opacity 100ms linear;
     &:not([disabled]):hover {
@@ -185,9 +187,9 @@ export default {
   mounted: function () {
     this.focusOnEditMode();
   },
-  updated: function () {
-    this.focusOnEditMode();
-  },
+  // updated: function () {
+  //   this.focusOnEditMode();
+  // },
   methods: {
     removeObject: function () {
       let keys = Utilities.deepExtend({}, arguments[0] || {}, {exercise: this.exercise.id});

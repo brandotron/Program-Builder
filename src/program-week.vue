@@ -34,6 +34,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import 'styles/_variables';
+
 .program-week {
   border: 1px solid rgba(0,0,0,0.2);
   display: flex;
@@ -47,8 +49,9 @@
 %week-button {
   background: none;
   border: none;
+  color: $light-primary-text-color;
   display: inline-flex;
-  opacity: 0.2;
+  opacity: 0.3;
   overflow: hidden;
   padding: 0;
   transition: opacity 100ms linear;

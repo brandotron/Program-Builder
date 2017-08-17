@@ -37,6 +37,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import 'styles/_variables';
+
 $tab-bar-height: 2em;
 .program-block {
   height: 100%;
@@ -61,6 +63,7 @@ $tab-bar-height: 2em;
   }
 }
 .block-add-week-btn {
+  color: $light-primary-text-color;
   display: inline-block;
   height: 100%;
   margin: 0.4rem 0.8rem;

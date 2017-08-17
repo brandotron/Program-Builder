@@ -16,7 +16,9 @@
 %tool-bar-button {
   background: none;
   border: none;
-  opacity: 0.4;
+  color: $light-primary-text-color;
+  flex: 0 0 auto;
+  opacity: 0.5;
   padding: 0.5em 1em;
   transition: all 100ms linear;
   &:not([disabled]):hover {
@@ -26,8 +28,8 @@
   }
 }
 .tool-bar {
-  background: rgba(0, 0, 0, 0.1);
-  color: $dark-primary-text-color;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
   padding: 0 0.25rem;
   .undo,
   .redo {

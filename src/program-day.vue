@@ -48,19 +48,29 @@
 </template>
 
 <style lang="scss" scoped>
-$head-border-color: rgba(0,0,0,0.2);
+@import 'styles/_variables';
+
+$head-border-color: $light-hint-text-color;
+
 .day-title {
-  color: rgba(0,0,0,0.54);
+  color: $light-secondary-text-color;
   display: block;
 }
 .day-grid {
+  background: rgba(0, 0, 0, 0.1);
   display: inline-block;
   border: 0px solid transparent;
   border-radius: 3px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+  box-shadow: 0 0 3px rgba(0,0,0,0.4);
+  color: $light-secondary-text-color;
   margin: 0.5rem 0;
   padding: 1rem;
   position: relative;
+  transition: all 200ms linear;
+  &:hover {
+    background: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px rgba(0,0,0,0.6);
+  }
 }
 .day-head {
   display: grid;
@@ -94,8 +104,9 @@ $head-border-color: rgba(0,0,0,0.2);
 %day-button {
   background: none;
   border: none;
+  color: $light-active-icon-color;
   display: inline-flex;
-  opacity: 0.2;
+  opacity: 0.3;
   overflow: hidden;
   padding: 0;
   transition: opacity 100ms linear;

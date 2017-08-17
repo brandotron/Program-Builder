@@ -14,31 +14,37 @@
 </template>
 
 <style lang="scss" scoped>
+@import 'styles/_variables';
+
 $active-tab-highlight: #6ed5ff;
 
 .block-week-tab {
   background: rgba(0,0,0,0.1);
   border-right: 1px solid rgba(0,0,0,0.3);
   & > label {
-    color: rgba(0, 0, 0, 0.54);
+    // color: $dark-secondary-text-color;
+    color: $light-secondary-text-color;
     display: block;
     height: 100%;
     padding: 0.25rem 0.5rem;
     padding-right: 1.95rem;
   }
   &.active {
-    background: none;
+    // background: none;
+    // background: #5772bb; //firefox dev edition blue
+    background: #5794bb;
     & > label {
-      border-bottom: 3px solid $active-tab-highlight;
-      color: rgba(0, 0, 0, 0.87);
+      // border-bottom: 3px solid $active-tab-highlight;
+      // color: $dark-primary-text-color;
+      color: $light-primary-text-color;
       padding-right: 0.25em;
     }
   }
-  &:hover {
-    background: none;
-    & > label {
-      border-bottom: 3px solid $active-tab-highlight;
-    }
+  &:not(.active):hover {
+    background: rgba(0, 0, 0, 0.4);
+    // & > label {
+    //   border-bottom: 3px solid $active-tab-highlight;
+    // }
   } 
 }
 .week-remove-btn {
@@ -46,7 +52,7 @@ $active-tab-highlight: #6ed5ff;
   border: none;
   margin-left: 0.3em;
   margin-right: 0.3em;
-  opacity: 0.2;
+  opacity: 0.4;
   padding: 0;
   transition: opacity 100ms linear;
   &:not([disabled]):hover {
