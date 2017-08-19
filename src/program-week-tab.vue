@@ -14,7 +14,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 $active-tab-highlight: #6ed5ff;
 

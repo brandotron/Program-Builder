@@ -48,7 +48,11 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
+
+@mixin day-button () {
+  @include hover-button();
+}
 
 $head-border-color: $light-hint-text-color;
 
@@ -102,55 +106,30 @@ $head-border-color: $light-hint-text-color;
     grid-column: 6 / 7
   }
 }
-%day-button {
-  background: none;
-  border: none;
-  color: $light-active-icon-color;
-  display: inline-flex;
-  opacity: 0.3;
-  overflow: hidden;
-  padding: 0;
-  transition: opacity 100ms linear;
-  vertical-align: middle;
-  white-space: nowrap;
-  &:not([disabled]):hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-  > .fa-icon {
-    flex: 0 0 auto;
-  }
-  .btn-txt {
-    flex: 1 1 auto;
-    overflow: hidden;
-    transition: width 100ms linear;
-    width: 0;
-  }
-}
 .day-buttons {
+  display: flex;
   margin-top: 0.5rem;
-  .day-add-ex-btn {
-    @extend %day-button;
-    &:not([disabled]):hover > span {
-      width: 6.25em;
-    }
+  .day-add-ex-btn,
+  .day-copy-btn,
+  .day-move-up-btn,
+  .day-move-down-btn,
+  .day-remove-btn {
+    @include day-button();
   }
   .day-remove-btn {
     position: absolute;
     top: 0;
     right: 0;
     margin: 0.5em;
-    @extend %day-button;
-  }
-  .day-copy-btn {
-    @extend %day-button;
-    &:not([disabled]):hover > span {
-      width: 5em;
+    &:not([disabled]):hover {
+      background: none;
     }
-  }
-  .day-move-up-btn,
-  .day-move-down-btn {
-    @extend %day-button;
+    .btn-txt {
+      left: -99999px;
+      overflow: hidden;
+      position: absolute;
+      width: 0;
+    }
   }
 }
 </style>

@@ -69,7 +69,7 @@
 </template>
 
 <style lang="scss">
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 .exercise-grid {
   color: $light-primary-text-color;

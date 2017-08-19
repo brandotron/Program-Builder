@@ -37,7 +37,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 $tab-bar-height: 2em;
 .program-block {

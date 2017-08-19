@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 .loaded-program {
   color: $dark-primary-text-color;

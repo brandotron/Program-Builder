@@ -34,7 +34,12 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
+
+@mixin week-button () {
+  @include hover-button();
+  padding: 0.4rem 0.6rem;
+}
 
 .program-week {
   border: 1px solid rgba(0,0,0,0.2);
@@ -46,51 +51,16 @@
   overflow-y: auto;
   padding: 0.25rem;
 }
-%week-button {
-  background: none;
-  border: none;
-  color: $light-primary-text-color;
-  display: inline-flex;
-  opacity: 0.3;
-  overflow: hidden;
-  padding: 0;
-  transition: opacity 100ms linear;
-  vertical-align: middle;
-  white-space: nowrap;
-  &:not([disabled]):hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-  > .fa-icon {
-    flex: 0 0 auto;
-  }
-  .btn-txt {
-    flex: 1 1 auto;
-    overflow: hidden;
-    transition: width 100ms linear;
-    width: 0;
-  }
-}
 .week-buttons {
   background: rgba(0,0,0,0.05);
   border-top: 1px solid rgba(0,0,0,0.2);
+  display: flex;
   flex: 0 0 auto;
-  padding: 0.25rem;
-  .week-add-day-btn {
-    @extend %week-button;
-    &:not([disabled]):hover > span {
-      width: 4.5em;
-    }
-  }
-  .week-copy-btn {
-    @extend %week-button;
-    &:not([disabled]):hover > span {
-      width: 6em;
-    }
-  }
+  .week-add-day-btn,
+  .week-copy-btn,
   .week-move-up-btn,
   .week-move-down-btn {
-    @extend %week-button;
+    @include week-button();
   }
 }
 </style>
