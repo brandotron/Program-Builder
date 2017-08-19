@@ -71,6 +71,14 @@
 <style lang="scss">
 @import 'styles/_partials';
 
+@mixin exercise-button () {
+  @include hover-button();
+  padding: 0;
+  &:not([disabled]):hover {
+    background: none;
+  }
+}
+
 .exercise-grid {
   color: $light-primary-text-color;
   display: grid;
@@ -104,34 +112,20 @@
     font-size: 0.8rem;
     padding: 0.4em;
   }
-  %row-buttons {
-    background: none;
-    border: none;
-    color: $light-primary-text-color;
-    opacity: 0.3;
-    padding: 0;
-    transition: opacity 100ms linear;
-    &:not([disabled]):hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-  }
   .ex-move-up-btn,
   .ex-move-down-btn,
-  .ex-cancel-update-btn {
-    @extend %row-buttons;
-    .fa-icon {
-      width: auto;
-      height: 1em;
-    }
-  }
+  .ex-cancel-update-btn,
   .ex-edit-btn,
   .ex-remove-btn,
   .ex-update-btn {
-    @extend %row-buttons;
+    @include exercise-button();
+  }
+  .ex-update-btn {
+    color: #24e624;
   }
   .ex-remove-btn {
-    color: #a41c1c;
+    color: #c72121;
+    margin-left: 0.2rem;
   }
 }
 </style>
