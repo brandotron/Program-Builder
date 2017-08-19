@@ -16,13 +16,10 @@
 <style lang="scss" scoped>
 @import 'styles/_partials';
 
-$active-tab-highlight: #6ed5ff;
-
 .block-week-tab {
   background: rgba(0,0,0,0.1);
   border-right: 1px solid rgba(0,0,0,0.3);
   & > label {
-    // color: $dark-secondary-text-color;
     color: $light-secondary-text-color;
     display: block;
     height: 100%;
@@ -30,21 +27,15 @@ $active-tab-highlight: #6ed5ff;
     padding-right: 1.95rem;
   }
   &.active {
-    // background: none;
-    // background: #5772bb; //firefox dev edition blue
     background: #5794bb;
     & > label {
-      // border-bottom: 3px solid $active-tab-highlight;
-      // color: $dark-primary-text-color;
       color: $light-primary-text-color;
+      line-height: 0.8;
       padding-right: 0.25em;
     }
   }
   &:not(.active):hover {
     background: rgba(0, 0, 0, 0.4);
-    // & > label {
-    //   border-bottom: 3px solid $active-tab-highlight;
-    // }
   } 
 }
 .week-remove-btn {
