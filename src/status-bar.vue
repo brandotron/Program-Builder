@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 .status-bar {
   background: rgba(0, 0, 0, 0.6);
