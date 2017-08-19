@@ -1,7 +1,5 @@
 <template>
   <div class="program-block">
-    <!-- <label class="block-title">Block {{ block.id + 1 }}</label> -->
-      <!-- tab controls for week go here -->
       
       <div class="block-week-tab-row">
         <div class="tab-offset"></div>
