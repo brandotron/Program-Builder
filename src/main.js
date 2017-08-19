@@ -74,6 +74,7 @@ let programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event h
     programLoaded: true,
     //loading test program for now, will work on capability to deal with multiple programs later
     loadedProgram: testProgram, //{},
+    activeBlock: 0,
     programs: {},
     templates: {},
     undoStates: [],
