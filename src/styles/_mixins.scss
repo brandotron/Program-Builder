@@ -1,0 +1,29 @@
+@import 'styles/_variables';
+
+@mixin hover-button () {
+  background: none;
+  border: none;
+  color: $light-active-icon-color;
+  opacity: 0.5;
+  padding: 0.2rem 0.4rem;
+  transition: all 100ms linear;
+  vertical-align: middle;
+  white-space: nowrap;
+  &:not([disabled]):hover {
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  .fa-icon,
+  .btn-txt {
+    flex: 0 0 auto;
+  }
+  .fa-icon {
+    width: auto;
+    height: 1em;
+  }
+  .btn-txt {
+    margin-left: 0.1rem;
+    vertical-align: top;
+  }
+}

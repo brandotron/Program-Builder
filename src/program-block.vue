@@ -1,7 +1,5 @@
 <template>
   <div class="program-block">
-    <!-- <label class="block-title">Block {{ block.id + 1 }}</label> -->
-      <!-- tab controls for week go here -->
       
       <div class="block-week-tab-row">
         <div class="tab-offset"></div>
@@ -37,6 +35,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import 'styles/_partials';
+
 $tab-bar-height: 2em;
 .program-block {
   height: 100%;
@@ -46,7 +46,8 @@ $tab-bar-height: 2em;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
   display: flex;
   height: $tab-bar-height;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   & > div {
     flex: 0 0 auto;
   }
@@ -57,16 +58,15 @@ $tab-bar-height: 2em;
   }
   & > .filler {
     background: rgba(0,0,0,0.1);
+    display: flex;
     flex: 1 0 auto;
   }
 }
 .block-add-week-btn {
-  display: inline-block;
+  @include hover-button();
   height: 100%;
-  margin: 0.4rem 0.8rem;
-  opacity: 0.2;
-  transition: opacity 100ms linear;
-  &:hover {
+  padding: 0.4rem 0.8rem;
+  &:not([disabled]):hover {
     cursor: pointer;
     opacity: 0.8;
   }

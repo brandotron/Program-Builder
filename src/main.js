@@ -25,9 +25,9 @@ let testProgram = {
                   name: 'snatch',
                   sets: 3,
                   reps: 3,
-                  weight: '73%',
+                  weight: 0.73,
                   note: ''
-                  //percentage: 73,
+                  //unit: %,
                   //percentIncrease: 3
                 },
                 {
@@ -35,7 +35,7 @@ let testProgram = {
                   name: 'clean + jerk',
                   sets: 2,
                   reps: '1 + 2',
-                  weight: '72%',
+                  weight: .72,
                   note: ''
                 },
                 {
@@ -43,7 +43,7 @@ let testProgram = {
                   name: 'squat',
                   sets: 5,
                   reps: 5,
-                  weight: '75%',
+                  weight: .75,
                   note: ''
                 },
                 {
@@ -63,7 +63,7 @@ let testProgram = {
   ]
 };
 
-programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
+let programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handling is set up
   el: '#program-builder',
   components: {
     'loaded-program': loadedProgram,
@@ -74,6 +74,7 @@ programBuilder = new Vue({  //TODO: remove 'window.' once proper vue event handl
     programLoaded: true,
     //loading test program for now, will work on capability to deal with multiple programs later
     loadedProgram: testProgram, //{},
+    activeBlock: 0,
     programs: {},
     templates: {},
     undoStates: [],

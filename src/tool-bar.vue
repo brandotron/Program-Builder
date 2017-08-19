@@ -2,36 +2,31 @@
   <div class="tool-bar">
     <button v-on:click="undo()" class="undo">
       <icon name="undo"></icon>
-      <span class="btn-text">Undo</span>
+      <span class="btn-txt">Undo</span>
     </button>
     <button v-on:click="redo()" class="redo">
       <icon name="repeat"></icon>
-      <span class="btn-text">Redo</span>
+      <span class="btn-txt">Redo</span>
     </button>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import 'styles/_variables';
-%tool-bar-button {
-  background: none;
-  border: none;
-  opacity: 0.4;
+@import 'styles/_mixins';
+
+@mixin tool-bar-button () {
+  @include hover-button();
   padding: 0.5em 1em;
-  transition: all 100ms linear;
-  &:not([disabled]):hover {
-    background: rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    opacity: 0.8;
-  }
 }
+
 .tool-bar {
-  background: rgba(0, 0, 0, 0.1);
-  color: $dark-primary-text-color;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
   padding: 0 0.25rem;
   .undo,
   .redo {
-    @extend %tool-bar-button;
+    @include tool-bar-button(); 
   }
 }
 </style>

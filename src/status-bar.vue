@@ -5,10 +5,10 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'styles/_variables';
+@import 'styles/_partials';
 
 .status-bar {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   color: $light-hint-text-color;
   font-size: 0.7rem;
   padding: 0.25rem;

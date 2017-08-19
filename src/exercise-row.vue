@@ -19,7 +19,7 @@
     <div>{{ exercise.name }}</div>
     <div>{{ exercise.sets }}</div>
     <div>{{ exercise.reps }}</div>
-    <div>{{ exercise.weight }}</div>
+    <div>{{ displayWeight }}</div>
     <div>{{ exercise.note }}</div>
     <div>
       <button v-on:click="activateEditMode()" class="ex-edit-btn">
@@ -59,23 +59,32 @@
     </div>
     <div> 
       <button v-on:click="updateExercise()" class="ex-update-btn">
-        <icon name="save"></icon>
+        <icon name="check"></icon>
       </button>
       <button v-on:click="cancelUpdate()" class="ex-cancel-update-btn">
-        <icon name="reply"></icon>
+        <icon name="ban"></icon>
       </button>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@import 'styles/_variables';
+@import 'styles/_partials';
+
+@mixin exercise-button () {
+  @include hover-button();
+  padding: 0;
+  &:not([disabled]):hover {
+    background: none;
+  }
+}
 
 .exercise-grid {
+  color: $light-primary-text-color;
   display: grid;
   grid-template-columns: 40px 2fr 4em 5em 5em 3fr 50px;
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.1);
   }
   & > div {
     padding: 0.25em;
@@ -103,33 +112,20 @@
     font-size: 0.8rem;
     padding: 0.4em;
   }
-  %row-buttons {
-    background: none;
-    border: none;
-    opacity: 0.2;
-    padding: 0;
-    transition: opacity 100ms linear;
-    &:not([disabled]):hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-  }
   .ex-move-up-btn,
   .ex-move-down-btn,
-  .ex-cancel-update-btn {
-    @extend %row-buttons;
-    .fa-icon {
-      width: auto;
-      height: 1em;
-    }
-  }
+  .ex-cancel-update-btn,
   .ex-edit-btn,
   .ex-remove-btn,
   .ex-update-btn {
-    @extend %row-buttons;
+    @include exercise-button();
+  }
+  .ex-update-btn {
+    color: #24e624;
   }
   .ex-remove-btn {
-    color: #a41c1c;
+    color: #c72121;
+    margin-left: 0.2rem;
   }
 }
 </style>
@@ -141,8 +137,8 @@ import 'vue-awesome/icons/chevron-up';
 import 'vue-awesome/icons/chevron-down';
 import 'vue-awesome/icons/pencil';
 import 'vue-awesome/icons/remove';
-import 'vue-awesome/icons/save';
-import 'vue-awesome/icons/reply';
+import 'vue-awesome/icons/check';
+import 'vue-awesome/icons/ban';
 
 export default {
   name: 'exerciseRow',
@@ -160,8 +156,24 @@ export default {
         reps: this.exercise.reps,
         weight: this.exercise.weight,
         note: this.exercise.note//,
-        //percentage: 73,
+        //unit: %,
         //percentIncrease: 3
+      }
+    }
+  },
+  computed: {
+    displayWeight: function () { 
+      //TODO: when 100% values are available, calculate displayed weight based on percentage of 100%,
+      //      use unit instead of over/under 1 to determine %, nobody likes typing '.'
+      //      (have to capture unit first)
+      if (!this.exercise.weight) {
+        return '';
+      } else if (Number(this.exercise.weight) === NaN) {
+        return this.exercise.weight;
+      } else if (Number(this.exercise.weight) && Number(this.exercise.weight) < 1){
+        return (Number(this.exercise.weight) * 100) + '%';
+      } else if (Number(this.exercise.weight)) {
+        return this.exercise.weight + (this.exercise.unit || 'kg');
       }
     }
   },
@@ -183,9 +195,6 @@ export default {
     }
   },
   mounted: function () {
-    this.focusOnEditMode();
-  },
-  updated: function () {
     this.focusOnEditMode();
   },
   methods: {
