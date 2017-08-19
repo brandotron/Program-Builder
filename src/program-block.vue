@@ -58,17 +58,15 @@ $tab-bar-height: 2em;
   }
   & > .filler {
     background: rgba(0,0,0,0.1);
+    display: flex;
     flex: 1 0 auto;
   }
 }
 .block-add-week-btn {
-  color: $light-primary-text-color;
-  display: inline-block;
+  @include hover-button();
   height: 100%;
-  margin: 0.4rem 0.8rem;
-  opacity: 0.2;
-  transition: opacity 100ms linear;
-  &:hover {
+  padding: 0.4rem 0.8rem;
+  &:not([disabled]):hover {
     cursor: pointer;
     opacity: 0.8;
   }
