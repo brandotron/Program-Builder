@@ -59,10 +59,10 @@
     </div>
     <div> 
       <button v-on:click="updateExercise()" class="ex-update-btn">
-        <icon name="save"></icon>
+        <icon name="check"></icon>
       </button>
       <button v-on:click="cancelUpdate()" class="ex-cancel-update-btn">
-        <icon name="reply"></icon>
+        <icon name="ban"></icon>
       </button>
     </div>
   </div>
@@ -137,8 +137,8 @@ import 'vue-awesome/icons/chevron-up';
 import 'vue-awesome/icons/chevron-down';
 import 'vue-awesome/icons/pencil';
 import 'vue-awesome/icons/remove';
-import 'vue-awesome/icons/save';
-import 'vue-awesome/icons/reply';
+import 'vue-awesome/icons/check';
+import 'vue-awesome/icons/ban';
 
 export default {
   name: 'exerciseRow',
