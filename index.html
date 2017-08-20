@@ -19,9 +19,22 @@
       .program-builder {
         background: #393f4c;
         display: grid;
+        grid-template-areas: "tool-bar"
+                             "loaded-program"
+                             "status-bar";
+        grid-template-columns: 1fr;
         grid-template-rows: min-content auto min-content;
         height: 100vh;
         width: 100vw;
+      }
+      .tool-bar {
+        grid-area: tool-bar;
+      }
+      .loaded-program {
+        grid-area: loaded-program;
+      }
+      .status-bar {
+        grid-area: status-bar;
       }
     </style>
   </head>
