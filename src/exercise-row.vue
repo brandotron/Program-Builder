@@ -23,13 +23,13 @@
     <div>{{ exercise.note }}</div>
     <div>
       <button v-on:click="activateEditMode()" class="ex-edit-btn">
-        <icon name="pencil"></icon>
+        <icon name="pencil-alt"></icon>
       </button>
       <button v-on:click="removeObject()" v-if="!edits_active" class="ex-remove-btn">
-        <icon name="remove"></icon>
+        <icon name="minus-circle"></icon>
       </button>
       <button disabled v-else class="ex-remove-btn">
-        <icon name="remove"></icon>
+        <icon name="minus-circle"></icon>
       </button>
     </div>
   </div>
@@ -135,8 +135,8 @@ import Utilities from './utilities.js';
 import Icon from 'vue-awesome/components/Icon.vue';
 import 'vue-awesome/icons/chevron-up';
 import 'vue-awesome/icons/chevron-down';
-import 'vue-awesome/icons/pencil';
-import 'vue-awesome/icons/remove';
+import 'vue-awesome/icons/pencil-alt';
+import 'vue-awesome/icons/minus-circle';
 import 'vue-awesome/icons/check';
 import 'vue-awesome/icons/ban';
 
