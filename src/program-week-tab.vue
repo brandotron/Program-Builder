@@ -7,7 +7,7 @@
     <label>
       Week {{ week.id + 1 }}
       <span v-on:click="removeObject()" class="week-remove-btn" v-if="isActive">
-        <icon name="remove"></icon>
+        <icon name="minus-circle"></icon>
       </span>
     </label>
   </div>
@@ -56,7 +56,7 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue';
-import 'vue-awesome/icons/remove';
+import 'vue-awesome/icons/minus-circle';
 
 export default {
   name: 'programWeekTab',

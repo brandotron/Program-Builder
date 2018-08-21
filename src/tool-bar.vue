@@ -5,7 +5,7 @@
       <span class="btn-txt">Undo</span>
     </button>
     <button v-on:click="redo()" class="redo">
-      <icon name="repeat"></icon>
+      <icon name="redo"></icon>
       <span class="btn-txt">Redo</span>
     </button>
   </div>
@@ -34,7 +34,7 @@
 <script>
 import Icon from 'vue-awesome/components/Icon.vue';
 import 'vue-awesome/icons/undo';
-import 'vue-awesome/icons/repeat';
+import 'vue-awesome/icons/redo';
 
 export default {
   name: 'toolBar',
